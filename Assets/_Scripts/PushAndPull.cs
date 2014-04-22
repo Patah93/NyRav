@@ -40,6 +40,11 @@ public class PushAndPull : MonoBehaviour {
 				}*/
 				_speed = 0;
 			}
+		/*	if(_boxcol.isCollided() && _speed > 0){
+				Debug.Log("Ey kan du reagera nån gång plz");
+				_blockedForward = true;
+			}
+*/
 			if((_speed > 0 && _blockedForward) || (_speed < 0 && _blockedBackward)){
 				_speed = 0;
 			}
@@ -52,7 +57,6 @@ public class PushAndPull : MonoBehaviour {
 			}
 			//transform.position += transform.forward * _speed * (gameObject.rigidbody.mass/_obj.rigidbody.mass);
 			_ani.SetFloat("Speed", _speed);
-
 		}
 	}
 
@@ -62,12 +66,12 @@ public class PushAndPull : MonoBehaviour {
 			_ani.SetBool("Pushing",false);
 			_ani.SetFloat("Speed",0);
 			_obj.parent = null;
-			_obj.gameObject.AddComponent<BoxCollider>();
-			_obj.rigidbody.constraints = RigidbodyConstraints.FreezeAll;
-			DestroyObject(_collider);
+		//	_obj.gameObject.AddComponent<BoxCollider>();
+	//		_obj.rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+		//	DestroyObject(_collider);
 
-			transform.rigidbody.constraints = RigidbodyConstraints.None;
-			transform.rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+	//		transform.rigidbody.constraints = RigidbodyConstraints.None;
+	//		transform.rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
 
 			_blockedForward = false; 
 			_blockedBackward = false;
@@ -78,18 +82,21 @@ public class PushAndPull : MonoBehaviour {
 			_ani.SetBool("Pushing",true);
 			_obj = _object;
 			_obj.parent = transform;
+			//_boxcol = _obj.GetComponent<BoxCollision>();
 
 			/* Create new object, set box collider from _obj 
    			 * & remove box collider from _obj
 			 */
-			_collider = new GameObject();
+			/*_collider = new GameObject();
 			_collider.transform.position = _obj.transform.position;
 			_collider.transform.rotation = _obj.transform.rotation;
 			_collider.transform.localScale = _obj.transform.lossyScale;
 
 			_collider.transform.parent = transform;
+			
 			Destroy(_obj.GetComponent<BoxCollider>());
 			_collider.AddComponent<BoxCollider>();
+*/
 		/*	Vector3 _tempDir = transform.TransformDirection(transform.right);
 			//_tempMass = transform.rigidbody.mass;
 			//transform.rigidbody.mass = _object.rigidbody.mass;
