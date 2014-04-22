@@ -27,6 +27,10 @@ public class JumpingMan : MonoBehaviour {
 			if(!_jump && !_disJump){
 				//transform.rigidbody.constraints = RigidbodyConstraints.FreezeRotationX|RigidbodyConstraints.FreezeRotationZ; //hindrar den från att snörra cp
 
+				/* TODO Plz ta bort desa två superdåliga rader kod, my bad */
+				//gameObject.GetComponent<CharacterController>().enabled = false;
+				//gameObject.GetComponent<CapsuleCollider>().enabled = true;
+
 				Vector3 temp = rigidbody.velocity;
 				transform.rigidbody.velocity = new Vector3(temp.x,0,temp.z);
 				transform.rigidbody.AddForce(Vector3.up*_jumpForce);
@@ -34,6 +38,7 @@ public class JumpingMan : MonoBehaviour {
 				_jump = true;
 				//_animator.SetBool("Jump", true);
 				_clock = Time.time;
+
 			}
 		}
 
@@ -53,6 +58,11 @@ public class JumpingMan : MonoBehaviour {
 					_jump = false;
 					//_animator.SetBool("Jump", false);
 					//rigidbody.constraints = ; 
+
+
+					/* TODO Plz ta bort desa två superdåliga rader kod, my bad */
+					//gameObject.GetComponent<CharacterController>().enabled = true;
+					//gameObject.GetComponent<CapsuleCollider>().enabled = false;
 				}
 			}
 		}
