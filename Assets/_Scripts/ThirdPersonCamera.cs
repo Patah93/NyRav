@@ -49,6 +49,8 @@ public class ThirdPersonCamera : MonoBehaviour {
 	private float fpsRotationDegreePerSecond = 120f;
 	[SerializeField]
 	private Vector2 firstPersonXAxisClamp = new Vector2 (-70.0f, 90.0f);
+    [SerializeField]
+    private float RightStickRotationSpeed = 100.0f;
 	
 	
 	[SerializeField]
@@ -150,6 +152,8 @@ public class ThirdPersonCamera : MonoBehaviour {
 		switch(camState) {
 		case CamStates.Behind:
 			resetCamera();
+              
+
 			//only update if we moved the camers
 			//if(referenceToController.Speed > referenceToController.LocomotionThreshold && referenceToController.IsInLocomotion()) {
 			//calculate where we want to look based on the posistion on the controll stick. if stick value is negative we want to look left/down otherwise right/up.
@@ -163,9 +167,9 @@ public class ThirdPersonCamera : MonoBehaviour {
 			//smoothing it out
 			curLookDir = Vector3.SmoothDamp(curLookDir,lookDir, ref velocityLookDir,LookDirDampTime);
 			//}
-			
+
+
 			targetPosistion = characterOffset + PlayerXform.up * distanceUp - Vector3.Normalize(curLookDir) * distanceAway;
-			
 			break;
 		case CamStates.Target:
 			//restting lookdir to players forward vector
@@ -203,16 +207,38 @@ public class ThirdPersonCamera : MonoBehaviour {
 			lookAt = (Vector3.Lerp(this.transform.position + this.transform.forward, lookAt, Vector3.Distance(this.transform.position,firstPersonCamPos.XForm.position)));
 			break;
 		}
+
+        Transform test = this.transform;
+
+
+
 		
 		CompenstaForWalls (characterOffset, ref targetPosistion);
 		smoothPosistion(this.transform.position, targetPosistion);
-		
+       
+        //this.transform.RotateAround(follow.transform.position, Vector3.up, rightX * 100 * Time.deltaTime);
 		
 		transform.LookAt (lookAt);
 	}
 	
 	private void smoothPosistion(Vector3 fromPos,Vector3 toPos) {
-		this.transform.position = Vector3.SmoothDamp (fromPos, toPos, ref velocityCamSmooth, camSmoothDampTime);
+        float rightX = Input.GetAxis("RightStickHorizontal");
+        float rightY = Input.GetAxis("RightStickVertical");
+        float leftX = Input.GetAxis("Horizontal");
+        float leftY = Input.GetAxis("Vertical");
+        toPos.y += (rightY * RightStickRotationSpeed * Time.deltaTime);
+
+        Transform test = this.transform;
+
+        test.RotateAround(follow.transform.position, Vector3.up, rightX * RightStickRotationSpeed * Time.deltaTime);
+
+        if(rightX >= 0.1 && leftX >= 0.1 && camState == CamStates.Behind || rightX >= 0.1 && leftX == 0 && camState == CamStates.Behind)
+            fromPos = Vector3.MoveTowards(fromPos, test.position, 0.1f);
+        else if (rightX <= -0.1 && leftX <= -0.1 && camState == CamStates.Behind || rightX <= 0.1 && leftX == 0 && camState == CamStates.Behind)
+            fromPos = Vector3.MoveTowards(fromPos, test.position, 0.1f);
+
+        this.transform.position = Vector3.SmoothDamp (fromPos, toPos, ref velocityCamSmooth, camSmoothDampTime);
+        //this.transform.position = new Vector3(this.transform.position.x ,this.transform.position.y,this.transform.position.z);
 	}
 	
 	private void CompenstaForWalls(Vector3 fromObject,ref Vector3 toTarget) {

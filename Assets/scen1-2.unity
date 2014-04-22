@@ -8749,6 +8749,7 @@ MonoBehaviour:
   firstPersonLookSpeed: 3
   fpsRotationDegreePerSecond: 120
   firstPersonXAxisClamp: {x: -70, y: 90}
+  RightStickRotationSpeed: 100
   controllerRotationSpeed: 20
   camState: 0
   camSmoothDampTime: .5
