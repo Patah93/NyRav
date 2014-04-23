@@ -22,7 +22,7 @@ public class AnimationMan : MonoBehaviour {
 	//Animation hashes
 	int m_LocomotionId = 0;
 
-	public float _lerpTime = 0.2f;
+	public float _lerpTime = 5f;
 
 
 	// Use this for initialization
@@ -57,7 +57,7 @@ public class AnimationMan : MonoBehaviour {
 
 					_angle = Vector2.Angle (_cameraRotationForward, _targetRotation) * Mathf.Sign(Input.GetAxis ("Horizontal"));
 
-					Quaternion targetRotation = Quaternion.Slerp (transform.rotation, Camera.main.transform.rotation * Quaternion.Euler(0, _angle, 0), Time.deltaTime * 5.0f);
+					Quaternion targetRotation = Quaternion.Slerp (transform.rotation, Camera.main.transform.rotation * Quaternion.Euler(0, _angle, 0), Time.deltaTime * _lerpTime);
 					transform.rotation = new Quaternion(transform.rotation.x, targetRotation.y, transform.rotation.z, targetRotation.w);
 
 				}
