@@ -14,6 +14,10 @@ public class Trigger : MonoBehaviour {
 
 	TriggerAction _action;
 
+	public bool _activatedByInteractables = true;
+
+	int _numberOfThings = 0;
+
 	// Use this for initialization
 	void Start () {
 		_action = _actionObj.GetComponent<TriggerAction>();
@@ -25,27 +29,38 @@ public class Trigger : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other) {
-		if(other.tag == "Interactive"){
+		if(_activatedByInteractables && other.tag == "Interactive"){
 			_action.onActive();
+			_numberOfThings++;
 			return;
 		}
 
 		for(int i = 0 ; i < _triggerableObjects.Length; i++){
 			if(_triggerableObjects[i] == other.gameObject){
 				_action.onActive();
+				_numberOfThings++;
+				return;
 			}
 		}
 	}
 
 	void OnTriggerExit(Collider other) {
-		if(other.tag == "Interactive"){
-			_action.onInactive();
-			return;
+
+		if(_activatedByInteractables && other.tag == "Interactive"){
+			_numberOfThings--;
+			if(_numberOfThings <= 0){
+				_action.onInactive();
+				return;
+			}
 		}
 
 		for(int i = 0 ; i < _triggerableObjects.Length; i++){
 			if(_triggerableObjects[i] == other.gameObject){
-				_action.onInactive();
+				_numberOfThings--;
+				if(_numberOfThings <= 0){
+					_action.onInactive();
+					return;
+				}
 			}
 		}
 	}
