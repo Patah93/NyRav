@@ -44,7 +44,7 @@ public class BoyStateManager : MonoBehaviour {
 					print ("YOU CAN INTERRACT WITH THIS");
 					_drawInteract = true;
 					if(Input.GetButtonDown("Interact")){		//INTERACT-KNAPPEN HÄR
-						_push.Activate(true, _rayHit.collider.transform,transform.eulerAngles.y);
+						_push.Activate(true, _rayHit.collider.transform,_rayHit.normal);
 						_walk.Activate(false);
 						print ("YOU ARE IN PUSH MODE! :D");
 						_drawInteract = false;
@@ -59,7 +59,7 @@ public class BoyStateManager : MonoBehaviour {
 
 		else if(_push.getActivate()){
 			if(Input.GetButtonDown("Interact")){		//TILLFÄLLIG KNAPP, SKA ÄNDRAS SEN
-				_push.Activate(false, null,0);
+				_push.Activate(false, null,Vector3.zero);
 				_walk.Activate(true);
 				print ("YOU ARE IN WALK MODE! :D");
 				_jump.disableJump(false);
