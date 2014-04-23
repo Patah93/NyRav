@@ -21,6 +21,8 @@ struct CameraPosistion {
 
 public class ThirdPersonCamera : MonoBehaviour {
 	[SerializeField]
+	private float dampLookAt = 4.0f;
+	[SerializeField]
 	private float distanceAway;
 	[SerializeField]
 	private float distanceUp;
@@ -67,7 +69,9 @@ public class ThirdPersonCamera : MonoBehaviour {
 	private const float TARGETING_THRESHOLD = 2.01f;
 	
 	private Transform PlayerXform;
-	
+
+	private float deltaLookAt = 0;
+	float alpha = 1.0f;
 	
 	public enum CamStates{
 		Behind,
@@ -117,124 +121,138 @@ public class ThirdPersonCamera : MonoBehaviour {
 
 		//Debug.Log (rightStickVertical);	
 	}
+
 	
-	void LateUpdate() {
-		Vector3 characterOffset = follow.position + offset;
-		Vector3 lookAt = characterOffset;
+	void FixedUpdate() {
+				Vector3 characterOffset = follow.position + offset;
+				Vector3 lookAt = characterOffset;
 		
 		
-		float rightX = Input.GetAxis ("RightStickHorizontal");
-		float rightY = Input.GetAxis ("RightStickVertical");
-		float leftX = Input.GetAxis ("Horizontal");
-		float leftY = Input.GetAxis ("Vertical");
-		//Debug.Log (Input.GetButton("enterFPV"));
-		//Debug.Log ("X: " + rightX);
-		//Debug.Log ("Y: " + rightY);
-		if (Input.GetAxis ("Target") > 0.01f) {
-			camState = CamStates.Target;		
-		} else {
-			//First person camstate
-			if(Input.GetButton("enterFPV") && camState != CamStates.FirstPerston && camState != CamStates.Free && !referenceToController.IsInLocomotion()) {
-				xAxisRot = 0;
-				lookWeight = 0f;
-				camState = CamStates.FirstPerston;
-			}
-			if((camState == CamStates.FirstPerston && Input.GetButton("ExitFPV")) ||
-			   (camState == CamStates.Target && (Input.GetAxis("Target") <= TARGETING_THRESHOLD))) {
-				camState = CamStates.Behind;
-				rightX = 0;
-			}
-		}
+				float rightX = Input.GetAxis ("RightStickHorizontal");
+				float rightY = Input.GetAxis ("RightStickVertical");
+				float leftX = Input.GetAxis ("Horizontal");
+				float leftY = Input.GetAxis ("Vertical");
+				//Debug.Log (Input.GetButton("enterFPV"));
+				//Debug.Log ("X: " + rightX);
+				//Debug.Log ("Y: " + rightY);
+				if (Input.GetAxis ("Target") > 0.01f) {
+						camState = CamStates.Target;		
+				} else {
+						//First person camstate
+						if (Input.GetButton ("enterFPV") && camState != CamStates.FirstPerston && camState != CamStates.Free && !referenceToController.IsInLocomotion ()) {
+								xAxisRot = 0;
+								lookWeight = 0f;
+								camState = CamStates.FirstPerston;
+						}
+						if ((camState == CamStates.FirstPerston && Input.GetButton ("ExitFPV")) ||
+								(camState == CamStates.Target && (Input.GetAxis ("Target") <= TARGETING_THRESHOLD))) {
+								camState = CamStates.Behind;
+								rightX = 0;
+						}
+				}
 		
-		//referenceToController.Animator.SetLookAtWeight (lookWeight);
+				//referenceToController.Animator.SetLookAtWeight (lookWeight);
 		
-		//set camstate
-		switch(camState) {
-		case CamStates.Behind:
-			resetCamera();
+				//set camstate
+				switch (camState) {
+				case CamStates.Behind:
+						resetCamera ();
               
 
 			//only update if we moved the camers
 			//if(referenceToController.Speed > referenceToController.LocomotionThreshold && referenceToController.IsInLocomotion()) {
 			//calculate where we want to look based on the posistion on the controll stick. if stick value is negative we want to look left/down otherwise right/up.
-			lookDir = Vector3.Lerp(PlayerXform.right * (leftX < 0 ? -1.0f : 1.0f),PlayerXform.forward * (leftY < 0 ? -1.0f : 1.0f),Mathf.Abs(Vector3.Dot (this.transform.forward, PlayerXform.forward)));
+						lookDir = Vector3.Lerp (PlayerXform.right * (leftX < 0 ? -1.0f : 1.0f), PlayerXform.forward * (leftY < 0 ? -1.0f : 1.0f), Mathf.Abs (Vector3.Dot (this.transform.forward, PlayerXform.forward)));
 			
 			//direction vector from camers to player
-			curLookDir = Vector3.Normalize(characterOffset - this.transform.position);
+						curLookDir = Vector3.Normalize (characterOffset - this.transform.position);
 			//kill y sicne we are not intrested in y.
-			curLookDir.y = 0;
+						curLookDir.y = 0;
 			
 			//smoothing it out
-			curLookDir = Vector3.SmoothDamp(curLookDir,lookDir, ref velocityLookDir,LookDirDampTime);
+						curLookDir = Vector3.SmoothDamp (curLookDir, lookDir, ref velocityLookDir, LookDirDampTime);
 			//}
 
 
-			targetPosistion = characterOffset + PlayerXform.up * distanceUp - Vector3.Normalize(curLookDir) * distanceAway;
-			break;
-		case CamStates.Target:
+						targetPosistion = characterOffset + PlayerXform.up * distanceUp - Vector3.Normalize (curLookDir) * distanceAway;
+						break;
+				case CamStates.Target:
 			//restting lookdir to players forward vector
-			curLookDir = PlayerXform.forward;
-			lookDir = PlayerXform.forward;
+						curLookDir = PlayerXform.forward;
+						lookDir = PlayerXform.forward;
 			
-			targetPosistion = characterOffset + follow.up * distanceUp - follow.forward * distanceAway;
+						targetPosistion = characterOffset + follow.up * distanceUp - follow.forward * distanceAway;
 			
 			
-			break;
-		case CamStates.FirstPerston:
+						break;
+				case CamStates.FirstPerston:
 			//Debug.Log("In person");
 			//calc rotation on head
-			xAxisRot += (leftY * 0.5f * firstPersonLookSpeed);
-			xAxisRot = Mathf.Clamp(xAxisRot,firstPersonXAxisClamp.x, firstPersonXAxisClamp.y);
-			firstPersonCamPos.XForm.localRotation = Quaternion.Euler(xAxisRot,0,0);
+						xAxisRot += (leftY * 0.5f * firstPersonLookSpeed);
+						xAxisRot = Mathf.Clamp (xAxisRot, firstPersonXAxisClamp.x, firstPersonXAxisClamp.y);
+						firstPersonCamPos.XForm.localRotation = Quaternion.Euler (xAxisRot, 0, 0);
 			
 			//impose that rotation to the camera
-			Quaternion rotationShift = Quaternion.FromToRotation(this.transform.forward,firstPersonCamPos.XForm.forward);
-			this.transform.rotation = rotationShift * this.transform.rotation;
+						Quaternion rotationShift = Quaternion.FromToRotation (this.transform.forward, firstPersonCamPos.XForm.forward);
+						this.transform.rotation = rotationShift * this.transform.rotation;
 			
 			//rotate head up and down
-			referenceToController.Animator.SetLookAtPosition(firstPersonCamPos.XForm.position + firstPersonCamPos.XForm.forward);
-			lookWeight = Mathf.Lerp(lookWeight,1.0f,Time.deltaTime * firstPersonLookSpeed);
+						referenceToController.Animator.SetLookAtPosition (firstPersonCamPos.XForm.position + firstPersonCamPos.XForm.forward);
+						lookWeight = Mathf.Lerp (lookWeight, 1.0f, Time.deltaTime * firstPersonLookSpeed);
 			
 			//rotate head l and r
-			Vector3 rotationAmount = Vector3.Lerp(Vector3.zero,new Vector3(0f,fpsRotationDegreePerSecond * (leftX < 0f ? -1f : 1f),0f),Mathf.Abs(leftX));
-			Quaternion deltaRotation = Quaternion.Euler(rotationAmount * Time.deltaTime);
-			referenceToController.transform.rotation = (referenceToController.transform.rotation * deltaRotation);
+						Vector3 rotationAmount = Vector3.Lerp (Vector3.zero, new Vector3 (0f, fpsRotationDegreePerSecond * (leftX < 0f ? -1f : 1f), 0f), Mathf.Abs (leftX));
+						Quaternion deltaRotation = Quaternion.Euler (rotationAmount * Time.deltaTime);
+						referenceToController.transform.rotation = (referenceToController.transform.rotation * deltaRotation);
 			
 			//set t
-			targetPosistion = firstPersonCamPos.XForm.position;
+						targetPosistion = firstPersonCamPos.XForm.position;
 			
 			//chose look at target based on distance.
-			lookAt = (Vector3.Lerp(this.transform.position + this.transform.forward, lookAt, Vector3.Distance(this.transform.position,firstPersonCamPos.XForm.position)));
-			break;
-		}
+						lookAt = (Vector3.Lerp (this.transform.position + this.transform.forward, lookAt, Vector3.Distance (this.transform.position, firstPersonCamPos.XForm.position)));
+						break;
+				}
 
-        Transform test = this.transform;
-
-
-
-		
 		CompenstaForWalls (characterOffset, ref targetPosistion);
-		smoothPosistion(this.transform.position, targetPosistion);
-       
-        //this.transform.RotateAround(follow.transform.position, Vector3.up, rightX * 100 * Time.deltaTime);
-		
-		transform.LookAt (lookAt);
-	}
+		smoothPosistion (this.transform.position, targetPosistion);
+
+
+		//Quaternion rotation = Quaternion.LookRotation(lookAt - this.transform.position);
+		//this.transform.rotation = Quaternion.Slerp (this.transform.rotation, rotation, Vector3.Distance (this.transform.position, firstPersonCamPos.XForm.position) );
+
+		//transform.LookAt (lookAt);
+
+		//if (deltaLookAt > 0.001f) {
+		//				deltaLookAt = 0;
+						transform.LookAt (Vector3.Lerp (this.transform.position, lookAt, Time.deltaTime * 5.0f));
+		//		} else
+		//				deltaLookAt += Time.deltaTime;
+
+			//this.transform.RotateAround(follow.transform.position, Vector3.up, rightX * 100 * Time.deltaTime);
+
+				//if (deltaLookAt > 0.5) {
+				//	deltaLookAt = 0;
+				//	transform.LookAt (lookAt);
+				//} else 
+				//	deltaLookAt += Time.deltaTime;
+}
 	
 	private void smoothPosistion(Vector3 fromPos,Vector3 toPos) {
         float rightX = Input.GetAxis("RightStickHorizontal");
         float rightY = Input.GetAxis("RightStickVertical");
         float leftX = Input.GetAxis("Horizontal");
         float leftY = Input.GetAxis("Vertical");
-        toPos.y += (rightY * RightStickRotationSpeed * Time.deltaTime);
+		if(camState == CamStates.Behind)
+        	toPos.y += (rightY * RightStickRotationSpeed * Time.deltaTime);
 
         Transform test = this.transform;
 
-        test.RotateAround(follow.transform.position, Vector3.up, rightX * RightStickRotationSpeed * Time.deltaTime);
+		if(camState == CamStates.Behind)
+        	test.RotateAround(follow.transform.position, Vector3.up, rightX * RightStickRotationSpeed * Time.deltaTime);
 
-        if(rightX >= 0.1 && leftX >= 0.1 && camState == CamStates.Behind || rightX >= 0.1 && leftX == 0 && camState == CamStates.Behind)
+		if(rightX >= 0.1 && leftX >= 0.1 && camState == CamStates.Behind || rightX >= 0.1 && leftX == 0 && camState == CamStates.Behind)
             fromPos = Vector3.MoveTowards(fromPos, test.position, 0.1f);
-        else if (rightX <= -0.1 && leftX <= -0.1 && camState == CamStates.Behind || rightX <= 0.1 && leftX == 0 && camState == CamStates.Behind)
+		else if (rightX <= -0.1 && leftX <= -0.1 && camState == CamStates.Behind|| rightX <= 0.1 && leftX == 0 && camState == CamStates.Behind)
             fromPos = Vector3.MoveTowards(fromPos, test.position, 0.1f);
 
         this.transform.position = Vector3.SmoothDamp (fromPos, toPos, ref velocityCamSmooth, camSmoothDampTime);
