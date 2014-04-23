@@ -6,6 +6,7 @@ public class PushAndPull : MonoBehaviour {
 	public float _deadZone = 0.2f;
 	public float _maxSpeed = 0.1f;
 	public float _lerpTime = 0.06f;
+	public float _offset = 1;
 	float _speed;
 	bool _pushMode = false;
 	Transform _obj;
@@ -61,7 +62,7 @@ public class PushAndPull : MonoBehaviour {
 	}
 
 
-	public void Activate(bool isActivated, Transform _object, float direction){
+	public void Activate(bool isActivated, Transform _object, Vector3 direction){
 		if(!isActivated){
 			_ani.SetBool("Pushing",false);
 			_ani.SetFloat("Speed",0);
@@ -78,9 +79,14 @@ public class PushAndPull : MonoBehaviour {
 
 		}
 		else{
-
-			_ani.SetBool("Pushing",true);
 			_obj = _object;
+			Debug.Log(direction);
+			Vector3 temp = direction*-1;
+			float angle = Vector3.Angle(temp, transform.forward);
+			transform.forward = temp;
+			Vector3 temppos = _obj.position;
+			transform.position = new Vector3(temppos.x,transform.position.y,temppos.z) + ((_obj.localScale.x/2) + _offset)*direction;
+			_ani.SetBool("Pushing",true);
 			_obj.parent = transform;
 			//_boxcol = _obj.GetComponent<BoxCollision>();
 

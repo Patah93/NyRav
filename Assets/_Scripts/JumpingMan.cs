@@ -5,11 +5,16 @@ public class JumpingMan : MonoBehaviour {
 
 	private Animator _animator;
 	public float _jumpForce = 300;
+	public float _offsetX = 0;
+	public float _offsetY = 0;
+	public float _offsetZ = 0;
 	float _clock;
 	float _maxTime = 0.5f;
 	//float _startPosition;
 	bool _jump = false;
 	bool _disJump;
+	RaycastHit _rayHit;
+	
 
 	//FUNGERAR HELT OKEJ MEN BEHÖVER KASTA RAYS FRÅN KANTERNA PÅ GUBBEN
 
@@ -52,9 +57,13 @@ public class JumpingMan : MonoBehaviour {
 		}
 */
 		if(_jump){
+			Vector3 temp = new Vector3(_offsetX,_offsetY,_offsetZ);
 			if(Time.time - _clock > _maxTime){
-				if(Physics.Raycast(transform.position,Vector3.down,0.2f)){	//Nuddat marken och kan hoppa igen
-					Debug.DrawRay(transform.position,Vector3.down,Color.red,1,true);
+
+				if(Physics.SphereCast(transform.position, 0.3f + temp.y ,Vector3.down,out _rayHit,0.2f)){	//Nuddat marken och kan hoppa igen
+					Debug.DrawRay(transform.position + temp,Vector3.down,Color.blue,1 + temp.y,true);
+					Debug.Log("Collided with "+ _rayHit.collider.name);
+					if(!_rayHit.collider.name.Equals(this.name)){
 					//transform.rigidbody.constraints &= ~ RigidbodyConstraints.FreezeRotationX|~RigidbodyConstraints.FreezeRotationZ;
 					Debug.Log ("hit something"); 
 					//_startPosition = transform.position.y;
@@ -63,9 +72,11 @@ public class JumpingMan : MonoBehaviour {
 					//rigidbody.constraints = ; 
 
 
+
 					/* TODO Plz ta bort desa två superdåliga rader kod, my bad */
-					gameObject.GetComponent<CharacterController>().enabled = true;
-					gameObject.GetComponent<CapsuleCollider>().enabled = false;
+					//gameObject.GetComponent<CharacterController>().enabled = true;
+					//gameObject.GetComponent<CapsuleCollider>().enabled = false;
+					}
 				}
 			}
 		}
