@@ -8009,11 +8009,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 86a508ec722dc924ca82b5415ff57f93, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1.31800532
+      value: 1.37501884
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 86a508ec722dc924ca82b5415ff57f93, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 6.80774307
+      value: 13.8341351
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 86a508ec722dc924ca82b5415ff57f93, type: 2}
       propertyPath: m_LocalRotation.x
@@ -8244,7 +8244,7 @@ Transform:
   m_PrefabInternal: {fileID: 689105163}
   m_GameObject: {fileID: 712964049}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 50.7047691, y: 1.31800532, z: 6.80774307}
+  m_LocalPosition: {x: 50.7047691, y: 1.37501884, z: 13.8341351}
   m_LocalScale: {x: 2.39274836, y: 2.63601065, z: 2.46825171}
   m_Children: []
   m_Father: {fileID: 0}
@@ -15810,7 +15810,7 @@ Rigidbody:
   m_AngularDrag: .0500000007
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 1
+  m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!95 &1310704888
