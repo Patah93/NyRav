@@ -12,11 +12,15 @@ public class Trigger : MonoBehaviour {
 
 	public GameObject[] _triggerableObjects;
 
-	TriggerAction _action;
+	triggerGroup _action;
+
+	public bool _activatedByInteractables = true;
+
+	int _numberOfThings = 0;
 
 	// Use this for initialization
 	void Start () {
-		_action = _actionObj.GetComponent<TriggerAction>();
+		_action = _actionObj.GetComponent<triggerGroup>();
 	}
 	
 	// Update is called once per frame
@@ -25,27 +29,45 @@ public class Trigger : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other) {
-		if(other.tag == "Interactive"){
-			_action.onActive();
+		if(_activatedByInteractables && other.tag == "Interactive"){
+			if(_numberOfThings == 0){
+				_action.onActive();
+				gameObject.renderer.material.color = Color.red;
+			}
+			_numberOfThings++;
 			return;
 		}
 
 		for(int i = 0 ; i < _triggerableObjects.Length; i++){
 			if(_triggerableObjects[i] == other.gameObject){
-				_action.onActive();
+				if(_numberOfThings == 0){
+					_action.onActive();
+					gameObject.renderer.material.color = Color.red;
+				}
+				_numberOfThings++;
+				return;
 			}
 		}
 	}
 
 	void OnTriggerExit(Collider other) {
-		if(other.tag == "Interactive"){
-			_action.onInactive();
-			return;
+		if(_activatedByInteractables && other.tag == "Interactive"){
+			_numberOfThings--;
+			if(_numberOfThings <= 0){
+				_action.onInactive();
+				gameObject.renderer.material.color = Color.green;
+				return;
+			}
 		}
 
 		for(int i = 0 ; i < _triggerableObjects.Length; i++){
 			if(_triggerableObjects[i] == other.gameObject){
-				_action.onInactive();
+				_numberOfThings--;
+				if(_numberOfThings <= 0){
+					_action.onInactive();
+					gameObject.renderer.material.color = Color.green;
+					return;
+				}
 			}
 		}
 	}
