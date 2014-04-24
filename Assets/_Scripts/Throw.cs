@@ -12,6 +12,9 @@ public class Throw : MonoBehaviour {
 	private ThirdPersonCamera camera;
 
 	Vector3 force;
+	float forceStick = 0;
+
+	public float maxForce = 100.0f;
 
 	public LineRenderer arcLine;
 	//player transform
@@ -36,8 +39,16 @@ public class Throw : MonoBehaviour {
 	void Update () {
 		float rightY = Input.GetAxis("RightStickVertical");
 
+
+
+		if (rightY > 0.0f || rightY < 0.0f)
+			forceStick += -rightY * 0.5f;
+
+		if (forceStick > maxForce)
+						forceStick = maxForce;
+
 		force = ((PlayerXForm.forward + PlayerXForm.up) * 5);
-		force = force + ((PlayerXForm.forward + PlayerXForm.up) * ((-rightY * 0.5f) * 10));
+		force = force + ((PlayerXForm.forward + PlayerXForm.up) * forceStick);
 		if (camera.camState == ThirdPersonCamera.CamStates.FirstPerston) {
 						//if (Input.GetKeyDown (KeyCode.H))
 						UpdatePredictionLine ();
@@ -55,6 +66,7 @@ public class Throw : MonoBehaviour {
 
 		clone.AddForce(force, ForceMode.Impulse);
 	}
+	/*
 	void UpdatePredictionLine() {
 		arcLine.SetVertexCount(180);
 		for(int i = 0; i < 180; i++)
@@ -63,7 +75,35 @@ public class Throw : MonoBehaviour {
 			arcLine.SetPosition(i,posN);
 		}
 	}
-	
+	*/
+
+	void UpdatePredictionLine()
+	{
+		arcLine.SetVertexCount(180);
+		Vector3 previousPosition = PlayerXForm.position + (PlayerXForm.forward * 1) + new Vector3(0f,1f,0f);
+		for(int i = 0; i < 180; i++)
+		{
+			Vector3 posN = GetTrajectoryPoint(PlayerXForm.position + (PlayerXForm.forward * 1) + new Vector3(0f,1f,0f), force, i, Physics.gravity);
+			Vector3 direction = posN - previousPosition;
+			direction.Normalize();
+			
+			float distance = Vector3.Distance(posN, previousPosition);
+			
+			RaycastHit hitInfo = new RaycastHit();
+			if(Physics.Raycast(previousPosition, direction, out hitInfo, distance))
+			{
+				if(hitInfo.transform.tag != "Throw") {
+				arcLine.SetPosition(i,hitInfo.point);
+				arcLine.SetVertexCount(i);
+				break;
+				}
+			}
+			
+			previousPosition = posN;
+			arcLine.SetPosition(i,posN);
+		}
+	}
+
 	Vector3 GetTrajectoryPoint(Vector3 startingPosition, Vector3 initialVelocity, float timestep, Vector3 gravity)
 	{
 		float physicsTimestep = Time.fixedDeltaTime;

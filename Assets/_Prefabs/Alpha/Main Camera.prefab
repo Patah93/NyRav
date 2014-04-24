@@ -27,7 +27,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 24.4527493, y: 1.56218243, z: -8.27817917}
+  m_LocalPosition: {x: 50.70121, y: 3.52226639, z: -.687274933}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -85,11 +85,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af7ab16d0c7b57f46b81fa7306584a0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dampLookAt: 4
   distanceAway: 3
   distanceUp: 1
   maxDistanceUp: 5
   minDistanceUp: 1
-  smooth: 0
+  smooth: 1
   follow: {fileID: 0}
   offset: {x: 0, y: 0, z: 0}
   widescreen: .200000003
@@ -99,10 +100,11 @@ MonoBehaviour:
   firstPersonLookSpeed: 3
   fpsRotationDegreePerSecond: 120
   firstPersonXAxisClamp: {x: -70, y: 90}
+  RightStickRotationSpeed: 100
   controllerRotationSpeed: 20
   camState: 0
-  camSmoothDampTime: .100000001
-  LookDirDampTime: .100000001
+  camSmoothDampTime: .5
+  LookDirDampTime: .5
 --- !u!124 &12400000
 Behaviour:
   m_ObjectHideFlags: 1
