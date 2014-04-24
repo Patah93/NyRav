@@ -10,7 +10,7 @@ public class BoyStateManager : MonoBehaviour {
 	RaycastHit _rayHit;
 	Vector3 ray1;
 	Vector3 ray2;
-	TestKnuff _push;
+	PushAndPull _push;
 	AnimationMan _walk;
 	JumpingMan _jump;
 	bool _drawInteract = false;
@@ -19,7 +19,7 @@ public class BoyStateManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 	
-		_push = gameObject.GetComponent<TestKnuff>();
+		_push = gameObject.GetComponent<PushAndPull>();
 		_walk = gameObject.GetComponent<AnimationMan>();
 		_jump = gameObject.GetComponent<JumpingMan> ();
 	}

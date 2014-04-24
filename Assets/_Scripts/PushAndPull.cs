@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TestKnuff : MonoBehaviour {
+public class PushAndPull : MonoBehaviour {
 
 	Vector3 _position;
 	Vector3 _deltapos;
