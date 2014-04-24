@@ -6517,6 +6517,10 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 11400000, guid: a45c64ec08a8d36468f0d8460b326d4e, type: 2}
+      propertyPath: _actionObj.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: a45c64ec08a8d36468f0d8460b326d4e, type: 2}
       propertyPath: _triggerableObjects.Array.size
       value: 0
       objectReference: {fileID: 0}
@@ -6551,11 +6555,19 @@ Prefab:
     - target: {fileID: 11400000, guid: a45c64ec08a8d36468f0d8460b326d4e, type: 2}
       propertyPath: _actionObj
       value: 
-      objectReference: {fileID: 1304563476}
+      objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: a45c64ec08a8d36468f0d8460b326d4e, type: 2}
       propertyPath: _triggerableObjects.Array.data[0]
       value: 
       objectReference: {fileID: 1310704880}
+    - target: {fileID: 11400000, guid: a45c64ec08a8d36468f0d8460b326d4e, type: 2}
+      propertyPath: _actionObj.Array.data[0]
+      value: 
+      objectReference: {fileID: 2143238613}
+    - target: {fileID: 11400000, guid: a45c64ec08a8d36468f0d8460b326d4e, type: 2}
+      propertyPath: _actionObj.Array.data[1]
+      value: 
+      objectReference: {fileID: 1304563476}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a45c64ec08a8d36468f0d8460b326d4e, type: 2}
   m_RootGameObject: {fileID: 1791470053}
@@ -8898,9 +8910,8 @@ GameObject:
 --- !u!114 &763470709
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400000, guid: ef035ed976776a841a0dd24ce224887b,
-    type: 2}
-  m_PrefabInternal: {fileID: 1038317276}
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 763470708}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -8912,7 +8923,7 @@ MonoBehaviour:
   distanceUp: 1
   maxDistanceUp: 5
   minDistanceUp: 1
-  smooth: 1
+  smooth: 1.5
   follow: {fileID: 1700645077}
   offset: {x: 0, y: 0, z: 0}
   widescreen: .200000003
@@ -8925,8 +8936,8 @@ MonoBehaviour:
   RightStickRotationSpeed: 100
   controllerRotationSpeed: 20
   camState: 0
-  camSmoothDampTime: .5
-  LookDirDampTime: .5
+  camSmoothDampTime: .100000001
+  LookDirDampTime: .100000001
 --- !u!81 &763470710
 AudioListener:
   m_ObjectHideFlags: 0
@@ -11523,6 +11534,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 11400000, guid: c1e515ab1c6dc08478eff14ec8ad725a, type: 2}
+      propertyPath: _actionObj.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: c1e515ab1c6dc08478eff14ec8ad725a, type: 2}
       propertyPath: m_LocalPosition.x
       value: 32.0650597
@@ -11554,7 +11569,15 @@ Prefab:
     - target: {fileID: 11400000, guid: c1e515ab1c6dc08478eff14ec8ad725a, type: 2}
       propertyPath: _actionObj
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: c1e515ab1c6dc08478eff14ec8ad725a, type: 2}
+      propertyPath: _actionObj.Array.data[0]
+      value: 
       objectReference: {fileID: 1304563476}
+    - target: {fileID: 11400000, guid: c1e515ab1c6dc08478eff14ec8ad725a, type: 2}
+      propertyPath: _actionObj.Array.data[1]
+      value: 
+      objectReference: {fileID: 2143238613}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c1e515ab1c6dc08478eff14ec8ad725a, type: 2}
   m_RootGameObject: {fileID: 1550882286}
@@ -12232,7 +12255,8 @@ Prefab:
       propertyPath: LookDirDampTime
       value: .5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 11400000, guid: ef035ed976776a841a0dd24ce224887b, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: ef035ed976776a841a0dd24ce224887b, type: 2}
   m_RootGameObject: {fileID: 763470708}
   m_IsPrefabParent: 0
@@ -14228,7 +14252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46167d980d66f3a479ace0cc754846dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _actionObj: {fileID: 1304563476}
+  _actionObj: []
   _triggerableObjects: []
   _activatedByInteractables: 1
 --- !u!65 &1174574374
@@ -14500,7 +14524,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46167d980d66f3a479ace0cc754846dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _actionObj: {fileID: 2143238613}
+  _actionObj: []
   _triggerableObjects: []
   _activatedByInteractables: 1
 --- !u!65 &1180925883
@@ -16085,7 +16109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33bf81ca0387d7647ac309b3fc4a5569, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _numberOfTriggers: 1
+  _numberOfTriggers: 2
 --- !u!1 &1305785606
 GameObject:
   m_ObjectHideFlags: 0
@@ -16236,6 +16260,7 @@ MonoBehaviour:
   _deadZone: .200000003
   _maxSpeed: .100000001
   _lerpTime: .0599999987
+  _offset: 1
 --- !u!114 &1310704883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16270,6 +16295,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _jumpForce: 300
+  _offsetX: 0
+  _offsetY: 0
+  _offsetZ: 0
 --- !u!114 &1310704885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18860,7 +18888,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cda3407083b651448ef71d187b8241a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _actionObj: {fileID: 1304563476}
+  _actionObj:
+  - {fileID: 1304563476}
+  - {fileID: 2143238613}
 --- !u!23 &1550882288
 Renderer:
   m_ObjectHideFlags: 0
@@ -21060,7 +21090,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1700645076}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .000158309937, y: 1.45281959, z: .336213589}
+  m_LocalPosition: {x: .000160217285, y: 1.53749919, z: .000614643097}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1310704881}
@@ -21966,7 +21996,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46167d980d66f3a479ace0cc754846dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _actionObj: {fileID: 1304563476}
+  _actionObj:
+  - {fileID: 2143238613}
+  - {fileID: 1304563476}
   _triggerableObjects: []
   _activatedByInteractables: 1
 --- !u!65 &1791470055
