@@ -4,11 +4,11 @@ using System.Collections;
 
 public class Button : MonoBehaviour {
 	
-	public GameObject _actionObj;
+	public GameObject[] _actionObj;
 
 	GameObject _boy;
 	
-	triggerGroup _action;
+	triggerGroup[] _action;
 
 	const float _PRESS_DISTANCE = 4;
 
@@ -18,7 +18,11 @@ public class Button : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		_action = _actionObj.GetComponent<triggerGroup>();
+		_action = new triggerGroup[_actionObj.Length];
+		for(int i = 0; i < _action.Length; i++){
+			_action[i] = _actionObj[i].GetComponent<triggerGroup>();
+		}
+
 		_boy = GameObject.FindGameObjectWithTag("Player");
 	}
 	
@@ -28,10 +32,14 @@ public class Button : MonoBehaviour {
 			if((_boy.transform.position - gameObject.transform.position).sqrMagnitude <= _PRESS_DISTANCE){
 				if(Vector2.Angle((new Vector2(gameObject.transform.position.x, gameObject.transform.position.z) - new Vector2(_boy.transform.position.x, _boy.transform.position.z)).normalized, new Vector2(_boy.transform.forward.x, _boy.transform.forward.z))  <= _PRESS_ANGLE){
 					if(_pressed){
-						_action.onInactive();
+						for(int i = 0; i < _action.Length; i++){
+							_action[i].onInactive();
+						}
 						_pressed = false;
 					}else{
-						_action.onActive();
+						for(int i = 0; i < _action.Length; i++){
+							_action[i].onActive();
+						}
 						_pressed = true;
 					}
 					Color temp = gameObject.renderer.materials[1].color;
