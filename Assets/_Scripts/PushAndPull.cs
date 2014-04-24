@@ -13,6 +13,7 @@ public class PushAndPull : MonoBehaviour {
 	GameObject _collider;
 	bool _blockedForward, _blockedBackward;
 	Animator _ani;
+	float _pos;
 
 
 	// Use this for initialization
@@ -73,12 +74,17 @@ public class PushAndPull : MonoBehaviour {
 
 	//		transform.rigidbody.constraints = RigidbodyConstraints.None;
 	//		transform.rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+			transform.collider.enabled = false;
 
 			_blockedForward = false; 
 			_blockedBackward = false;
+			transform.position = new Vector3(transform.position.x,_pos,transform.position.z);
+			transform.rigidbody.velocity = Vector3.zero;
+			//transform.rigidbody.useGravity = false;
 
 		}
 		else{
+			_pos = transform.position.y;
 			_obj = _object;
 			Debug.Log(direction);
 			Vector3 temp = direction*-1;

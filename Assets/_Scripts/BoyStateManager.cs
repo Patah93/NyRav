@@ -27,8 +27,6 @@ public class BoyStateManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-
-	
 		ray1 = transform.position + transform.right * _rayXOffset;
 		ray1 = new Vector3(ray1.x,transform.position.y + _rayYOffset,ray1.z);
 		
@@ -63,6 +61,7 @@ public class BoyStateManager : MonoBehaviour {
 				_walk.Activate(true);
 				print ("YOU ARE IN WALK MODE! :D");
 				_jump.disableJump(false);
+				transform.collider.enabled = true;
 			}
 		}
 	}
