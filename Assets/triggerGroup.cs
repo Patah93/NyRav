@@ -21,14 +21,30 @@ public class triggerGroup : TriggerAction {
 	public override void onActive(){
 		_triggered++;
 		if(_triggered == _numberOfTriggers){
-			gameObject.GetComponent<MoveOnTrigger>().onActive();
+			TriggerAction[] triggerActions = gameObject.GetComponents<TriggerAction>();
+			if(triggerActions[0] != this){
+				triggerActions[0].onActive();
+			}
+			else{
+				triggerActions[1].onActive();
+			}
 		}	
 	}
 	
 	public override void onInactive(){
 		_triggered--;
 		if(_triggered == _numberOfTriggers - 1){
-			gameObject.GetComponent<MoveOnTrigger>().onInactive();
+			TriggerAction[] triggerActions = gameObject.GetComponents<TriggerAction>();
+			for(int i = 0; i < triggerActions.Length; i++){
+				if(triggerActions[i] != this){
+					if(triggerActions[0] != this){
+						triggerActions[0].onInactive();
+					}
+					else{
+						triggerActions[1].onInactive();
+					}
+				}
+			}
 		}
 	}
 }
