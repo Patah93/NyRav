@@ -8146,6 +8146,7 @@ GameObject:
   - 33: {fileID: 712964053}
   - 65: {fileID: 712964052}
   - 23: {fileID: 712964051}
+  - 54: {fileID: 712964050}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Interactive
@@ -8153,6 +8154,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!54 &712964050
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 712964049}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: .0500000007
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!23 &712964051
 Renderer:
   m_ObjectHideFlags: 0
@@ -8203,7 +8219,7 @@ Transform:
   m_PrefabInternal: {fileID: 1006969333}
   m_GameObject: {fileID: 712964049}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 50.7047691, y: 1.37501884, z: 13.8341351}
+  m_LocalPosition: {x: 50.5633087, y: 1.33287644, z: 9.082057}
   m_LocalScale: {x: 2.39274836, y: 2.63601065, z: 2.46825171}
   m_Children: []
   m_Father: {fileID: 0}
@@ -9903,7 +9919,12 @@ Prefab:
       propertyPath: m_Name
       value: Betafab
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 13600000, guid: 3965c7170d78b8a45988cecfc1fd338d, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 11400008, guid: 3965c7170d78b8a45988cecfc1fd338d, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 3965c7170d78b8a45988cecfc1fd338d, type: 2}
   m_RootGameObject: {fileID: 1310704880}
   m_IsPrefabParent: 0
@@ -11738,15 +11759,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400000, guid: 86a508ec722dc924ca82b5415ff57f93, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 50.7047691
+      value: 50.5633087
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 86a508ec722dc924ca82b5415ff57f93, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 1.37501884
+      value: 1.33287644
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 86a508ec722dc924ca82b5415ff57f93, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 13.8341351
+      value: 9.082057
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 86a508ec722dc924ca82b5415ff57f93, type: 2}
       propertyPath: m_LocalRotation.x
@@ -15698,9 +15719,9 @@ GameObject:
   - 114: {fileID: 1310704885}
   - 114: {fileID: 1310704884}
   - 114: {fileID: 1310704883}
-  - 114: {fileID: 1310704889}
   - 114: {fileID: 1310704890}
   - 120: {fileID: 1310704882}
+  - 114: {fileID: 1310704889}
   m_Layer: 2
   m_Name: Betafab
   m_TagString: Player
@@ -15856,13 +15877,12 @@ Animator:
 --- !u!114 &1310704889
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400008, guid: 3965c7170d78b8a45988cecfc1fd338d,
-    type: 2}
-  m_PrefabInternal: {fileID: 861866825}
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1310704880}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e844eeab65cd784a85c342acdd636df, type: 3}
+  m_Script: {fileID: 11500000, guid: 038ec601cdb42104494da8442be67278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _deadZone: .200000003
