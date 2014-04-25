@@ -93,8 +93,16 @@ public class PushAndPull : MonoBehaviour {
 			Vector3 temp = direction*-1;
 			float angle = Vector3.Angle(temp, transform.forward);
 			transform.forward = temp;
+			Vector3 _objdir = _obj.TransformDirection(temp);
+			float _objside;
+			if(Mathf.Abs(_objdir.x) > Mathf.Abs(_objdir.z)){
+				_objside = (_obj.collider as BoxCollider).size.x;
+			}
+			else{
+				_objside = (_obj.collider as BoxCollider).size.z;
+			}
 			Vector3 temppos = _obj.position;
-			transform.position = new Vector3(temppos.x,transform.position.y,temppos.z) + ((_obj.localScale.x/2) + _offset)*direction;
+			transform.position = new Vector3(temppos.x,transform.position.y,temppos.z) + ((_objside/2) + _offset)*direction;
 			_obj.rigidbody.constraints = RigidbodyConstraints.None;
 			_obj.rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
 			_position = new Vector3(transform.position.x, 0, transform.position.z);
