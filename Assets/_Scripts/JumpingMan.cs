@@ -4,7 +4,7 @@ using System.Collections;
 public class JumpingMan : MonoBehaviour {
 
 	private Animator _animator;
-	public float _jumpForce = 300;
+	public float _jumpForce = 9;
 	public float _offsetX = 0;
 	public float _offsetY = 0;
 	public float _offsetZ = 0;
@@ -38,8 +38,9 @@ public class JumpingMan : MonoBehaviour {
 
 
 				Vector3 temp = rigidbody.velocity;
-				transform.rigidbody.velocity = new Vector3(temp.x,0,temp.z);
-				transform.rigidbody.AddForce(Vector3.up*_jumpForce);
+				//transform.rigidbody.velocity = new Vector3(temp.x,0,temp.z);
+
+				//transform.rigidbody.AddForce(Vector3.up*_jumpForce);
 				Debug.Log("jumping");
 				_jump = true;
 
@@ -50,6 +51,7 @@ public class JumpingMan : MonoBehaviour {
 				_clock = Time.time;
 
 			}
+
 		}
 
 
@@ -59,10 +61,12 @@ public class JumpingMan : MonoBehaviour {
 		}
 */
 		if(_jump){
+			_jumpForce -= Physics.gravity.magnitude * Time.deltaTime;
+			(gameObject.GetComponent<CharacterController>() as CharacterController).Move(transform.up * _jumpForce*Time.deltaTime);
 			Vector3 temp = new Vector3(_offsetX,_offsetY,_offsetZ);
 			if(Time.time - _clock > _maxTime){
 
-				if(Physics.SphereCast(transform.position, 0.3f + temp.y ,Vector3.down,out _rayHit,0.2f)){	//Nuddat marken och kan hoppa igen
+				if(Physics.SphereCast(transform.position + new Vector3(0, 1, 0), 0.3f + temp.y ,Vector3.down,out _rayHit,1.1f)){	//Nuddat marken och kan hoppa igen
 					Debug.DrawRay(transform.position + temp,Vector3.down,Color.blue,1 + temp.y,true);
 					Debug.Log("Collided with "+ _rayHit.collider.name);
 					if(!_rayHit.collider.name.Equals(this.name)){
@@ -78,7 +82,7 @@ public class JumpingMan : MonoBehaviour {
 					/* TODO Plz ta bort desa två superdåliga rader kod, my bad */
 					//gameObject.GetComponent<CharacterController>().enabled = true;
 					//gameObject.GetComponent<CapsuleCollider>().enabled = false;
-
+						_jumpForce = 9;
 					}
 				}
 			}

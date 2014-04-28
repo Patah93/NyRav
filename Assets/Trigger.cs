@@ -12,7 +12,7 @@ public class Trigger : MonoBehaviour {
 
 	public GameObject[] _triggerableObjects;
 
-	triggerGroup[] _action;
+	TriggerAction[] _action;
 
 	public bool _activatedByInteractables = true;
 
@@ -20,9 +20,19 @@ public class Trigger : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		_action = new triggerGroup[_actionObj.Length];
+		_action = new TriggerAction[_actionObj.Length];
 		for(int i = 0; i < _action.Length; i++){
-			_action[i] = _actionObj[i].GetComponent<triggerGroup>();
+			TriggerAction[] _tAction = _actionObj[i].GetComponents<TriggerAction>();
+			if(_tAction.Length > 1){
+				if(_tAction[0].GetType() != typeof(triggerGroup)){
+					_action[i] = _tAction[1];
+				}
+				else{
+					_action[i] = _tAction[0];
+				}
+			}else{
+				_action[i] = _tAction[0];
+			}
 		}
 	}
 	
