@@ -68,7 +68,6 @@ public class PushAndPull : MonoBehaviour {
 	
 	public void Activate(bool isActivated, Transform _object, Vector3 direction){
 		if(isActivated){
-			
 			_obj = _object;
 			_objposy = _obj.position.y;
 			Vector3 temp = direction*-1;
