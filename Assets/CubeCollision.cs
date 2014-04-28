@@ -19,15 +19,30 @@ public class CubeCollision : MonoBehaviour {
 
 	void OnCollisionEnter(Collision collision) {
 		if((collision.transform.name != _playername)){
-			_collided = true;
+			foreach (ContactPoint contact in collision.contacts) {
+				//Debug.DrawRay(contact.point, contact.normal*5, Color.blue);
+				if(contact.normal != Vector3.up){
+					_collided = true;
+					Debug.Log ("Collided with wall");
+					return;
+				}
+			}
 		}
 		//_collidedItems +=1;
 	}
-	void OnCollisionExit(Collision collisionInfo) {
-		//_collidedItems -=1;
-		//if(_collided && _collidedItems <=0){
-	//		_collided = false;
-		//}
+	void OnCollisionExit(Collision collision) {
+		foreach (ContactPoint contact in collision.contacts) {
+			//Debug.DrawRay(contact.point, contact.normal*5, Color.blue);
+			if(contact.normal != Vector3.up){
+				_collided = false;
+				Debug.Log ("Exit collision with wall");
+				return;
+			}
+		}
+	}
+
+	public void deactivateCollision(){
+		_collided = false;
 	}
 
 	public bool getCollision(){
