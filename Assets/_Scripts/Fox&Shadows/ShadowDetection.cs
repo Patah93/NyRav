@@ -278,7 +278,7 @@ public class ShadowDetection : MonoBehaviour {
 		ArrayList shadowCasters = new ArrayList();
 
 		for(int i = 0; i < allObjects.Length; i++){
-			if(allObjects[i].GetComponent(typeof(Renderer)) != null && allObjects[i].renderer.castShadows){
+			if(allObjects[i].GetComponent(typeof(Renderer)) != null && allObjects[i].renderer.castShadows && allObjects[i].GetComponent<Collider>() != null){
 				shadowCasters.Add (allObjects[i]);
 			}
 		}
