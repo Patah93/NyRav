@@ -2,14 +2,19 @@
 using System.Collections;
 
 public class PushAndPull : MonoBehaviour {
-	
+
+	Vector3 _position;
+	Vector3 _deltapos;
+	Vector3 _deltaobjpos;
+	Vector3 _objpos;
+
 	Transform _obj;
 	float _objposy;
 	bool _pushing;
 	public float _deadZone = 0.2f;
 	public float _maxSpeed = 0.1f;
 	public float _lerpTime = 0.06f;
-	public float _offset = 1.5f;
+	public float _offset = 1;
 	float _speed;
 	Animator _ani;
 	CubeCollision _cubecol;
@@ -33,6 +38,23 @@ public class PushAndPull : MonoBehaviour {
 			else{
 				_speed = 0;
 			}
+			
+			_deltapos = transform.position - _position;
+			_deltaobjpos = _obj.position - _objpos;
+
+			/*
+			if(_hasMoved && Mathf.Abs(_deltaobjpos.x)< float.Epsilon && Mathf.Abs(_deltapos.z)< float.Epsilon){
+				_boystate.ActivateWalk();
+			}
+
+
+			_hasMoved = false;
+			*/
+			if(Mathf.Abs(_deltapos.x) > 0 || Mathf.Abs(_deltapos.z) >0){
+				_obj.rigidbody.MovePosition(_obj.position + new Vector3(_deltapos.x,0,_deltapos.z));
+				//_hasMoved = true;
+			}
+			
 			if(_cubecol.getCollision()){
 				if(_speed>0){
 					_blockedForward = true;
@@ -51,6 +73,15 @@ public class PushAndPull : MonoBehaviour {
 					_speed = 0;
 				}
 			}
+
+			//if((_blockedForward && _speed>0) || (_blockedBackwards && _speed<0)){
+				//_speed=0;
+			//}
+			
+			if(Mathf.Abs(_obj.position.y - _objpos.y)>0.05){
+				_boystate.ActivateWalk();
+			}
+
 			if(_blockedBackwards){
 				if( _speed > 0){
 					_blockedBackwards = false;
@@ -65,11 +96,13 @@ public class PushAndPull : MonoBehaviour {
 			_ani.SetFloat("Speed", _speed);
 		}
 	}
-	
+
 	public void Activate(bool isActivated, Transform _object, Vector3 direction){
 		if(isActivated){
 			_obj = _object;
+			_objpos = _obj.position;
 			_objposy = _obj.position.y;
+
 			Vector3 temp = direction*-1;
 			float angle = Vector3.Angle(temp, transform.forward);
 			transform.forward = temp;
@@ -98,7 +131,7 @@ public class PushAndPull : MonoBehaviour {
 		}
 		_pushing = isActivated;
 	}
-	
+
 	public bool getActivate(){
 		return _pushing;
 	}

@@ -25,10 +25,10 @@ public class Trigger : MonoBehaviour {
 			TriggerAction[] _tAction = _actionObj[i].GetComponents<TriggerAction>();
 			if(_tAction.Length > 1){
 				if(_tAction[0].GetType() != typeof(triggerGroup)){
-					_action[i] = _tAction[1];
+					_action[i] = _tAction[0];
 				}
 				else{
-					_action[i] = _tAction[0];
+					_action[i] = _tAction[1];
 				}
 			}else{
 				_action[i] = _tAction[0];
