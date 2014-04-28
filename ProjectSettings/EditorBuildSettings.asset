@@ -48,8 +48,8 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Sample Assets/Sample Scenes/Scenes/2D Character.unity
   - enabled: 1
-    path: Assets/PatrikScene.unity
+    path: Assets/_Scenes/PatrikScene.unity
   - enabled: 0
-    path: Assets/PatrikScene.unity
+    path: Assets/_Scenes/PatrikScene.unity
   - enabled: 0
-    path: Assets/PatrikScene.unity
+    path: Assets/_Scenes/PatrikScene.unity
