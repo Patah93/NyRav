@@ -37,8 +37,8 @@ public class JumpingMan : MonoBehaviour {
 				//gameObject.GetComponent<CapsuleCollider>().enabled = true;
 
 
-				Vector3 temp = rigidbody.velocity;
-				transform.rigidbody.velocity = new Vector3(temp.x,0,temp.z);
+				//Vector3 temp = rigidbody.velocity;
+				//transform.rigidbody.velocity = new Vector3(temp.x,0,temp.z);
 				//transform.rigidbody.AddForce(Vector3.up*_jumpForce);
 				Debug.Log("jumping");
 				_jump = true;
@@ -62,7 +62,7 @@ public class JumpingMan : MonoBehaviour {
 			Vector3 temp = new Vector3(_offsetX,_offsetY,_offsetZ);
 			if(Time.time - _clock > _maxTime){
 
-				if(Physics.SphereCast(transform.position, 0.3f + temp.y ,Vector3.down,out _rayHit,1f)){	//Nuddat marken och kan hoppa igen
+				if(Physics.SphereCast(transform.position + new Vector3(0,1,0), 0.3f + temp.y ,Vector3.down,out _rayHit,1.1f)){	//Nuddat marken och kan hoppa igen
 					Debug.DrawRay(transform.position + temp,Vector3.down,Color.blue,1 + temp.y,true);
 					Debug.DrawRay(transform.position, _rayHit.transform.position);
 					Debug.Log("Collided with "+ _rayHit.collider.name);

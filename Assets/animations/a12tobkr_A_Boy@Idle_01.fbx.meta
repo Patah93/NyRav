@@ -972,7 +972,7 @@ ModelImporter:
         length: 0
         modified: 0
     skeleton:
-    - name: a12tobkr_A_Boy(Clone)
+    - name: a12tobkr_A_Boy2(Clone)
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
@@ -1029,7 +1029,7 @@ ModelImporter:
       transformModified: 1
     - name: L_ball_joint
       position: {x: -.0173406471, y: .00569649972, z: .0406487882}
-      rotation: {x: -7.59561969e-10, y: 3.59017038e-10, z: -1.05031646e-08, w: 1}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
       scale: {x: 1, y: 1, z: 1}
       transformModified: 1
     - name: L_toe_joint
@@ -1064,12 +1064,12 @@ ModelImporter:
       transformModified: 1
     - name: spine_02_joint
       position: {x: -.0401103683, y: 4.32986964e-17, z: -.00900589954}
-      rotation: {x: -2.77555756e-17, y: -.284019113, z: 6.9388939e-18, w: .958818614}
+      rotation: {x: 0, y: -.284019113, z: -0, w: .958818614}
       scale: {x: 1, y: 1, z: 1}
       transformModified: 1
     - name: spine_05_joint
       position: {x: -.0335478373, y: -1.52655669e-17, z: .0143412817}
-      rotation: {x: 6.24500518e-17, y: .24875848, z: 4.3368091e-18, w: .968565583}
+      rotation: {x: 0, y: .24875848, z: -0, w: .968565583}
       scale: {x: 1, y: 1, z: 1}
       transformModified: 1
     - name: spine_06_joint
@@ -1567,6 +1567,21 @@ ModelImporter:
       rotation: {x: 0, y: -0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
       transformModified: 1
+    - name: shirt_hp
+      position: {x: .00431029173, y: .869891107, z: .0132375853}
+      rotation: {x: 0, y: -0, z: 0, w: 1}
+      scale: {x: 2.42881966, y: 2.42881966, z: 2.42881966}
+      transformModified: 1
+    - name: shorts_lp:polySurface2
+      position: {x: -.000783613476, y: 1.26366913, z: .0199314021}
+      rotation: {x: 0, y: -0, z: 0, w: 1}
+      scale: {x: 2.26156259, y: 2.26156259, z: 2.26156259}
+      transformModified: 1
+    - name: shorts_lp:shorts_lp
+      position: {x: -.00723241363, y: .335111946, z: -.000366010179}
+      rotation: {x: 0, y: -0, z: 0, w: 1}
+      scale: {x: 2.34900784, y: 2.34900784, z: 2.34900784}
+      transformModified: 1
     armTwist: .5
     foreArmTwist: .5
     upperLegTwist: .5
@@ -1575,7 +1590,7 @@ ModelImporter:
     legStretch: .0500000007
     feetSpacing: 0
     rootMotionBoneName: 
-  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: dc9bf8f0468f5414987d6a71fb116859,
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 75f4663f1f640564f86b73537740e512,
     type: 3}
   animationType: 3
   additionalBone: 0
