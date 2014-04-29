@@ -4212,6 +4212,10 @@ Prefab:
       propertyPath: _rayYOffset
       value: .600000024
       objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: 4910035722803d84fa41415b347c15e4, type: 2}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 16ff15f88030c6d4db2438119f118611, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4910035722803d84fa41415b347c15e4, type: 2}
   m_RootGameObject: {fileID: 1744776513}
@@ -24100,7 +24104,7 @@ Animator:
   m_GameObject: {fileID: 1744776513}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: b1c080fe2817fb1489d35e44d9245df0, type: 3}
-  m_Controller: {fileID: 9100000, guid: 3488c2fbcb22682479b924a48536f7d2, type: 2}
+  m_Controller: {fileID: 9100000, guid: 16ff15f88030c6d4db2438119f118611, type: 2}
   m_CullingMode: 1
   m_ApplyRootMotion: 1
   m_AnimatePhysics: 0
