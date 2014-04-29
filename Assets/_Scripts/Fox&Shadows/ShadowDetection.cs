@@ -71,31 +71,52 @@ public class ShadowDetection : MonoBehaviour {
 
 	void updatePointsOfInterest(){
 
+		BoxCollider boxColl = GetComponent<BoxCollider>();
+
+		float minX = boxColl.center.x - boxColl.size.x/2.0f;
+		float maxX = boxColl.center.x + boxColl.size.x/2.0f;
+		float minY = boxColl.center.y - boxColl.size.y/2.0f;
+		float maxY = boxColl.center.y + boxColl.size.y/2.0f;
+
 		/* These should be the corners of the kollisionsbox så att sägaah */
 
-		MeshFilter meshFilter = gameObject.GetComponent<MeshFilter>();
+		//MeshFilter meshFilter = gameObject.GetComponent<MeshFilter>();
 
-		Vector3[] temp  = meshFilter.sharedMesh.vertices;
+		//Vector3[] temp  = meshFilter.sharedMesh.vertices;
+
+		//_pointsOfInterest = new Vector3[1];
+		//_pointsOfInterest[0] = gameObject.transform.TransformPoint(temp[0]);
 		//Mesh mesh = meshCollider.GetComponent<MeshFilter>().mesh;
 
 		//_pointsOfInterest = mesh.vertices;
 
-		_pointsOfInterest = new Vector3[Mathf.FloorToInt(((float)temp.Length) / 20f)+1]; 
-		int j = 0;
-		for(int i = 0; i < temp.Length; i++){
+		//_pointsOfInterest = new Vector3[Mathf.FloorToInt(((float)temp.Length) / 20f)+1]; 
+		//int j = 0;
+		_pointsOfInterest = new Vector3[4];
+		//for(int i = 0; i < 4; i++){
 
-			if(i%20 == 0){
+			/*if(i%20 == 0){
 				_pointsOfInterest[j] = gameObject.transform.TransformPoint(temp[i]);
 				j++;
-			}
-		}
+			}*/
+		//}
 
+		_pointsOfInterest[0] = gameObject.transform.TransformPoint(new Vector3(minX, minY, boxColl.center.z + boxColl.size.z/2.0f));
+		_pointsOfInterest[1] = gameObject.transform.TransformPoint(new Vector3(minX, maxY, boxColl.center.z + boxColl.size.z/2.0f));
+		_pointsOfInterest[2] = gameObject.transform.TransformPoint(new Vector3(maxX, minY, boxColl.center.z + boxColl.size.z/2.0f));
+		_pointsOfInterest[3] = gameObject.transform.TransformPoint(new Vector3(maxX, maxY, boxColl.center.z + boxColl.size.z/2.0f));
 
+		_pointsOfInterest[0] = gameObject.transform.TransformPoint(new Vector3(minX, minY, boxColl.center.z - boxColl.size.z/2.0f));
+		_pointsOfInterest[1] = gameObject.transform.TransformPoint(new Vector3(minX, maxY, boxColl.center.z - boxColl.size.z/2.0f));
+		_pointsOfInterest[2] = gameObject.transform.TransformPoint(new Vector3(maxX, minY, boxColl.center.z - boxColl.si
+		                                                                       ze.z/2.0f));
+		_pointsOfInterest[3] = gameObject.transform.TransformPoint(new Vector3(maxX, maxY, boxColl.center.z - boxColl.size.z/2.0f));
 
 
 		for(int i = 0; i < _pointsOfInterest.Length-1; i++){
 
 			Debug.DrawLine(_pointsOfInterest[i], _pointsOfInterest[i+1]);
+
 		}
 		/*
 		_pointsOfInterest [0] = new Vector3 (gameObject.collider.bounds.max.x, gameObject.collider.bounds.max.y, gameObject.collider.bounds.max.z);
