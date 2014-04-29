@@ -20,7 +20,7 @@ public class JumpingMan : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		//_animator = GetComponent<Animator>();
+		_animator = GetComponent<Animator>();
 		//_startPosition = transform.position.y;
 	}
 	
@@ -37,16 +37,16 @@ public class JumpingMan : MonoBehaviour {
 				//gameObject.GetComponent<CapsuleCollider>().enabled = true;
 
 
-				Vector3 temp = rigidbody.velocity;
-				transform.rigidbody.velocity = new Vector3(temp.x,0,temp.z);
-				transform.rigidbody.AddForce(Vector3.up*_jumpForce);
+				//Vector3 temp = rigidbody.velocity;
+				//transform.rigidbody.velocity = new Vector3(temp.x,0,temp.z);
+				//transform.rigidbody.AddForce(Vector3.up*_jumpForce);
 				Debug.Log("jumping");
 				_jump = true;
 
 				//gameObject.GetComponent<CapsuleCollider>().enabled = true;
 
 
-				//_animator.SetBool("Jump", true);
+				_animator.SetBool("Jump", true);
 				_clock = Time.time;
 
 			}
@@ -62,22 +62,23 @@ public class JumpingMan : MonoBehaviour {
 			Vector3 temp = new Vector3(_offsetX,_offsetY,_offsetZ);
 			if(Time.time - _clock > _maxTime){
 
-				if(Physics.SphereCast(transform.position, 0.3f + temp.y ,Vector3.down,out _rayHit,0.2f)){	//Nuddat marken och kan hoppa igen
+				if(Physics.SphereCast(transform.position + new Vector3(0,1,0), 0.3f + temp.y ,Vector3.down,out _rayHit,1.1f)){	//Nuddat marken och kan hoppa igen
 					Debug.DrawRay(transform.position + temp,Vector3.down,Color.blue,1 + temp.y,true);
+					Debug.DrawRay(transform.position, _rayHit.transform.position);
 					Debug.Log("Collided with "+ _rayHit.collider.name);
 					if(!_rayHit.collider.name.Equals(this.name)){
-					//transform.rigidbody.constraints &= ~ RigidbodyConstraints.FreezeRotationX|~RigidbodyConstraints.FreezeRotationZ;
-					Debug.Log ("hit something"); 
-					//_startPosition = transform.position.y;
-					_jump = false;
-					//_animator.SetBool("Jump", false);
-					//rigidbody.constraints = ; 
+						//transform.rigidbody.constraints &= ~ RigidbodyConstraints.FreezeRotationX|~RigidbodyConstraints.FreezeRotationZ;
+						Debug.Log ("hit something"); 
+						//_startPosition = transform.position.y;
+						_jump = false;
+						_animator.SetBool("Jump", false);
+						//rigidbody.constraints = ; 
 
 
 
-					/* TODO Plz ta bort desa två superdåliga rader kod, my bad */
-					//gameObject.GetComponent<CharacterController>().enabled = true;
-					//gameObject.GetComponent<CapsuleCollider>().enabled = false;
+						/* TODO Plz ta bort desa två superdåliga rader kod, my bad */
+						//gameObject.GetComponent<CharacterController>().enabled = true;
+						//gameObject.GetComponent<CapsuleCollider>().enabled = false;
 
 					}
 				}

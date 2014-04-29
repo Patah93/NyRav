@@ -123,7 +123,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 	}
 
 	
-	void FixedUpdate() {
+	void LateUpdate() {
 				Vector3 characterOffset = follow.position + offset;
 				Vector3 lookAt = characterOffset;
 		

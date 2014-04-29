@@ -7,6 +7,10 @@ TagManager:
   - Dangerous
   - Smelly
   - Fire
+  - Lamp
+  - Interactive
+  - CameraFollow
+  - SpotLight
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX
