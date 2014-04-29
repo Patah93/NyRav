@@ -8311,6 +8311,7 @@ GameObject:
   - 65: {fileID: 712964052}
   - 23: {fileID: 712964051}
   - 54: {fileID: 712964050}
+  - 114: {fileID: 712964055}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Interactive
@@ -8387,6 +8388,18 @@ Transform:
   m_LocalScale: {x: 2.39274836, y: 2.63601065, z: 2.46825171}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!114 &712964055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 712964049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1da531b1c0f65504c9f81193cb94941a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playername: Betafab
 --- !u!1 &716462928
 GameObject:
   m_ObjectHideFlags: 0
@@ -12179,6 +12192,10 @@ Prefab:
     - target: {fileID: 400000, guid: 86a508ec722dc924ca82b5415ff57f93, type: 2}
       propertyPath: m_LocalRotation.w
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6500000, guid: 86a508ec722dc924ca82b5415ff57f93, type: 2}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 86a508ec722dc924ca82b5415ff57f93, type: 2}
