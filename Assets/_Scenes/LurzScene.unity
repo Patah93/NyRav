@@ -4162,15 +4162,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400136, guid: 4910035722803d84fa41415b347c15e4, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 49.4142761
+      value: 49.0108795
       objectReference: {fileID: 0}
     - target: {fileID: 400136, guid: 4910035722803d84fa41415b347c15e4, type: 2}
       propertyPath: m_LocalPosition.y
-      value: .0788497925
+      value: .0775500536
       objectReference: {fileID: 0}
     - target: {fileID: 400136, guid: 4910035722803d84fa41415b347c15e4, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -.123785257
+      value: -1.63866031
       objectReference: {fileID: 0}
     - target: {fileID: 400136, guid: 4910035722803d84fa41415b347c15e4, type: 2}
       propertyPath: m_LocalRotation.x
@@ -4191,6 +4191,26 @@ Prefab:
     - target: {fileID: 100136, guid: 4910035722803d84fa41415b347c15e4, type: 2}
       propertyPath: m_Name
       value: HajPojken
+      objectReference: {fileID: 0}
+    - target: {fileID: 400128, guid: 4910035722803d84fa41415b347c15e4, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400128, guid: 4910035722803d84fa41415b347c15e4, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400128, guid: 4910035722803d84fa41415b347c15e4, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400008, guid: 4910035722803d84fa41415b347c15e4, type: 2}
+      propertyPath: _rayXOffset
+      value: .25
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400008, guid: 4910035722803d84fa41415b347c15e4, type: 2}
+      propertyPath: _rayYOffset
+      value: .600000024
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4910035722803d84fa41415b347c15e4, type: 2}
@@ -4950,7 +4970,7 @@ Transform:
   m_PrefabInternal: {fileID: 327442116}
   m_GameObject: {fileID: 378537687}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .00471581845, y: 1.81478299e-05, z: .00182758237}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2.27640009, y: 2.27640009, z: 2.27640009}
   m_Children:
   - {fileID: 906724383}
@@ -9590,6 +9610,7 @@ GameObject:
   - 65: {fileID: 712964052}
   - 23: {fileID: 712964051}
   - 54: {fileID: 712964050}
+  - 114: {fileID: 712964055}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Interactive
@@ -9666,6 +9687,18 @@ Transform:
   m_LocalScale: {x: 2.39274836, y: 2.63601065, z: 2.46825171}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!114 &712964055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 712964049}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1da531b1c0f65504c9f81193cb94941a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playername: HajPojken
 --- !u!1 &715435065
 GameObject:
   m_ObjectHideFlags: 0
@@ -23918,7 +23951,7 @@ Transform:
   m_PrefabInternal: {fileID: 327442116}
   m_GameObject: {fileID: 1744776513}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 49.4142761, y: .0788497925, z: -.123785257}
+  m_LocalPosition: {x: 49.0108795, y: .0775500536, z: -1.63866031}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 378537688}
@@ -24033,8 +24066,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51a81b3c04420ab4daad531e7ddb3167, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rayXOffset: 1
-  _rayYOffset: 4
+  _rayXOffset: .25
+  _rayYOffset: .600000024
   _raylength: 2
   _pos:
     serializedVersion: 2
