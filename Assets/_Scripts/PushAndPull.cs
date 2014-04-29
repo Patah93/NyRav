@@ -16,7 +16,7 @@ public class PushAndPull : MonoBehaviour {
 	float _speed;
 	Animator _ani;
 	BoyStateManager _boystate;
-	CubeCollision _cubecol; 
+	//CubeCollision _cubecol; 
 	bool _blockedBackwards = false;
 	bool _blockedForward = false;
 	// Use this for initialization
@@ -76,7 +76,8 @@ public class PushAndPull : MonoBehaviour {
 			//}
 			*/
 			if(Mathf.Abs(_obj.position.y - _objpos.y)>0.05){
-				_boystate.ActivateWalk();
+
+				//_boystate.ActivateWalk();
 			}
 
 			_ani.SetFloat("Speed", _speed);
@@ -93,8 +94,16 @@ public class PushAndPull : MonoBehaviour {
 			Vector3 temp = direction*-1;
 			float angle = Vector3.Angle(temp, transform.forward);
 			transform.forward = temp;
+			Vector3 _objdir = _obj.TransformDirection(temp);
+			float _objside;
+			if(Mathf.Abs(_objdir.x) > Mathf.Abs(_objdir.z)){
+				_objside = _obj.localScale.x;
+			}
+			else{
+				_objside = _obj.localScale.z;
+			}
 			Vector3 temppos = _obj.position;
-			transform.position = new Vector3(temppos.x,transform.position.y,temppos.z) + ((_obj.localScale.x/2) + _offset)*direction;
+			transform.position = new Vector3(temppos.x,transform.position.y,temppos.z) + ((_objside/2) + _offset)*direction;
 			_obj.rigidbody.constraints = RigidbodyConstraints.None;
 			_obj.rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
 			_position = new Vector3(transform.position.x, 0, transform.position.z);
@@ -102,7 +111,7 @@ public class PushAndPull : MonoBehaviour {
 			//
 			//Physics.IgnoreCollision(GameObject.Find("GroundplaneLower").collider, _obj.collider,true);
 			_ani.SetBool("Pushing",true);
-			_cubecol = _obj.GetComponent<CubeCollision>(); 
+			//_cubecol = _obj.GetComponent<CubeCollision>(); 
 
 		}
 		else{

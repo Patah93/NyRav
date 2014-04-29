@@ -57,7 +57,11 @@ public class BoyStateManager : MonoBehaviour {
 
 		else if(_push.getActivate()){
 			if(Input.GetButtonDown("Interact")){		//TILLFÄLLIG KNAPP, SKA ÄNDRAS SEN
-				ActivateWalk();
+				_push.Activate(false, null,Vector3.zero);
+				_walk.Activate(true);
+				print ("YOU ARE IN WALK MODE! :D");
+				_jump.disableJump(false);
+				transform.collider.enabled = true;
 			}
 		}
 	}
@@ -67,13 +71,5 @@ public class BoyStateManager : MonoBehaviour {
 			GUI.Label(_pos,_text,GUIStyle.none);
 			Debug.Log("wrote stuff");
 		}
-	}
-
-	public void ActivateWalk(){
-		_push.Activate(false, null,Vector3.zero);
-		_walk.Activate(true);
-		print ("YOU ARE IN WALK MODE! :D");
-		_jump.disableJump(false);
-		transform.collider.enabled = true;
 	}
 }

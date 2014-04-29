@@ -43,9 +43,12 @@ public class Throw : MonoBehaviour {
 
 		if (rightY > 0.0f || rightY < 0.0f)
 			forceStick += -rightY * 0.5f;
+		
 
 		if (forceStick > maxForce)
-						forceStick = maxForce;
+			forceStick = maxForce;
+		else if (forceStick < -1)
+			forceStick = -1.0f;
 
 		force = ((PlayerXForm.forward + PlayerXForm.up) * 5);
 		force = force + ((PlayerXForm.forward + PlayerXForm.up) * forceStick);
