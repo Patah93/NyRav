@@ -24980,9 +24980,9 @@ GameObject:
   - 4: {fileID: 1957372314}
   - 33: {fileID: 1957372313}
   - 23: {fileID: 1957372312}
-  - 64: {fileID: 1957372311}
   - 114: {fileID: 1957372310}
   - 114: {fileID: 1957372309}
+  - 65: {fileID: 1957372308}
   m_Layer: 0
   m_Name: FakeFox
   m_TagString: Untagged
@@ -24990,6 +24990,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!65 &1957372308
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1957372307}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 70.4408264, y: 163.447113, z: 295.094116}
+  m_Center: {x: -.00080871582, y: 82.3450165, z: 16.0523758}
 --- !u!114 &1957372309
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25015,20 +25027,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04bb4c053e2d4a445909be4ef68e91cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!64 &1957372311
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 6400000, guid: 9a01bcbbbb4ff4e4b88b2bb661bd94ea,
-    type: 2}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1957372307}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_SmoothSphereCollisions: 0
-  m_Convex: 1
-  m_Mesh: {fileID: 4300000, guid: a9d157f83f4f8f34781a35ffb2ebd0c4, type: 3}
 --- !u!23 &1957372312
 Renderer:
   m_ObjectHideFlags: 0
@@ -25058,7 +25056,7 @@ MeshFilter:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1957372307}
-  m_Mesh: {fileID: 4300010, guid: 7720bce0b99e3c2449c642023bf9893a, type: 3}
+  m_Mesh: {fileID: 4300000, guid: a9d157f83f4f8f34781a35ffb2ebd0c4, type: 3}
 --- !u!4 &1957372314
 Transform:
   m_ObjectHideFlags: 0
@@ -25066,8 +25064,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1957372307}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 67.0447998, y: 1.82587433, z: 9.9988718}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 67.0447998, y: -.0257006884, z: 9.9988718}
+  m_LocalScale: {x: .00993213337, y: .00993213337, z: .00993213337}
   m_Children: []
   m_Father: {fileID: 0}
 --- !u!1 &1960339848
