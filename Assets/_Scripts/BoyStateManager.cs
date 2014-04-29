@@ -61,6 +61,7 @@ public class BoyStateManager : MonoBehaviour {
 		else if(_push.getActivate()){
 			if(Input.GetButtonDown("Interact")){		//TILLFÄLLIG KNAPP, SKA ÄNDRAS SEN
 				_push.Activate(false, null,Vector3.zero);
+				_walk.enabled = true;
 				_walk.Activate(true);
 				print ("YOU ARE IN WALK MODE! :D");
 				_jump.disableJump(false);
