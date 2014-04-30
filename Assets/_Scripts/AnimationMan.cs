@@ -8,7 +8,7 @@ public class AnimationMan : MonoBehaviour {
 	Vector2 _cameraRotationRight;
 	Vector2 _targetRotation;
 	Vector2 _characterRotation;
-	float _length;
+	public float _length;
 	float _angle;
 	bool _jump;
 	float _clock;

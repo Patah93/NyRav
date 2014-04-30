@@ -1,272 +1,300 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-struct CameraPosistion {
-	
-	private Vector3 posistion;
-	private Transform xForm;
-	
-	public Vector3 Posistion { get { return posistion; } set { posistion = value; } }
-	public Transform XForm {get { return xForm; } set { xForm = value;} }
-	
-	public void Init(string camName, Vector3 pos, Transform transform, Transform parent) {
-		posistion = pos;
-		xForm = transform;
-		xForm.name = camName;
-		xForm.parent = parent;
-		xForm.localPosition = Vector3.zero;
-		xForm.localPosition = posistion;
-	}
-}
+/*
+ * Made by Tobias Tevemark
+ * 2014-04-29
+ * 
+ * There’s a certain amount of craftsmanship involved in making things move around algorithmically.  
+ * Getting a camera to slide smoothly into position, gliding on the gossamer wings of math, can be a perilous undertaking.
+ * One wrong wobble, one tiny pop, and every pixel on the screen becomes wrong, the needle slides off the record, and the magic spell is broken.
+ * - Jeff Farris - Epic Games
+ */
 
 public class ThirdPersonCamera : MonoBehaviour {
-	[SerializeField]
-	private float dampLookAt = 4.0f;
-	[SerializeField]
-	private float distanceAway;
-	[SerializeField]
-	private float distanceUp;
-	[SerializeField]
-	private float maxDistanceUp = 5;
-	[SerializeField]
-	private float minDistanceUp = 1;
-	[SerializeField]
-	private float smooth;
-	[SerializeField]
-	private Transform follow;
-	[SerializeField]
-	private Vector3 offset = new Vector3(0.0f,1.5f,0.0f);
-	[SerializeField]
-	private float widescreen = 0.2f;
-	[SerializeField]
-	private float targetingTime = 0.5f;
-	[SerializeField]
-	private float firstPersonCamPosThreshold = 1.5f;
-	//this is used to check for locomotion ie is the character moving.
-	[SerializeField] 
-	private AnimationMan referenceToController;
-	[SerializeField]
-	private float firstPersonLookSpeed = 3.0f;
-	[SerializeField]
-	private float fpsRotationDegreePerSecond = 120f;
-	[SerializeField]
-	private Vector2 firstPersonXAxisClamp = new Vector2 (-70.0f, 90.0f);
-    [SerializeField]
-    private float RightStickRotationSpeed = 100.0f;
-	
-	
-	[SerializeField]
-	private float controllerRotationSpeed = 20.0f;
-	
-	private CameraPosistion firstPersonCamPos;
-	
-	private Vector3 lookDir;
-	private Vector3 targetPosistion;
-	private Vector3 curLookDir;
-	
-	private float xAxisRot;
-	private float lookWeight;
-	private const float TARGETING_THRESHOLD = 2.01f;
-	
-	private Transform PlayerXform;
 
-	private float deltaLookAt = 0;
-	float alpha = 1.0f;
-	
-	public enum CamStates{
-		Behind,
-		FirstPerston,
-		Target,
-		Free
+    #region Public variables
+
+    //Camera posistion and look at variables
+    public Vector3 Offset = Vector3.zero;
+    public Transform LookAt;
+    public float CameraUp = 1.0f;
+    public float CameraAway = 3.0f;
+
+    //Camera Smoothing variables
+    public float CameraSmoothing = 1.0f;  
+    public float LookDirDampTime = 0.1f;
+    public float camSmoothDampTime = 0.1f;
+
+    //Controller Deadzone for rotating the camera. We only want to rotate camera when we move the stick far enough.
+    //values from 0 to 1
+    public float deadZoneX = 0.3f;
+    public float deadZoneY = 0.3f;
+
+
+    //Controller variables for rotation speed etc
+    public float RotationSpeedX = 5.0f;
+    public float RotationSpeedY = 2.0f;
+
+    //Clamping values for Y axis so we can't go to far up or down.
+    public Vector2 cameraClampingY = new Vector2(-40.0f, 20.0f);
+
+    //Camera State
+    public CamStates camState = CamStates.Behind;
+
+    //Starting moving behind after set time.
+    public float moveBehind = 0.5f;
+    //What smoothing time do you want for that movement.
+    public float autoMoveSmooth = 0.1f;
+	//We need to check the diffrence between the old pos to the new target pos for the auto motion
+	//if we don't do this we get a chase camera effect a value of 2.5+ is recommended.
+	public float autoSmoothDeltaMagnitude = 3.0f;
+
+    //Camera offsets for the different default camera positions
+    //We want this to be close to the eyes for example
+    //made private for now
+    private Vector3 FirstPersonCameraOffset = new Vector3(0.0f, 1.6f, 0.0f);
+
+    //We want this to be a bit up from the character and a bit back for example
+    //made private for now
+    private Vector3 BehindPersonCameraOffset = new Vector3(0.0f, 1.0f, -1.0f);
+
+    #endregion
+
+    #region Private variables
+    
+    //what is our current look direction
+    Vector3 currentLookDirection;
+    
+    //where we want to be looking in the end
+    Vector3 lookDirection;
+
+    //Target posistion
+    private Vector3 targetPosistion;
+
+    //TODO : Change to corresponds to correct throw posistion later
+    //The first Person Camera Posistion
+    private CameraPosistion FirstPersonCameraPosistion;
+
+    //The behind Person Camera Posistion
+    private CameraPosistion BehindPersonCameraPosistion;
+
+    //Reference to the characters transform
+    private Transform PlayerXform;
+    
+    //Reference to out controller scripts on the character.
+    private AnimationMan referenceToController;
+
+    //TODO : add other controller input values
+    //The controller input values
+    private float rightX = 0.0f;
+    private float rightY = 0.0f;
+    private float leftX  = 0.0f;
+    private float leftY  = 0.0f;
+
+    //private containers holding the velocity for the camera smoothing
+    private Vector3 velocityLookDir = Vector3.zero;
+    private Vector3 velocityCamSmooth = Vector3.zero;
+
+
+    //private containers holding the amount of rotation around the character that have been applied from the controller input
+    private float rotationAmountX = 0.0f;
+    private float rotationAmountY = 0.0f;
+
+    //time since last input
+    private float deltaLastInput = 0.0f;
+    //do we need to start moving?
+    private bool startMoving = false;
+    #endregion
+
+    #region Structs
+    struct CameraPosistion {
+        //Posistion
+        private Vector3 posistion;
+        //Transform of object
+        private Transform xForm;
+
+        //getters and setters
+        public Vector3 Posistion { get { return posistion; } set { posistion = value; } }
+        public Transform XForm { get { return xForm; } set { xForm = value; } }
+
+        //Init
+        public void Init(string camName, Vector3 pos, Transform transform, Transform parent) {
+            posistion = pos;
+            xForm = transform;
+            xForm.name = camName;
+            xForm.parent = parent;
+            xForm.localPosition = Vector3.zero;
+            xForm.localPosition = posistion;
+        }
+    }
+    #endregion
+
+    #region Enums
+    public enum CamStates
+    {
+        Behind,
+        FirstPerston,
+        Target,
+        Free
+    }
+    #endregion
+
+    #region Inits
+    //Called even if script component is not enabled
+    //best used for references between scripts and Inits
+    void Awake() {
+        //grabbing the transform from the character.
+        PlayerXform = GameObject.FindWithTag("Player").transform;
+
+        //Init out look direction to correspond where the character is looking at i.e it's forward vector.
+        currentLookDirection = PlayerXform.forward;
+        lookDirection = PlayerXform.forward;
+        
+        //Grabbing the reference to our character controller.
+        referenceToController = GameObject.FindWithTag("Player").GetComponent<AnimationMan>();
+
+        //Setting up our Camera Posistion so we can reference to them later
+        //First Person Camera
+        FirstPersonCameraPosistion = new CameraPosistion();
+        FirstPersonCameraPosistion.Init(
+            "First Person Camera",
+            FirstPersonCameraOffset,
+            new GameObject().transform,
+            PlayerXform);
+
+       //Behind Camera
+       BehindPersonCameraPosistion.Init(
+            "Behind Person Camera",
+            new Vector3(0.0f, CameraUp, -CameraAway),
+            new GameObject().transform,
+            PlayerXform);
+    }
+    
+    //Called if script component is enabled
+    void Start () {
+	    
 	}
-	
-	public CamStates camState = CamStates.Behind;
-	
-	
-	
-	private Vector3 velocityCamSmooth = Vector3.zero;
-	[SerializeField]
-	private float camSmoothDampTime = 0.1f;
-	[SerializeField]
-	private float LookDirDampTime = 0.1f;
-	private Vector3 velocityLookDir = Vector3.zero;
-	
-	
-	// Use this for initialization
-	void Start () {
-		//follow = GameObject.FindWithTag ("CameraFollow").transform;
-		PlayerXform = GameObject.FindWithTag ("Player").transform;
-		lookDir = PlayerXform.forward;
-		curLookDir = PlayerXform.forward;
-		referenceToController = GameObject.FindWithTag ("Player").GetComponent<AnimationMan> ();
+    #endregion
 
-
-
-
-		firstPersonCamPos = new CameraPosistion ();
-		firstPersonCamPos.Init ("First Person Camera",
-		                        new Vector3 (0.0f, 1.6f, 0.2f),
-		                        new GameObject ().transform,
-		                        PlayerXform);
-	}
-	
-	// Update is called once per frame
+    #region Update funtions
+    //every frame (1)
 	void Update () {
+	    //We need to update the players transform so we always have the correct values.
+        PlayerXform = GameObject.FindWithTag("Player").transform;
 
-		Transform test = GameObject.FindWithTag ("Player").transform;
-		PlayerXform = GameObject.FindWithTag ("Player").transform;
+        //TODO : add more controller input grabs
+        //We need to grab the controller input values
+        rightX = Input.GetAxis ("RightStickHorizontal");
+        rightY = Input.GetAxis ("RightStickVertical");
+        leftX  = Input.GetAxis ("Horizontal");
+        leftY  = Input.GetAxis ("Vertical");
 
-		//if (firstPersonCamPos == null)
-			//Debug.Log ("error");
+        //check for inputs so the camera does not auto move if we've not used the right stick
+        //TODO Needs to check for all inputs!
+        if  (Mathf.Abs(referenceToController._length) >= 0.1 && Mathf.Abs(rightX) == 0.0 && Mathf.Abs(rightY) == 0.0){
+            deltaLastInput += Time.deltaTime;
+        }
+        else
+            deltaLastInput = 0;
 
-		//Debug.Log (rightStickVertical);	
+        if (deltaLastInput >= moveBehind)
+            startMoving = true;
+        else
+            startMoving = false;
 	}
 
-	
-	void LateUpdate() {
-				Vector3 characterOffset = follow.position + offset;
-				Vector3 lookAt = characterOffset;
-		
-		
-				float rightX = Input.GetAxis ("RightStickHorizontal");
-				float rightY = Input.GetAxis ("RightStickVertical");
-				float leftX = Input.GetAxis ("Horizontal");
-				float leftY = Input.GetAxis ("Vertical");
-				//Debug.Log (Input.GetButton("enterFPV"));
-				//Debug.Log ("X: " + rightX);
-				//Debug.Log ("Y: " + rightY);
-				if (Input.GetAxis ("Target") > 0.01f) {
-						camState = CamStates.Target;		
-				} else {
-						//First person camstate
-						if (Input.GetButton ("enterFPV") && camState != CamStates.FirstPerston && camState != CamStates.Free && !referenceToController.IsInLocomotion ()) {
-								xAxisRot = 0;
-								lookWeight = 0f;
-								camState = CamStates.FirstPerston;
-						}
-						if ((camState == CamStates.FirstPerston && Input.GetButton ("ExitFPV")) ||
-								(camState == CamStates.Target && (Input.GetAxis ("Target") <= TARGETING_THRESHOLD))) {
-								camState = CamStates.Behind;
-								rightX = 0;
-						}
-				}
-		
-				//referenceToController.Animator.SetLookAtWeight (lookWeight);
-		
-				//set camstate
-				switch (camState) {
-				case CamStates.Behind:
-						resetCamera ();
-              
+    //after Update every frame (2)
+    void LateUpdate() {
+		testing ();
+        //Here we check what camera  state we are actually in.
+        switch (camState) {
+            //If we are in the default camera state
+            case CamStates.Behind:
 
-			//only update if we moved the camers
-			//if(referenceToController.Speed > referenceToController.LocomotionThreshold && referenceToController.IsInLocomotion()) {
-			//calculate where we want to look based on the posistion on the controll stick. if stick value is negative we want to look left/down otherwise right/up.
-						lookDir = Vector3.Lerp (PlayerXform.right * (leftX < 0 ? -1.0f : 1.0f), PlayerXform.forward * (leftY < 0 ? -1.0f : 1.0f), Mathf.Abs (Vector3.Dot (this.transform.forward, PlayerXform.forward)));
-			
-			//direction vector from camers to player
-						curLookDir = Vector3.Normalize (characterOffset - this.transform.position);
-			//kill y sicne we are not intrested in y.
-						curLookDir.y = 0;
-			
-			//smoothing it out
-						curLookDir = Vector3.SmoothDamp (curLookDir, lookDir, ref velocityLookDir, LookDirDampTime);
-			//}
+                //adding rotation
+                if(Mathf.Abs(rightX) > deadZoneX)
+                    currentLookDirection = Vector3.RotateTowards(currentLookDirection, this.transform.right, rightX * Time.deltaTime * RotationSpeedX, 0.0f);
 
+                
+                
+                //angle between current posistion and look at.
+                float angle = Vector3.Angle(
+                    Vector3.Normalize(
+                    LookAt.position - this.transform.position),
+                    Vector3.Normalize(
+                        new Vector3(LookAt.position.x - this.transform.position.x, LookAt.position.y, LookAt.position.z - this.transform.position.z)));
+               
+            //we need to clamp this value so we don't go over the character.
+               if (Mathf.Abs(rightY) >= deadZoneY){
+                    rotationAmountY += Mathf.Rad2Deg * rightY * Time.deltaTime * RotationSpeedY;
+                    if (rotationAmountY < cameraClampingY.x){
+                        rotationAmountY = cameraClampingY.x;
+                    }else if (rotationAmountY > cameraClampingY.y) {
+                        rotationAmountY = cameraClampingY.y;
+                    }
 
-						targetPosistion = characterOffset + PlayerXform.up * distanceUp - Vector3.Normalize (curLookDir) * distanceAway;
-						break;
-				case CamStates.Target:
-			//restting lookdir to players forward vector
-						curLookDir = PlayerXform.forward;
-						lookDir = PlayerXform.forward;
-			
-						targetPosistion = characterOffset + follow.up * distanceUp - follow.forward * distanceAway;
-			
-			
-						break;
-				case CamStates.FirstPerston:
-			//Debug.Log("In person");
-			//calc rotation on head
-						xAxisRot += (leftY * 0.5f * firstPersonLookSpeed);
-						xAxisRot = Mathf.Clamp (xAxisRot, firstPersonXAxisClamp.x, firstPersonXAxisClamp.y);
-						firstPersonCamPos.XForm.localRotation = Quaternion.Euler (xAxisRot, 0, 0);
-			
-			//impose that rotation to the camera
-						Quaternion rotationShift = Quaternion.FromToRotation (this.transform.forward, firstPersonCamPos.XForm.forward);
-						this.transform.rotation = rotationShift * this.transform.rotation;
-			
-			//rotate head up and down
-						referenceToController.Animator.SetLookAtPosition (firstPersonCamPos.XForm.position + firstPersonCamPos.XForm.forward);
-						lookWeight = Mathf.Lerp (lookWeight, 1.0f, Time.deltaTime * firstPersonLookSpeed);
-			
-			//rotate head l and r
-						Vector3 rotationAmount = Vector3.Lerp (Vector3.zero, new Vector3 (0f, fpsRotationDegreePerSecond * (leftX < 0f ? -1f : 1f), 0f), Mathf.Abs (leftX));
-						Quaternion deltaRotation = Quaternion.Euler (rotationAmount * Time.deltaTime);
-						referenceToController.transform.rotation = (referenceToController.transform.rotation * deltaRotation);
-			
-			//set t
-						targetPosistion = firstPersonCamPos.XForm.position;
-			
-			//chose look at target based on distance.
-						lookAt = (Vector3.Lerp (this.transform.position + this.transform.forward, lookAt, Vector3.Distance (this.transform.position, firstPersonCamPos.XForm.position)));
-						break;
-				}
+               if (rotationAmountY > cameraClampingY.x && rotationAmountY < cameraClampingY.y) 
+                    currentLookDirection = Vector3.RotateTowards(currentLookDirection, this.transform.up, rightY * Time.deltaTime * RotationSpeedY, 0.0f);
+               }
+                
+                targetPosistion =
+                    //moving target pos up according to CameraUp variable 
+                    (LookAt.position + (Vector3.Normalize(PlayerXform.up) * CameraUp)) -
+                    //move the target a bit back according to the CameraAway variable
+                    (Vector3.Normalize(currentLookDirection) * CameraAway);                
 
-		CompenstaForWalls (characterOffset, ref targetPosistion);
-		smoothPosistion (this.transform.position, targetPosistion);
+                //Debug.Log("RightX: " + rightX + " " + "RightY: " + rightY + " " + "Distance: " + Vector3.Distance(this.transform.position, LookAt.position));
+                break;
+        }
 
+        if (startMoving) { 
+            targetPosistion = LookAt.position + Vector3.Normalize(PlayerXform.up) * CameraUp -
+               PlayerXform.forward * CameraAway;
+            currentLookDirection = PlayerXform.forward;
+            }
+		CompenstaForWalls(LookAt.position, ref targetPosistion);
+        smoothPosistion(this.transform.position, targetPosistion);
+        //this.transform.position = targetPosistion;
+        transform.LookAt(LookAt);
 
-		//Quaternion rotation = Quaternion.LookRotation(lookAt - this.transform.position);
-		//this.transform.rotation = Quaternion.Slerp (this.transform.rotation, rotation, Vector3.Distance (this.transform.position, firstPersonCamPos.XForm.position) );
+    }
+    //physics updates (3) does not happen every frame
+    void FixedUpdate() {
 
-		//transform.LookAt (lookAt);
+    }
+    #endregion
 
-		//if (deltaLookAt > 0.001f) {
-		//				deltaLookAt = 0;
-						transform.LookAt (Vector3.Lerp (this.transform.position, lookAt, Time.deltaTime * 5.0f));
-		//		} else
-		//				deltaLookAt += Time.deltaTime;
-
-			//this.transform.RotateAround(follow.transform.position, Vector3.up, rightX * 100 * Time.deltaTime);
-
-				//if (deltaLookAt > 0.5) {
-				//	deltaLookAt = 0;
-				//	transform.LookAt (lookAt);
-				//} else 
-				//	deltaLookAt += Time.deltaTime;
-}
-	
-	private void smoothPosistion(Vector3 fromPos,Vector3 toPos) {
-        float rightX = Input.GetAxis("RightStickHorizontal");
-        float rightY = Input.GetAxis("RightStickVertical");
-        float leftX = Input.GetAxis("Horizontal");
-        float leftY = Input.GetAxis("Vertical");
-		if(camState == CamStates.Behind)
-        	toPos.y += (rightY * RightStickRotationSpeed * Time.deltaTime);
-
-        Transform test = this.transform;
-
-		if(camState == CamStates.Behind)
-        	test.RotateAround(follow.transform.position, Vector3.up, rightX * RightStickRotationSpeed * Time.deltaTime);
-
-		if(rightX >= 0.1 && leftX >= 0.1 && camState == CamStates.Behind || rightX >= 0.1 && leftX == 0 && camState == CamStates.Behind)
-            fromPos = Vector3.MoveTowards(fromPos, test.position, 0.1f);
-		else if (rightX <= -0.1 && leftX <= -0.1 && camState == CamStates.Behind|| rightX <= 0.1 && leftX == 0 && camState == CamStates.Behind)
-            fromPos = Vector3.MoveTowards(fromPos, test.position, 0.1f);
-
-        this.transform.position = Vector3.SmoothDamp (fromPos, toPos, ref velocityCamSmooth, camSmoothDampTime);
-        //this.transform.position = new Vector3(this.transform.position.x ,this.transform.position.y,this.transform.position.z);
-	}
-	
-	private void CompenstaForWalls(Vector3 fromObject,ref Vector3 toTarget) {
-		RaycastHit wallHit = new RaycastHit ();
-		if (Physics.Linecast (fromObject, toTarget, out wallHit)) {
-			toTarget = new Vector3(wallHit.point.x,toTarget.y,wallHit.point.z);
+    #region Private functions
+    private void smoothPosistion(Vector3 fromPos, Vector3 toPos) {
+        if (startMoving) {
+			Debug.Log(Vector3.Magnitude(toPos - fromPos));
+			if(Vector3.Magnitude(toPos - fromPos) < autoSmoothDeltaMagnitude ) {
+				startMoving = false;
+				deltaLastInput = 0;
+			}else {
+				this.transform.position = Vector3.SmoothDamp (fromPos, toPos, ref velocityCamSmooth, autoMoveSmooth);			
+			}
+		} else {
+			this.transform.position = Vector3.SmoothDamp (fromPos, toPos, ref velocityCamSmooth, camSmoothDampTime);
 		}
+    }
+
+    private void CompenstaForWalls(Vector3 fromObject, ref Vector3 toTarget) {
+        RaycastHit wallHit = new RaycastHit();
+        if (Physics.Linecast(fromObject, toTarget, out wallHit)) {
+			Debug.DrawLine(new Vector3(wallHit.point.x, toTarget.y, wallHit.point.z),LookAt.position);
+            toTarget = new Vector3(wallHit.point.x, toTarget.y, wallHit.point.z);
+        }
+    }
+
+	private void testing() {
+		Vector3 p1 = Camera.main.ScreenToWorldPoint (new Vector3(0.5f,0.0f,0.0f));
+
+		Debug.DrawRay (p1, Camera.main.transform.forward,Color.green);
 	}
-	private void resetCamera() {
-		lookWeight = Mathf.Lerp(lookWeight,0.0f,Time.deltaTime * firstPersonLookSpeed);
-		transform.localRotation = Quaternion.Lerp (transform.localRotation, Quaternion.identity, Time.deltaTime);
-	}
+    #endregion
+
+    #region Public functions
+    #endregion
 }
