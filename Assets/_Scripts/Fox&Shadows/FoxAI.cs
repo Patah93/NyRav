@@ -12,6 +12,8 @@ public class FoxAI : MonoBehaviour {
 
 	bool _pathSafe;
 
+	public float CHECK_LIGHT_INTERVAL = 0.5f;
+
 	// Use this for initialization
 	void Start () {
 
@@ -31,7 +33,7 @@ public class FoxAI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		/* TODO Lägga i LateUpdate() ? int döda räv under checken... */
 		if (_targetNode != null) {
 			if (reachedTarget()) {
 				transform.position = _targetNode.transform.position;
@@ -71,15 +73,23 @@ public class FoxAI : MonoBehaviour {
 
 	void checkPathForShadows(){
 		Vector3 originalPos = transform.position;
+		Vector3 lastCheckPos = transform.position - new Vector3(100, 100,100);
+
+		int count = 0;
 		while(!reachedTarget()){
 			transform.position += (_targetNode.transform.position - transform.position).normalized * 10 * Time.deltaTime;
-			if(_shadowDetect.isObjectInLight()){
-				_pathSafe = false;
-				transform.position = originalPos;
-				return;
+			if((transform.position - lastCheckPos).sqrMagnitude > CHECK_LIGHT_INTERVAL){
+				if(_shadowDetect.isObjectInLight()){
+					_pathSafe = false;
+					transform.position = originalPos;
+					return;
+				}
+				lastCheckPos = transform.position;
+				count++;
 			}
 		}
 		_pathSafe = true;
 		transform.position = originalPos;
+		Debug.Log(count + ": lightchecks!"); 
 	}
 }
