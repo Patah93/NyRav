@@ -49,7 +49,11 @@ public class AnimationMan : MonoBehaviour {
 			joystickConvert ();
 			updateCharacterRotation();
 
-			_length = Mathf.Sqrt(Mathf.Pow (Mathf.Abs(Input.GetAxis("Horizontal")),2) + Mathf.Pow (Mathf.Abs(Input.GetAxis("Vertical")),2));
+			if(Input.GetButtonDown("Fire3"))
+				_animator.SetBool("ThrowMode", !_animator.GetBool("ThrowMode"));
+
+			if(!_animator.GetBool("ThrowMode"))
+				_length = Mathf.Sqrt(Mathf.Pow (Mathf.Abs(Input.GetAxis("Horizontal")),2) + Mathf.Pow (Mathf.Abs(Input.GetAxis("Vertical")),2));
 			
 			if (camera.camState != ThirdPersonCamera.CamStates.FirstPerston) {
 

@@ -108,8 +108,7 @@ public class ShadowDetection : MonoBehaviour {
 
 		_pointsOfInterest[0] = gameObject.transform.TransformPoint(new Vector3(minX, minY, boxColl.center.z - boxColl.size.z/2.0f));
 		_pointsOfInterest[1] = gameObject.transform.TransformPoint(new Vector3(minX, maxY, boxColl.center.z - boxColl.size.z/2.0f));
-		_pointsOfInterest[2] = gameObject.transform.TransformPoint(new Vector3(maxX, minY, boxColl.center.z - boxColl.si
-		                                                                       ze.z/2.0f));
+		_pointsOfInterest[2] = gameObject.transform.TransformPoint(new Vector3(maxX, minY, boxColl.center.z - boxColl.size.z/2.0f));
 		_pointsOfInterest[3] = gameObject.transform.TransformPoint(new Vector3(maxX, maxY, boxColl.center.z - boxColl.size.z/2.0f));
 
 

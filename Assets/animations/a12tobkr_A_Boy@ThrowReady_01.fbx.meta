@@ -262,13 +262,13 @@ ModelImporter:
       lastFrame: 18
       wrapMode: 0
       orientationOffsetY: 0
-      level: 1.20000005
+      level: 1.10000002
       cycleOffset: 0
       loop: 0
       loopTime: 0
       loopBlend: 0
       loopBlendOrientation: 1
-      loopBlendPositionY: 1
+      loopBlendPositionY: 0
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 1
       keepOriginalPositionY: 0
