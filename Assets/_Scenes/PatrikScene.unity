@@ -9315,9 +9315,19 @@ MonoBehaviour:
   firstPersonXAxisClamp: {x: -70, y: 90}
   RightStickRotationSpeed: 100
   controllerRotationSpeed: 20
+  lookDir: {x: 0, y: 0, z: 0}
+  targetPosistion: {x: 0, y: 0, z: 0}
+  curLookDir: {x: 0, y: 0, z: 0}
+  xAxisRot: 0
+  lookWeight: 0
+  PlayerXform: {fileID: 0}
+  deltaLookAt: 0
+  alpha: 1
   camState: 0
+  velocityCamSmooth: {x: 0, y: 0, z: 0}
   camSmoothDampTime: .5
   LookDirDampTime: .5
+  velocityLookDir: {x: 0, y: 0, z: 0}
 --- !u!81 &763470710
 AudioListener:
   m_ObjectHideFlags: 0
@@ -9453,7 +9463,7 @@ Transform:
   m_PrefabInternal: {fileID: 1584902648}
   m_GameObject: {fileID: 764467341}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 36.255497, y: .799046516, z: 14.2945023}
+  m_LocalPosition: {x: 26.1745834, y: 22.1878281, z: -23.913332}
   m_LocalScale: {x: .491907805, y: .491907805, z: .491907805}
   m_Children: []
   m_Father: {fileID: 0}
@@ -16841,6 +16851,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f06845d67705280489f13655be381e39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _length: 0
   _lerpTime: 2.43000007
 --- !u!136 &1310704886
 CapsuleCollider:
@@ -20059,15 +20070,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400000, guid: 038f76691eb57b84c8bf57e2d502a25d, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 36.255497
+      value: 26.1745834
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 038f76691eb57b84c8bf57e2d502a25d, type: 2}
       propertyPath: m_LocalPosition.y
-      value: .799046516
+      value: 22.1878281
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 038f76691eb57b84c8bf57e2d502a25d, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 14.2945023
+      value: -23.913332
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 038f76691eb57b84c8bf57e2d502a25d, type: 2}
       propertyPath: m_LocalRotation.x
@@ -25015,6 +25026,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetNode: {fileID: 582344453}
+  CHECK_LIGHT_INTERVAL: .5
 --- !u!114 &1957372310
 MonoBehaviour:
   m_ObjectHideFlags: 0
