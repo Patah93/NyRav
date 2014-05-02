@@ -50,7 +50,7 @@ public class AnimationMan : MonoBehaviour {
 			joystickConvert ();
 			updateCharacterRotation();
 
-			if(Input.GetButtonDown("Fire3")){
+			if(Input.GetButtonDown("ThrowMode")){
 				_animator.SetBool("ThrowMode", !_animator.GetBool("ThrowMode"));
 				//GetComponent<Throw>().enabled = !GetComponent<Throw>().enabled;
 			}
@@ -95,8 +95,8 @@ public class AnimationMan : MonoBehaviour {
 	}
 
 	private void joystickConvert(){
-
-		_targetRotation = (Input.GetAxis("Vertical") * _cameraRotationForward) + (Input.GetAxis("Horizontal") * _cameraRotationRight);
+		Vector2 right = (_animator.GetBool("ThrowMode")) ? (-Input.GetAxis("Horizontal") * _cameraRotationRight) : (Input.GetAxis("Horizontal") * _cameraRotationRight);
+		_targetRotation = (Input.GetAxis("Vertical") * _cameraRotationForward) + right;
 	}
 
 	private void updateCharacterRotation(){
