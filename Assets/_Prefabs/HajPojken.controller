@@ -197,10 +197,6 @@ Transition:
     m_ConditionEvent: Speed
     m_EventTreshold: .100000001
     m_ExitTime: .802631617
-  - m_ConditionMode: 2
-    m_ConditionEvent: Pushing
-    m_EventTreshold: .100000001
-    m_ExitTime: .802631617
   m_Atomic: 1
   m_Solo: 0
   m_Mute: 0
@@ -327,6 +323,24 @@ Transition:
     m_ConditionEvent: ThrowMode
     m_EventTreshold: 0
     m_ExitTime: .777476311
+  m_Atomic: 1
+  m_Solo: 0
+  m_Mute: 0
+--- !u!1101 &110160517
+Transition:
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_SrcState: {fileID: 110287156}
+  m_DstState: {fileID: 110205401}
+  m_TransitionDuration: .197368398
+  m_TransitionOffset: 0
+  m_Conditions:
+  - m_ConditionMode: 2
+    m_ConditionEvent: Pushing
+    m_EventTreshold: 0
+    m_ExitTime: .802631617
   m_Atomic: 1
   m_Solo: 0
   m_Mute: 0
@@ -744,6 +758,7 @@ StateMachine:
       first: {fileID: 110287156}
       second:
       - {fileID: 110133156}
+      - {fileID: 110160517}
     data:
       first: {fileID: 110225531}
       second:

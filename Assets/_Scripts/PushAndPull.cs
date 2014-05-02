@@ -68,24 +68,26 @@ public class PushAndPull : MonoBehaviour {
 				_collidedf = true;
 			}
 			else if(_obj.rigidbody.SweepTest(_direction, out _derp, 0.1f)){
-				Debug.Log("I collided backwards");
-				if(!_collidedb){
-					if(_speed < 0){
-						_blockedBackwards = true;
-						_speed = 0;
-					}
-				}
-				else if(_collidedb){
-					//if(_blockedBackwards){
-						if(_speed<0){
+				if(!_derp.collider.CompareTag("Player")){
+					Debug.Log("I collided backwards");
+					if(!_collidedb){
+						if(_speed < 0){
+							_blockedBackwards = true;
 							_speed = 0;
 						}
-						//else if(_speed>0){
-						//	_blockedBackwards = false;
+					}
+					else if(_collidedb){
+						//if(_blockedBackwards){
+							if(_speed<0){
+								_speed = 0;
+							}
+							//else if(_speed>0){
+							//	_blockedBackwards = false;
+							//}
 						//}
-					//}
+					}
+					_collidedb = true;
 				}
-				_collidedb = true;
 			}
 			else{
 				Debug.Log ("I didn't collide at all");
@@ -113,14 +115,16 @@ public class PushAndPull : MonoBehaviour {
 			_position = transform.position;
 
 			if(!_obj.rigidbody.SweepTest(Vector3.down,out _derp,0.55f)){
-				_boystate.ActivateWalk();		
+				_boystate.ActivateWalk();
+				_obj.rigidbody.constraints = ~RigidbodyConstraints.FreezePositionY;
 				Debug.Log ("collided");
 			}
 
 			_obj.rigidbody.MovePosition(new Vector3(transform.position.x,_objposy,transform.position.z) + _distance*_direction*-1);
 
 			if(!_charContr.isGrounded){
-				_boystate.ActivateWalk();
+				Debug.Log("Hej jag svävar");
+				//_boystate.ActivateWalk();
 			}
 		}
 	}
@@ -130,6 +134,7 @@ public class PushAndPull : MonoBehaviour {
 			_obj = _object;
 			_objpos = _obj.position;
 			_objposy = _obj.position.y;
+			//Physics.IgnoreCollision(transform.collider,_obj.collider,true);
 
 			Vector3 temp = direction*-1;
 			float angle = Vector3.Angle(temp, transform.forward);
@@ -152,17 +157,18 @@ public class PushAndPull : MonoBehaviour {
 				_blockedForward = false;
 				_blockedBackwards = false;
 			}
+		//	_ani.SetBool("Pushing",true);
 			transform.position = new Vector3(temppos.x,transform.position.y,temppos.z) + _distance*_direction;
-			_ani.SetBool("Pushing",true);
+
 			_position = transform.position;
 		}
 		else{
-			_ani.SetBool("Pushing",false);
+		//	_ani.SetBool("Pushing",false);
 			_ani.SetFloat("Speed",0);
 			//_obj.rigidbody.constraints = RigidbodyConstraints.FreezeAll;
 			_collidedf = false;
 			_collidedb = false;
-
+			//Physics.IgnoreCollision(transform.collider,_obj.collider,false);
 		}
 		_pushing = isActivated;
 	}

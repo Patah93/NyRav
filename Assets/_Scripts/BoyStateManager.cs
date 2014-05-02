@@ -15,10 +15,12 @@ public class BoyStateManager : MonoBehaviour {
 	JumpingMan _jump;
 	bool _drawInteract = false;
 	string _text = "Press E to push";
+	Animator _ani;
 
 	// Use this for initialization
 	void Start () {
-	
+
+		_ani = gameObject.GetComponent<Animator> ();
 		_push = gameObject.GetComponent<PushAndPull>();
 		_walk = gameObject.GetComponent<AnimationMan>();
 		_jump = gameObject.GetComponent<JumpingMan> ();
@@ -42,6 +44,8 @@ public class BoyStateManager : MonoBehaviour {
 					//print ("YOU CAN INTERRACT WITH THIS");
 					_drawInteract = true;
 					if(Input.GetButtonDown("Interact")){		//INTERACT-KNAPPEN HÄR
+						Physics.IgnoreCollision(transform.collider,_rayHit.collider,true);
+						_ani.SetBool("Pushing",true);
 						_push.enabled = true;
 						_push.Activate(true, _rayHit.collider.transform,_rayHit.normal);
 						_walk.Activate(false);
@@ -60,12 +64,14 @@ public class BoyStateManager : MonoBehaviour {
 
 		else if(_push.getActivate()){
 			if(Input.GetButtonDown("Interact")){		//TILLFÄLLIG KNAPP, SKA ÄNDRAS SEN
+				_ani.SetBool("Pushing",false);
 				_push.Activate(false, null,Vector3.zero);
 				_walk.enabled = true;
 				_walk.Activate(true);
 				print ("YOU ARE IN WALK MODE! :D");
 				_jump.disableJump(false);
 				transform.collider.enabled = true;
+				Physics.IgnoreCollision(transform.collider,_rayHit.collider,false);
 			}
 		}
 	}
@@ -78,6 +84,7 @@ public class BoyStateManager : MonoBehaviour {
 	}
 
 	public void ActivateWalk(){
+		_ani.SetBool ("Pushing", false);
 		_push.Activate(false, null,Vector3.zero);
 		_push.enabled = false;
 		_walk.enabled = true;
@@ -85,5 +92,6 @@ public class BoyStateManager : MonoBehaviour {
 		//print ("YOU ARE IN WALK MODE! :D");
 		_jump.disableJump(false);
 		transform.collider.enabled = true;
+		Physics.IgnoreCollision(transform.collider,_rayHit.collider,false);
 	}
 }
