@@ -9619,7 +9619,7 @@ Transform:
   m_PrefabInternal: {fileID: 1006969333}
   m_GameObject: {fileID: 712964049}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.1763058, y: 11.5332136, z: 11.2984505}
+  m_LocalPosition: {x: -11.1763058, y: 7.57102108, z: 11.2984505}
   m_LocalScale: {x: 2.39274836, y: 2.63601065, z: 2.46825171}
   m_Children: []
   m_Father: {fileID: 0}
@@ -9635,6 +9635,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playername: HajPojken
+  _lastPos: {x: 0, y: 0, z: 0}
 --- !u!1 &715435065
 GameObject:
   m_ObjectHideFlags: 0
@@ -10233,16 +10234,16 @@ MonoBehaviour:
   LookAt: {fileID: 393788418}
   CameraUp: 1
   CameraAway: 3
-  CameraSmoothing: 1
-  LookDirDampTime: .300000012
-  camSmoothDampTime: .300000012
+  CameraSmoothing: 1.25999999
+  LookDirDampTime: 1.09000003
+  camSmoothDampTime: .5
   deadZoneX: .300000012
   deadZoneY: .300000012
-  RotationSpeedX: 5
+  RotationSpeedX: 3
   RotationSpeedY: 2
   cameraClampingY: {x: -40, y: 20}
   camState: 0
-  moveBehind: 2
+  moveBehind: .100000001
   autoMoveSmooth: .300000012
   autoSmoothDeltaMagnitude: 2.5
 --- !u!81 &763470710
@@ -13666,7 +13667,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 86a508ec722dc924ca82b5415ff57f93, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 11.5332136
+      value: 7.57102108
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 86a508ec722dc924ca82b5415ff57f93, type: 2}
       propertyPath: m_LocalPosition.z
@@ -20949,6 +20950,10 @@ Prefab:
       propertyPath: m_Name
       value: HajPojken
       objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: 4910035722803d84fa41415b347c15e4, type: 2}
+      propertyPath: m_AnimatePhysics
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4910035722803d84fa41415b347c15e4, type: 2}
   m_RootGameObject: {fileID: 1744776513}
@@ -23266,6 +23271,56 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1687389443}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1687891337
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1687891339}
+  - 212: {fileID: 1687891338}
+  m_Layer: 0
+  m_Name: 
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &1687891338
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1687891337}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortingLayerID: 0
+  m_Sprite: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+--- !u!4 &1687891339
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1687891337}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 9.84134293, y: 11.7725344, z: -5.17371416}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
 --- !u!1 &1690999795
 GameObject:
   m_ObjectHideFlags: 0
@@ -23983,6 +24038,7 @@ MonoBehaviour:
   throwObj: {fileID: 5400000, guid: c9e0d601c036ae848878965bed03581d, type: 2}
   offSet: {x: 0, y: 0, z: 0}
   maxForce: 100
+  throwOffset: 1
   arcLine: {fileID: 1744776515}
 --- !u!114 &1744776517
 MonoBehaviour:
@@ -24079,7 +24135,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 16ff15f88030c6d4db2438119f118611, type: 2}
   m_CullingMode: 1
   m_ApplyRootMotion: 1
-  m_AnimatePhysics: 0
+  m_AnimatePhysics: 1
   m_HasTransformHierarchy: 1
 --- !u!1 &1746046369
 GameObject:
