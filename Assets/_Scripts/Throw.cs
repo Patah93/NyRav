@@ -17,6 +17,8 @@ public class Throw : MonoBehaviour {
 
 	public float maxForce = 100.0f;
 
+	public Vector3 higestPosit;
+
 	private bool throwing = false;
 	private float throwClock;
 
@@ -60,7 +62,7 @@ public class Throw : MonoBehaviour {
 		force = ((PlayerXForm.forward + PlayerXForm.up) * 5);
 		force = force + ((PlayerXForm.forward + PlayerXForm.up) * forceStick);
 		//if (camera.camState == ThirdPersonCamera.CamStates.FirstPerston) {
-		if(_anim.GetBool("ThrowMode")){
+		if(_anim.GetBool("ThrowMode") || _anim.GetBool("Throw")){
 			//if (Input.GetKeyDown (KeyCode.H))
 			UpdatePredictionLine ();
 			if (Input.GetButtonDown("Fire1") && !throwing && _anim.GetCurrentAnimatorStateInfo(0).IsName("Throw Idle")){
