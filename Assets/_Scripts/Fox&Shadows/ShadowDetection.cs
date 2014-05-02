@@ -285,6 +285,13 @@ public class ShadowDetection : MonoBehaviour {
 				_numberLightedVertices++;
 			}
 
+			/* SpotLights */
+			else if(isPointInSpotLight(/*getLamps()*/ spotLights, _pointsOfInterest[i], ref shadowCasters)){
+				//return true;
+				return_value = true;
+				_numberLightedVertices++;
+			}
+
 			/* Lampor */
 			else if(isPointInLampLight(/*getLamps()*/ lamps, _pointsOfInterest[i], ref shadowCasters)){
 				//return true;
@@ -292,12 +299,6 @@ public class ShadowDetection : MonoBehaviour {
 				_numberLightedVertices++;
 			}
 
-			/* SpotLights */
-			else if(isPointInSpotLight(/*getLamps()*/ spotLights, _pointsOfInterest[i], ref shadowCasters)){
-				//return true;
-				return_value = true;
-				_numberLightedVertices++;
-			}
 		}
 
 		//return false;
