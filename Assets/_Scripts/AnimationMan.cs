@@ -21,8 +21,9 @@ public class AnimationMan : MonoBehaviour {
 
 	//Animation hashes
 	int m_LocomotionId = 0;
-
-	public float _lerpTime = 5f;
+	
+	public float _lerpTime = 5.0f;
+	public float _lerpThrowTime = 0.25f;
 
 
 	// Use this for initialization
@@ -49,29 +50,29 @@ public class AnimationMan : MonoBehaviour {
 			joystickConvert ();
 			updateCharacterRotation();
 
-			if(Input.GetButtonDown("Fire3"))
+			if(Input.GetButtonDown("Fire3")){
 				_animator.SetBool("ThrowMode", !_animator.GetBool("ThrowMode"));
-
-			if(!_animator.GetBool("ThrowMode"))
-				_length = Mathf.Sqrt(Mathf.Pow (Mathf.Abs(Input.GetAxis("Horizontal")),2) + Mathf.Pow (Mathf.Abs(Input.GetAxis("Vertical")),2));
-			
-			if (camera.camState != ThirdPersonCamera.CamStates.FirstPerston) {
-
-				if(Mathf.Abs(Input.GetAxis("Horizontal")) > 0 || Mathf.Abs(Input.GetAxis("Vertical")) > 0 && !_animator.GetBool("ThrowMode")){
-
-					_angle = Vector2.Angle (_cameraRotationForward, _targetRotation) * Mathf.Sign(Input.GetAxis ("Horizontal"));
-
-					Quaternion targetRotation = Quaternion.Slerp (transform.rotation, Camera.main.transform.rotation * Quaternion.Euler(0, _angle, 0), Time.deltaTime * _lerpTime);
-					transform.rotation = new Quaternion(transform.rotation.x, targetRotation.y, transform.rotation.z, targetRotation.w);
-
-				}
-				else
-				{
-					_length = Mathf.Lerp(_length, 0, _lerpTime);
-				}
-
-				_animator.SetFloat("Speed", _length);
+				GetComponent<Throw>().enabled = !GetComponent<Throw>().enabled;
 			}
+				
+			
+			if (leftStickMoved()){
+				if(!_animator.GetBool("ThrowMode")){
+					_length = Mathf.Sqrt(Mathf.Pow (Mathf.Abs(Input.GetAxis("Horizontal")),2) + Mathf.Pow (Mathf.Abs(Input.GetAxis("Vertical")),2));
+				}
+				_angle = Vector2.Angle (_cameraRotationForward, _targetRotation) * Mathf.Sign(Input.GetAxis ("Horizontal"));
+
+				Quaternion targetRotation = Quaternion.Slerp (transform.rotation, Camera.main.transform.rotation * Quaternion.Euler(0, _angle, 0), Time.deltaTime * getLerpSpeed());
+				transform.rotation = new Quaternion(transform.rotation.x, targetRotation.y, transform.rotation.z, targetRotation.w);
+
+			}
+			else
+			{
+				_length = Mathf.Lerp(_length, 0, _lerpTime);
+			}
+
+			
+			_animator.SetFloat("Speed", _length);
 		}
 
 		//if (Input.GetButtonDown ("Jump") && !_jump && !_animator.GetBool("Jump")){
@@ -102,7 +103,16 @@ public class AnimationMan : MonoBehaviour {
 		_characterRotation = new Vector2(transform.forward.x, transform.forward.z);
 	}
 
-	private void jumpUpdate(){
+	private bool leftStickMoved(){
+		return Mathf.Abs (Input.GetAxis ("Horizontal")) > 0 || Mathf.Abs (Input.GetAxis ("Vertical")) > 0;
+	}
+
+	private float getLerpSpeed(){
+
+		if (_animator.GetBool ("ThrowMode"))
+						return _lerpThrowTime;
+				else
+						return _lerpTime;
 
 	}
 
