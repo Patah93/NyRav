@@ -52,7 +52,7 @@ public class AnimationMan : MonoBehaviour {
 
 			if(Input.GetButtonDown("Fire3")){
 				_animator.SetBool("ThrowMode", !_animator.GetBool("ThrowMode"));
-				GetComponent<Throw>().enabled = !GetComponent<Throw>().enabled;
+				//GetComponent<Throw>().enabled = !GetComponent<Throw>().enabled;
 			}
 				
 			
