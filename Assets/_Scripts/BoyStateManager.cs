@@ -16,6 +16,8 @@ public class BoyStateManager : MonoBehaviour {
 	bool _drawInteract = false;
 	string _text = "Press E to push";
 	Animator _ani;
+	bool _leavePush = false;
+	bool _enterPush = false;
 
 	// Use this for initialization
 	void Start () {
@@ -71,8 +73,13 @@ public class BoyStateManager : MonoBehaviour {
 				print ("YOU ARE IN WALK MODE! :D");
 				_jump.disableJump(false);
 				transform.collider.enabled = true;
-				Physics.IgnoreCollision(transform.collider,_rayHit.collider,false);
+				_leavePush = true;
 			}
+		}
+
+		if(_ani.GetCurrentAnimatorStateInfo(0).IsName("Idle") && _leavePush){
+			Physics.IgnoreCollision(transform.collider,_rayHit.collider,false);
+			_leavePush = false;
 		}
 	}
 
@@ -93,5 +100,7 @@ public class BoyStateManager : MonoBehaviour {
 		_jump.disableJump(false);
 		transform.collider.enabled = true;
 		Physics.IgnoreCollision(transform.collider,_rayHit.collider,false);
+		_leavePush = true;
+		//Physics.IgnoreCollision(transform.collider,_rayHit.collider,false);
 	}
 }

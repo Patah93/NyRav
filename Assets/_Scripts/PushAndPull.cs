@@ -39,7 +39,7 @@ public class PushAndPull : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate () {
+	void Update () {
 		if(_pushing){
 			if(Input.GetAxis("Vertical") > _deadZone || Input.GetAxis("Vertical") < -_deadZone){
 				_speed = Mathf.Sign(Input.GetAxis("Vertical")); 
