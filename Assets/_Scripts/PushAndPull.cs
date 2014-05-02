@@ -18,6 +18,7 @@ public class PushAndPull : MonoBehaviour {
 	float _speed;
 	Animator _ani;
 	BoyStateManager _boystate; 
+	CharacterController _charContr;
 	bool _blockedBackwards = false;
 	bool _blockedForward = false;
 	float _distance;
@@ -25,12 +26,16 @@ public class PushAndPull : MonoBehaviour {
 	RaycastHit _derp;
 	bool _collidedf = false;
 	bool _collidedb = false;
+	bool sideZ;
+
+	bool _test = false;
 
 	//Vector3 _herpaderp;
 	
 	void Start () {
 		_ani = GetComponent<Animator>();
 		_boystate = GetComponent<BoyStateManager>();
+		_charContr = GetComponent<CharacterController> ();
 	}
 	
 	// Update is called once per frame
@@ -43,6 +48,7 @@ public class PushAndPull : MonoBehaviour {
 				_speed = 0;
 			}
 			if(_obj.rigidbody.SweepTest(-_direction, out _derp, 0.1f)){
+				Debug.Log ("I collided forward");
 				if(!_collidedf){
 					if(_speed > 0){
 						_blockedForward = true;
@@ -50,38 +56,39 @@ public class PushAndPull : MonoBehaviour {
 					}
 				}
 				else if(_collidedf){
-					if(_blockedForward){
+					//if(_blockedForward){
 						if(_speed>0){
 							_speed = 0;
 						}
-						else if(_speed<0){
-							_blockedForward = false;
-						}
-					}
+						//else if(_speed<0){
+							//_blockedForward = false;
+						//}
+					//}
 				}
 				_collidedf = true;
 			}
 			else if(_obj.rigidbody.SweepTest(_direction, out _derp, 0.1f)){
+				Debug.Log("I collided backwards");
 				if(!_collidedb){
 					if(_speed < 0){
 						_blockedBackwards = true;
 						_speed = 0;
-						_collidedb = true;
 					}
 				}
 				else if(_collidedb){
-					if(_blockedBackwards){
+					//if(_blockedBackwards){
 						if(_speed<0){
 							_speed = 0;
 						}
-						else if(_speed>0){
-							_blockedBackwards = false;
-						}
-					}
+						//else if(_speed>0){
+						//	_blockedBackwards = false;
+						//}
+					//}
 				}
 				_collidedb = true;
 			}
 			else{
+				Debug.Log ("I didn't collide at all");
 				_collidedf = false;
 				_collidedb = false;
 			}
@@ -94,10 +101,27 @@ public class PushAndPull : MonoBehaviour {
 			if(_speed == 0){
 				transform.position = _position;
 			}
-			transform.position = new Vector3(_position.x,transform.position.y,transform.position.z);
+
+			if(sideZ){ 
+				transform.position = new Vector3(_position.x,transform.position.y,transform.position.z);
+			}
+			else if(!sideZ){
+				transform.position = new Vector3(transform.position.x,transform.position.y,_position.z);
+			}
 			transform.forward = -_direction;
-			_obj.rigidbody.MovePosition(new Vector3(transform.position.x,_objposy,transform.position.z) + _distance*_direction*-1);
+			_obj.rigidbody.MovePosition(new Vector3(transform.position.x,_objposy + 0.5f,transform.position.z) + _distance*_direction*-1);
 			_position = transform.position;
+
+			if(!_obj.rigidbody.SweepTest(Vector3.down,out _derp,0.55f)){
+				_boystate.ActivateWalk();		
+				Debug.Log ("collided");
+			}
+
+			_obj.rigidbody.MovePosition(new Vector3(transform.position.x,_objposy,transform.position.z) + _distance*_direction*-1);
+
+			if(!_charContr.isGrounded){
+				_boystate.ActivateWalk();
+			}
 		}
 	}
 
@@ -114,9 +138,11 @@ public class PushAndPull : MonoBehaviour {
 			float _objside;
 			if(Mathf.Abs(_objdir.x) > Mathf.Abs(_objdir.z)){
 				_objside = (_obj.collider as BoxCollider).size.x;
+				sideZ = false;
 			}
 			else{
 				_objside = (_obj.collider as BoxCollider).size.z;
+				sideZ = true;
 			}
 			Vector3 temppos = _obj.position;
 			_distance = ((_objside/2) + _offset);
@@ -133,7 +159,9 @@ public class PushAndPull : MonoBehaviour {
 		else{
 			_ani.SetBool("Pushing",false);
 			_ani.SetFloat("Speed",0);
-			_obj.rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+			//_obj.rigidbody.constraints = RigidbodyConstraints.FreezeAll;
+			_collidedf = false;
+			_collidedb = false;
 
 		}
 		_pushing = isActivated;
