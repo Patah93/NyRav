@@ -11,11 +11,16 @@ public class Throw : MonoBehaviour {
 	//reference to the camera so we can get camState!
 	private ThirdPersonCamera camera;
 
+	private Animator _anim;
 	Vector3 force;
 	float forceStick = 0;
 
 	public float maxForce = 100.0f;
 
+	private bool throwing = false;
+	private float throwClock;
+
+	public float throwOffset = 0.6f;
 	public LineRenderer arcLine;
 	//player transform
 	private Transform PlayerXForm;
@@ -33,6 +38,8 @@ public class Throw : MonoBehaviour {
 
 		if (arcLine == null)
 						Debug.Log ("arcLine");
+
+		_anim = GameObject.FindWithTag ("Player").GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
@@ -52,13 +59,22 @@ public class Throw : MonoBehaviour {
 
 		force = ((PlayerXForm.forward + PlayerXForm.up) * 5);
 		force = force + ((PlayerXForm.forward + PlayerXForm.up) * forceStick);
-		if (camera.camState == ThirdPersonCamera.CamStates.FirstPerston) {
-						//if (Input.GetKeyDown (KeyCode.H))
-						UpdatePredictionLine ();
-						if (Input.GetButtonDown("Fire1"))
-								ThrowObject ();
-				} else
-						arcLine.SetVertexCount (0);
+		//if (camera.camState == ThirdPersonCamera.CamStates.FirstPerston) {
+		if(_anim.GetBool("ThrowMode")){
+			//if (Input.GetKeyDown (KeyCode.H))
+			UpdatePredictionLine ();
+			if (Input.GetButtonDown("Fire1") && !throwing && _anim.GetCurrentAnimatorStateInfo(0).IsName("Throw Idle")){
+				throwing = true;
+				throwClock = Time.time + throwOffset;
+				_anim.SetBool("Throw", true);
+			}
+			if(Time.time > throwClock && throwing){
+				ThrowObject ();
+				throwing = false;
+				_anim.SetBool("Throw", false);
+			}
+		} else
+			arcLine.SetVertexCount (0);
 
 	}
 

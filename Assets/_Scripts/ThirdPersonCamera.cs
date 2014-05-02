@@ -268,7 +268,7 @@ public class ThirdPersonCamera : MonoBehaviour {
     #region Private functions
     private void smoothPosistion(Vector3 fromPos, Vector3 toPos) {
         if (startMoving) {
-			Debug.Log(Vector3.Magnitude(toPos - fromPos));
+			//Debug.Log(Vector3.Magnitude(toPos - fromPos));
 			if(Vector3.Magnitude(toPos - fromPos) < autoSmoothDeltaMagnitude ) {
 				startMoving = false;
 				deltaLastInput = 0;

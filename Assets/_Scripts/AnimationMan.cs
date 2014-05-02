@@ -57,7 +57,7 @@ public class AnimationMan : MonoBehaviour {
 			
 			if (camera.camState != ThirdPersonCamera.CamStates.FirstPerston) {
 
-				if(Mathf.Abs(Input.GetAxis("Horizontal")) > 0.2 || Mathf.Abs(Input.GetAxis("Vertical")) > 0.2){
+				if(Mathf.Abs(Input.GetAxis("Horizontal")) > 0 || Mathf.Abs(Input.GetAxis("Vertical")) > 0 && !_animator.GetBool("ThrowMode")){
 
 					_angle = Vector2.Angle (_cameraRotationForward, _targetRotation) * Mathf.Sign(Input.GetAxis ("Horizontal"));
 
