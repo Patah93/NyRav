@@ -42,23 +42,12 @@ public class PushAndPull : MonoBehaviour {
 			else{
 				_speed = 0;
 			}
-
-			//if(Mathf.Abs(_obj.position.y - _objpos.y)>0.05){
-
-				//_boystate.ActivateWalk();
-			//}
-
-			if(_obj.rigidbody.SweepTest(_direction* -1, out _derp, 0.1f)){
+			if(_obj.rigidbody.SweepTest(-_direction, out _derp, 0.1f)){
 				if(!_collidedf){
 					if(_speed > 0){
 						_blockedForward = true;
 						_speed = 0;
-						_collidedf = true;
 					}
-					else if(_speed < 0){
-						_blockedBackwards = true;
-					}
-					_speed = 0;
 				}
 				else if(_collidedf){
 					if(_blockedForward){
@@ -70,6 +59,7 @@ public class PushAndPull : MonoBehaviour {
 						}
 					}
 				}
+				_collidedf = true;
 			}
 			else if(_obj.rigidbody.SweepTest(_direction, out _derp, 0.1f)){
 				if(!_collidedb){
@@ -90,21 +80,16 @@ public class PushAndPull : MonoBehaviour {
 					}
 				}
 				_collidedb = true;
-				Debug.Log("THIS MOTHAFUCKA COLLIDED");
 			}
 			else{
-				_collidedb = false;
 				_collidedf = false;
+				_collidedb = false;
 			}
 
 			if(_speed == 0){
 				transform.position = _position;
 			}
 
-			_ani.SetFloat("Speed", _speed);
-			_obj.rigidbody.MovePosition(new Vector3(transform.position.x,_objposy,transform.position.z) + _distance*_direction*-1);
-			//Debug.Log("Collided is "+_collided);
-	
 			_ani.SetFloat("Speed", _speed);
 			if(_speed == 0){
 				transform.position = _position;

@@ -1834,6 +1834,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 149360129}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+<<<<<<< HEAD:Assets/_Scenes/PatrikScene 1.unity
 --- !u!1 &164245359
 GameObject:
   m_ObjectHideFlags: 0
@@ -1907,6 +1908,8 @@ Transform:
   m_LocalScale: {x: .491907805, y: .491907805, z: .491907805}
   m_Children: []
   m_Father: {fileID: 0}
+=======
+>>>>>>> Jessica:Assets/_Scenes/JessicaScene.unity
 --- !u!1 &167660172
 GameObject:
   m_ObjectHideFlags: 0
@@ -3592,6 +3595,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 300666670}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+<<<<<<< HEAD:Assets/_Scenes/PatrikScene 1.unity
 --- !u!1 &305357109
 GameObject:
   m_ObjectHideFlags: 0
@@ -3605,11 +3609,27 @@ GameObject:
   - 114: {fileID: 305357110}
   m_Layer: 0
   m_Name: FoxNode3
+=======
+--- !u!1 &329490222
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 329490223}
+  - 33: {fileID: 329490226}
+  - 65: {fileID: 329490225}
+  - 23: {fileID: 329490224}
+  m_Layer: 0
+  m_Name: Cube
+>>>>>>> Jessica:Assets/_Scenes/JessicaScene.unity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+<<<<<<< HEAD:Assets/_Scenes/PatrikScene 1.unity
 --- !u!114 &305357110
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3686,6 +3706,11 @@ GameObject:
 --- !u!4 &329490223
 Transform:
   m_ObjectHideFlags: 0
+=======
+--- !u!4 &329490223
+Transform:
+  m_ObjectHideFlags: 0
+>>>>>>> Jessica:Assets/_Scenes/JessicaScene.unity
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 329490222}
@@ -5878,6 +5903,7 @@ MeshFilter:
   m_GameObject: {fileID: 481216749}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &487181409
+<<<<<<< HEAD:Assets/_Scenes/PatrikScene 1.unity
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 100000, guid: 3965c7170d78b8a45988cecfc1fd338d, type: 2}
@@ -5938,6 +5964,70 @@ SkinnedMeshRenderer:
     m_Extent: {x: .442471266, y: .779462576, z: .319406509}
   m_DirtyAABB: 0
 --- !u!1 &491160868
+=======
+>>>>>>> Jessica:Assets/_Scenes/JessicaScene.unity
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100000, guid: 3965c7170d78b8a45988cecfc1fd338d, type: 2}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 487181410}
+  - 137: {fileID: 487181411}
+  m_Layer: 2
+  m_Name: Beta_HighJointsGeo
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &487181410
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400000, guid: 3965c7170d78b8a45988cecfc1fd338d, type: 2}
+  m_PrefabInternal: {fileID: 0}
+<<<<<<< HEAD:Assets/_Scenes/PatrikScene 1.unity
+=======
+  m_GameObject: {fileID: 487181409}
+  m_LocalRotation: {x: -.0366017893, y: .366516322, z: .0129166171, w: .929601669}
+  m_LocalPosition: {x: -.000600814819, y: .897842407, z: -.00880146027}
+  m_LocalScale: {x: 1.00000012, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1310704881}
+--- !u!137 &487181411
+SkinnedMeshRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 13700000, guid: 3965c7170d78b8a45988cecfc1fd338d,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 487181409}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 2100000, guid: c0229925cc3bf684ba418895db56dc1f, type: 2}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortingLayerID: 0
+  serializedVersion: 2
+  m_Quality: 0
+  m_UpdateWhenOffscreen: 0
+  m_Mesh: {fileID: 4300004, guid: aef9e0d7fbf9f924091a41b93ff4fa44, type: 3}
+  m_Bones: []
+  m_BlendShapeWeights: []
+  m_RootBone: {fileID: 0}
+  m_AABB:
+    m_Center: {x: .000486955047, y: -.139904559, z: -.0232357234}
+    m_Extent: {x: .442471266, y: .779462576, z: .319406509}
+  m_DirtyAABB: 0
+--- !u!1 &491160868
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -5957,6 +6047,7 @@ Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
+>>>>>>> Jessica:Assets/_Scenes/JessicaScene.unity
   m_GameObject: {fileID: 491160868}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: -4.37113883e-08}
   m_LocalPosition: {x: 75.6826172, y: 0, z: 20}
@@ -6690,6 +6781,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 532195239}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+<<<<<<< HEAD:Assets/_Scenes/PatrikScene 1.unity
 --- !u!1001 &550689326
 Prefab:
   m_ObjectHideFlags: 0
@@ -6738,6 +6830,8 @@ Prefab:
   m_RootGameObject: {fileID: 164245359}
   m_IsPrefabParent: 0
   m_IsExploded: 1
+=======
+>>>>>>> Jessica:Assets/_Scenes/JessicaScene.unity
 --- !u!1 &551858528
 GameObject:
   m_ObjectHideFlags: 0
@@ -6914,6 +7008,7 @@ Prefab:
   m_RootGameObject: {fileID: 817914933}
   m_IsPrefabParent: 0
   m_IsExploded: 1
+<<<<<<< HEAD:Assets/_Scenes/PatrikScene 1.unity
 --- !u!1001 &561600395
 Prefab:
   m_ObjectHideFlags: 0
@@ -6962,6 +7057,8 @@ Prefab:
   m_RootGameObject: {fileID: 305357109}
   m_IsPrefabParent: 0
   m_IsExploded: 1
+=======
+>>>>>>> Jessica:Assets/_Scenes/JessicaScene.unity
 --- !u!1 &573791690
 GameObject:
   m_ObjectHideFlags: 0
@@ -7246,6 +7343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed5496480d12ed489146ff546218992, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD:Assets/_Scenes/PatrikScene 1.unity
 --- !u!1 &582344452
 GameObject:
   m_ObjectHideFlags: 0
@@ -7319,6 +7417,8 @@ Transform:
   m_LocalScale: {x: .491907805, y: .491907805, z: .491907805}
   m_Children: []
   m_Father: {fileID: 0}
+=======
+>>>>>>> Jessica:Assets/_Scenes/JessicaScene.unity
 --- !u!1001 &588184591
 Prefab:
   m_ObjectHideFlags: 0
@@ -8568,6 +8668,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 2100798316}
   m_GameObject: {fileID: 678394977}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+<<<<<<< HEAD:Assets/_Scenes/PatrikScene 1.unity
 --- !u!1001 &686261318
 Prefab:
   m_ObjectHideFlags: 0
@@ -8616,6 +8717,8 @@ Prefab:
   m_RootGameObject: {fileID: 455438957}
   m_IsPrefabParent: 0
   m_IsExploded: 1
+=======
+>>>>>>> Jessica:Assets/_Scenes/JessicaScene.unity
 --- !u!1 &698080366
 GameObject:
   m_ObjectHideFlags: 0
@@ -9298,6 +9401,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af7ab16d0c7b57f46b81fa7306584a0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+<<<<<<< HEAD:Assets/_Scenes/PatrikScene 1.unity
   dampLookAt: 4
   distanceAway: 3
   distanceUp: 1
@@ -9323,6 +9427,20 @@ MonoBehaviour:
   PlayerXform: {fileID: 0}
   deltaLookAt: 0
   alpha: 1
+=======
+  Offset: {x: 0, y: 0, z: 0}
+  LookAt: {fileID: 1700645077}
+  CameraUp: 1
+  CameraAway: 3
+  CameraSmoothing: 1
+  LookDirDampTime: .100000001
+  camSmoothDampTime: .100000001
+  deadZoneX: .300000012
+  deadZoneY: .300000012
+  RotationSpeedX: 5
+  RotationSpeedY: 2
+  cameraClampingY: {x: -40, y: 20}
+>>>>>>> Jessica:Assets/_Scenes/JessicaScene.unity
   camState: 0
   velocityCamSmooth: {x: 0, y: 0, z: 0}
   camSmoothDampTime: .5
@@ -9393,6 +9511,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+<<<<<<< HEAD:Assets/_Scenes/PatrikScene 1.unity
 --- !u!1 &764467341
 GameObject:
   m_ObjectHideFlags: 0
@@ -9480,6 +9599,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _offset: {x: 40.8199997, y: 7.63000011, z: 0}
   _moveTime: .0199999996
+=======
+>>>>>>> Jessica:Assets/_Scenes/JessicaScene.unity
 --- !u!1 &771554165
 GameObject:
   m_ObjectHideFlags: 0
@@ -10678,7 +10799,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _actionObj:
+<<<<<<< HEAD:Assets/_Scenes/PatrikScene 1.unity
   - {fileID: 764467341}
+=======
+  - {fileID: 0}
+>>>>>>> Jessica:Assets/_Scenes/JessicaScene.unity
   _triggerableObjects:
   - {fileID: 1310704880}
   _activatedByInteractables: 0
@@ -16890,6 +17015,7 @@ Animator:
   m_PrefabParentObject: {fileID: 9500000, guid: 3965c7170d78b8a45988cecfc1fd338d,
     type: 2}
   m_PrefabInternal: {fileID: 0}
+<<<<<<< HEAD:Assets/_Scenes/PatrikScene 1.unity
   m_GameObject: {fileID: 1310704880}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: aef9e0d7fbf9f924091a41b93ff4fa44, type: 3}
@@ -16917,6 +17043,200 @@ MonoBehaviour:
 --- !u!114 &1310704890
 MonoBehaviour:
   m_ObjectHideFlags: 0
+=======
+  m_GameObject: {fileID: 1306884548}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1310704880
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100002, guid: 3965c7170d78b8a45988cecfc1fd338d, type: 2}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1310704881}
+  - 95: {fileID: 1310704888}
+  - 54: {fileID: 1310704887}
+  - 136: {fileID: 1310704886}
+  - 114: {fileID: 1310704885}
+  - 114: {fileID: 1310704884}
+  - 114: {fileID: 1310704883}
+  - 114: {fileID: 1310704889}
+  - 114: {fileID: 1310704890}
+  - 120: {fileID: 1310704882}
+  - 143: {fileID: 1310704891}
+  m_Layer: 2
+  m_Name: Betafab
+  m_TagString: Player
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1310704881
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400002, guid: 3965c7170d78b8a45988cecfc1fd338d, type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1310704880}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 50.6963348, y: 1.7000227, z: 3.63001442}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 487181410}
+  - {fileID: 1438886635}
+  - {fileID: 1940939545}
+  - {fileID: 1700645077}
+  m_Father: {fileID: 0}
+--- !u!120 &1310704882
+LineRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 12000000, guid: 3965c7170d78b8a45988cecfc1fd338d,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1310704880}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 2100000, guid: 173b009c77616b2478f1cab369772d28, type: 2}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortingLayerID: 0
+  m_Positions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
+  m_Parameters:
+    startWidth: 1
+    endWidth: 1
+    m_StartColor:
+      serializedVersion: 2
+      rgba: 4294967295
+    m_EndColor:
+      serializedVersion: 2
+      rgba: 4294967295
+  m_UseWorldSpace: 1
+--- !u!114 &1310704883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400002, guid: 3965c7170d78b8a45988cecfc1fd338d,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1310704880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51a81b3c04420ab4daad531e7ddb3167, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rayXOffset: .200000003
+  _rayYOffset: 1
+  _raylength: 2
+  _pos:
+    serializedVersion: 2
+    x: 100
+    y: 100
+    width: 50
+    height: 50
+--- !u!114 &1310704884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400004, guid: 3965c7170d78b8a45988cecfc1fd338d,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1310704880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a046f5a64c9e3704884702327047e404, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _jumpForce: 9
+  _offsetX: 0
+  _offsetY: 0
+  _offsetZ: 0
+--- !u!114 &1310704885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400006, guid: 3965c7170d78b8a45988cecfc1fd338d,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1310704880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f06845d67705280489f13655be381e39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _length: 0
+  _lerpTime: 2.43000007
+--- !u!136 &1310704886
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 13600000, guid: 3965c7170d78b8a45988cecfc1fd338d,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1310704880}
+  m_Material: {fileID: 13400000, guid: 8807a7d97971734408d2dea27600b2c7, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: .5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: .910000026, z: 0}
+--- !u!54 &1310704887
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 5400000, guid: 3965c7170d78b8a45988cecfc1fd338d,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1310704880}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: .0500000007
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
+--- !u!95 &1310704888
+Animator:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 9500000, guid: 3965c7170d78b8a45988cecfc1fd338d,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1310704880}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: aef9e0d7fbf9f924091a41b93ff4fa44, type: 3}
+  m_Controller: {fileID: 9100000, guid: ec87fd7a6a5536c48a05f1c706c2a027, type: 2}
+  m_CullingMode: 1
+  m_ApplyRootMotion: 1
+  m_AnimatePhysics: 0
+  m_HasTransformHierarchy: 0
+--- !u!114 &1310704889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400008, guid: 3965c7170d78b8a45988cecfc1fd338d,
+    type: 2}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1310704880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 038ec601cdb42104494da8442be67278, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _deadZone: .200000003
+  _maxSpeed: .100000001
+  _lerpTime: .0599999987
+  _offset: 2
+--- !u!114 &1310704890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+>>>>>>> Jessica:Assets/_Scenes/JessicaScene.unity
   m_PrefabParentObject: {fileID: 11400000, guid: 3965c7170d78b8a45988cecfc1fd338d,
     type: 2}
   m_PrefabInternal: {fileID: 0}
@@ -17394,7 +17714,11 @@ Prefab:
     - target: {fileID: 11400000, guid: a45c64ec08a8d36468f0d8460b326d4e, type: 2}
       propertyPath: _actionObj.Array.data[0]
       value: 
+<<<<<<< HEAD:Assets/_Scenes/PatrikScene 1.unity
       objectReference: {fileID: 764467341}
+=======
+      objectReference: {fileID: 0}
+>>>>>>> Jessica:Assets/_Scenes/JessicaScene.unity
     - target: {fileID: 11400000, guid: a45c64ec08a8d36468f0d8460b326d4e, type: 2}
       propertyPath: _activatedByInteractables
       value: 0
@@ -26217,6 +26541,91 @@ Prefab:
   m_RootGameObject: {fileID: 881564337}
   m_IsPrefabParent: 0
   m_IsExploded: 1
+--- !u!1 &2068102512
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2068102517}
+  - 33: {fileID: 2068102516}
+  - 65: {fileID: 2068102515}
+  - 23: {fileID: 2068102514}
+  - 54: {fileID: 2068102513}
+  m_Layer: 0
+  m_Name: Cube
+  m_TagString: Interactive
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!54 &2068102513
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2068102512}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: .0500000007
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 2
+--- !u!23 &2068102514
+Renderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2068102512}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortingLayerID: 0
+--- !u!65 &2068102515
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2068102512}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!33 &2068102516
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2068102512}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &2068102517
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2068102512}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 50.0942955, y: 1.45334578, z: 9.52177811}
+  m_LocalScale: {x: 2.3599999, y: 2.96000004, z: 2.11999989}
+  m_Children: []
+  m_Father: {fileID: 0}
 --- !u!1 &2071907656
 GameObject:
   m_ObjectHideFlags: 0
