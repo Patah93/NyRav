@@ -102,6 +102,7 @@ public class Throw : MonoBehaviour {
 	{
 		arcLine.SetVertexCount(180);
 		Vector3 previousPosition = PlayerXForm.position + (PlayerXForm.forward * 1) + new Vector3(0f,1f,0f);
+		higestPosit = previousPosition;
 		for(int i = 0; i < 180; i++)
 		{
 			Vector3 posN = GetTrajectoryPoint(PlayerXForm.position + (PlayerXForm.forward * 1) + new Vector3(0f,1f,0f), force, i, Physics.gravity);
@@ -114,12 +115,18 @@ public class Throw : MonoBehaviour {
 			if(Physics.Raycast(previousPosition, direction, out hitInfo, distance))
 			{
 				if(hitInfo.transform.tag != "Throw") {
-				arcLine.SetPosition(i,hitInfo.point);
-				arcLine.SetVertexCount(i);
-				break;
+
+					if(higestPosit.y < hitInfo.point.y)
+						higestPosit = hitInfo.point;
+					arcLine.SetPosition(i,hitInfo.point);
+					arcLine.SetVertexCount(i);
+					break;
 				}
 			}
-			
+
+			if(higestPosit.y < posN.y)
+				higestPosit = posN;
+
 			previousPosition = posN;
 			arcLine.SetPosition(i,posN);
 		}

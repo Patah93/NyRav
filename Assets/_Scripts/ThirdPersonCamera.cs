@@ -186,7 +186,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 	#region Update funtions
 	//every frame (1)
 	void Update () {
-        if (Input.GetButtonDown("enterFPV"))
+        if (Input.GetButtonDown("ThrowMode"))
             camState = (camState != CamStates.Throw) ? CamStates.Throw : CamStates.Behind;
 
 		//We need to update the players transform so we always have the correct values.
