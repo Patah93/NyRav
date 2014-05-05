@@ -165,8 +165,13 @@ PlayerSettings:
     7: CROSS_PLATFORM_INPUT;MOBILE_INPUT
     15: CROSS_PLATFORM_INPUT;MOBILE_INPUT
     16: CROSS_PLATFORM_INPUT;MOBILE_INPUT
+<<<<<<< HEAD
   metroPackageName: DefaultPackageName
   metroPackageLogo: C:/Users/Admin/Documents/XBone/50.jpg
+=======
+  metroPackageName: shoppingplaza
+  metroPackageLogo: 
+>>>>>>> Patrik
   metroPackageVersion: 1.0.0.0
   metroCertificatePath: 
   metroCertificatePassword: 
@@ -177,7 +182,11 @@ PlayerSettings:
   metroTileLogo: 
   metroTileWideLogo: 
   metroTileSmallLogo: 
+<<<<<<< HEAD
   metroTileShortName: "R\xE4v"
+=======
+  metroTileShortName: shopping plaz
+>>>>>>> Patrik
   metroCommandLineArgsFile: 
   metroTileShowName: 1
   metroTileForegroundText: 1

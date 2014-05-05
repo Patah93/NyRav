@@ -20,6 +20,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 	public Transform LookAt;
 	public float CameraUp = 1.0f;
 	public float CameraAway = 3.0f;
+/*<<<<<<< HEAD
     public float ThorowCameraUp = 1.0f;
     public float ThrowCameraAway = 1.0f;
     public float ThrowCameraShoulderOffset = 1.0f;
@@ -30,11 +31,32 @@ public class ThirdPersonCamera : MonoBehaviour {
 	//Controller Deadzone for rotating the camera. We only want to rotate camera when we move the stick far enough.
 	//values from 0 to 1
 	public float deadZoneX = 0.3f;
+=======*/
+	public float ThorowCameraUp = 1.0f;
+	public float ThrowCameraAway = 1.0f;
+	public float ThrowCameraShoulderOffset = 1.0f;
+
+	//Camera max movement delta (Low value to create a moothing effect)
+	[Range (0.0f,0.2f)]
+	public float camMoveMaxDelta = 0.1f;
+	
+	//Controller Deadzone for rotating the camera. We only want to rotate camera when we move the stick far enough.
+	//values from 0 to 1
+	[Range (0.0f,1.0f)]
+	public float deadZoneX = 0.3f;
+	[Range (0.0f,1.0f)]
+//>>>>>>> Patrik
 	public float deadZoneY = 0.3f;
 	
 	
 	//Controller variables for rotation speed etc
+/*<<<<<<< HEAD
 	public float RotationSpeedX = 5.0f;
+=======*/
+	[Range (1.0f,2.5f)]
+	public float RotationSpeedX = 2.0f;
+	[Range (1.0f,2.5f)]
+//>>>>>>> Patrik
 	public float RotationSpeedY = 2.0f;
 	
 	//Clamping values for Y axis so we can't go to far up or down.
@@ -44,8 +66,15 @@ public class ThirdPersonCamera : MonoBehaviour {
 	public CamStates camState = CamStates.Behind;
 	
 	//Starting moving behind after set time.
+/*<<<<<<< HEAD
 	public float moveBehind = 0.5f;
 	//What smoothing time do you want for that movement.
+=======*/
+	[Range (0.0f,2.0f)]
+	public float moveBehind = 0.5f;
+	//What smoothing time do you want for that movement.
+	[Range (0.0f,2.0f)]
+//>>>>>>> Patrik
 	public float autoMoveSmooth = 1.0f;
 	
 	//Camera offsets for the different default camera positions
@@ -57,9 +86,15 @@ public class ThirdPersonCamera : MonoBehaviour {
 	//made private for now
 	private Vector3 BehindPersonCameraOffset = new Vector3(0.0f, 1.0f, -1.0f);
 	
+/*<<<<<<< HEAD
     //Reference to the throw scripts to get the higest point in the aiming arc
     private Throw referenceToThrow;
 
+=======*/
+	//Reference to the throw scripts to get the higest point in the aiming arc
+	private Throw referenceToThrow;
+	
+//>>>>>>> Patrik
 	#endregion
 	
 	#region Private variables
@@ -94,11 +129,15 @@ public class ThirdPersonCamera : MonoBehaviour {
 	private float rightX = 0.0f;
 	private float rightY = 0.0f;
 	private float leftX  = 0.0f;
+/*<<<<<<< HEAD
 	private float leftY  = 0.0f;
 	
 	//private containers holding the velocity for the camera smoothing
 	private Vector3 velocityCamSmooth = Vector3.zero;
 	
+=======*/
+	private float leftY  = 0.0f;	
+//>>>>>>> Patrik
 	
 	//private containers holding the amount of rotation around the character that have been applied from the controller input
 	private float rotationAmountY = 0.0f;
@@ -139,7 +178,11 @@ public class ThirdPersonCamera : MonoBehaviour {
 		FirstPerston,
 		Target,
 		Free,
+/*<<<<<<< HEAD
         Throw
+=======*/
+		Throw
+//>>>>>>> Patrik
 	}
 	#endregion
 	
@@ -173,8 +216,9 @@ public class ThirdPersonCamera : MonoBehaviour {
 			new GameObject().transform,
 			PlayerXform);
 
-        //grabbing the reference to the throw component.
-        referenceToThrow = GameObject.FindWithTag("Player").GetComponent<Throw>();
+		//grabbing the reference to the throw component.
+		referenceToThrow = GameObject.FindWithTag("Player").GetComponent<Throw>();
+
 	}
 	
 	//Called if script component is enabled
@@ -186,9 +230,15 @@ public class ThirdPersonCamera : MonoBehaviour {
 	#region Update funtions
 	//every frame (1)
 	void Update () {
+/*<<<<<<< HEAD
         if (Input.GetButtonDown("ThrowMode"))
             camState = (camState != CamStates.Throw) ? CamStates.Throw : CamStates.Behind;
 
+=======*/
+		if (Input.GetButtonDown("enterFPV"))
+			camState = (camState != CamStates.Throw) ? CamStates.Throw : CamStates.Behind;
+		
+//>>>>>>> Patrik
 		//We need to update the players transform so we always have the correct values.
 		PlayerXform = GameObject.FindWithTag("Player").transform;
 		
@@ -227,6 +277,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 			
 			//now if we are not directly in front of the character we want to slowly move behind the character.
 			//if the conditon for start moving is met.
+
 			if (!(Vector3.Dot(PlayerXform.forward, this.transform.forward) <= -0.8f))
 			{
 				//Debug.Log("We are not infront of the player");
@@ -242,6 +293,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 						);
 					Debug.Log("Moving!");
 				}
+/*<<<<<<< HEAD
 			}       
 			
 			
@@ -252,6 +304,9 @@ public class ThirdPersonCamera : MonoBehaviour {
 				LookAt.position - this.transform.position),
 				Vector3.Normalize(
 				new Vector3(LookAt.position.x - this.transform.position.x, LookAt.position.y, LookAt.position.z - this.transform.position.z)));
+=======*/
+			}  
+//>>>>>>> Patrik
 			
 			//we need to clamp this value so we don't go over the character.
 			if (Mathf.Abs(rightY) >= deadZoneY){
@@ -262,7 +317,8 @@ public class ThirdPersonCamera : MonoBehaviour {
 					rotationAmountY = cameraClampingY.y;
 				}
 				
-				if (rotationAmountY > cameraClampingY.x && rotationAmountY < cameraClampingY.y) 
+
+				if (rotationAmountY > cameraClampingY.x && rotationAmountY < cameraClampingY.y)
 					currentLookDirection = Vector3.RotateTowards(currentLookDirection, this.transform.up, rightY * Time.deltaTime * RotationSpeedY, 0.0f);
 			}
 			
@@ -273,6 +329,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 					(Vector3.Normalize(currentLookDirection) * CameraAway);                
 			
 			//Debug.Log("RightX: " + rightX + " " + "RightY: " + rightY + " " + "Distance: " + Vector3.Distance(this.transform.position, LookAt.position));
+/*<<<<<<< HEAD
             		
 		
 		    CompenstaForWalls(LookAt.position, ref targetPosistion);
@@ -309,6 +366,48 @@ public class ThirdPersonCamera : MonoBehaviour {
             break;
 		} 
 
+=======*/
+			
+			
+			CompenstaForWalls(LookAt.position, ref targetPosistion);
+
+			smoothPosistion(this.transform.position, targetPosistion);
+			//this.transform.position = targetPosistion;
+			transform.LookAt(LookAt);
+
+			break;
+		case CamStates.Throw:
+			//find the lookAt posistion
+			float pitch = 0.0f;
+			//find the top point in throw arc and save location
+			
+			//Vector3 higestpos = referenceToThrow.higestPosit;
+			Vector3 higestpos = Vector3.zero;
+			//LookAt.position + PlayerXform.forward * 10.0f + PlayerXform.up * 100.0f;
+			Debug.Log(higestpos);
+			
+			//angle between the camera to the target
+			pitch = Vector3.Dot(Vector3.Normalize(higestpos - this.transform.position), PlayerXform.transform.forward);
+			pitch = Mathf.Acos(pitch) * Mathf.Rad2Deg;
+			Debug.Log(pitch);
+			
+			//set camerea to right pos
+			targetPosistion =
+				//set it to be at the appropiate pos for over the shoulder.
+				LookAt.position + PlayerXform.up * ThorowCameraUp -
+					PlayerXform.forward * ThrowCameraAway - PlayerXform.right * ThrowCameraShoulderOffset;
+			
+			//compensate for ze walls
+			CompenstaForWalls(LookAt.position, ref targetPosistion);
+			//set the target to be smoothed
+			smoothPosistion(this.transform.position, targetPosistion);
+			//this.transform.position = targetPosistion;
+			//set the new lookAt
+			transform.LookAt(LookAt.position+ PlayerXform.forward * 10);
+			break;
+		} 
+		
+//>>>>>>> Patrik
 		
 	}
 	//physics updates (3) does not happen every frame
@@ -319,7 +418,11 @@ public class ThirdPersonCamera : MonoBehaviour {
 	
 	#region Private functions
 	private void smoothPosistion(Vector3 fromPos, Vector3 toPos) {
+/*<<<<<<< HEAD
 		this.transform.position = Vector3.SmoothDamp (fromPos, toPos, ref velocityCamSmooth, camSmoothDampTime);
+=======*/
+		this.transform.position = Vector3.MoveTowards(fromPos, toPos,camMoveMaxDelta);
+//>>>>>>> Patrik
 	}
 	
 	private void CompenstaForWalls(Vector3 fromObject, ref Vector3 toTarget) {
@@ -336,3 +439,4 @@ public class ThirdPersonCamera : MonoBehaviour {
 	#region Public functions
 	#endregion
 }
+

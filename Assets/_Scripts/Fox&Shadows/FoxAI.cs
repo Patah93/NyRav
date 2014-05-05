@@ -14,6 +14,10 @@ public class FoxAI : MonoBehaviour {
 
 	public float CHECK_LIGHT_INTERVAL = 0.5f;
 
+	int _updateTick = 0;
+
+	public int _sleep_updates_shadowDet = 5;
+
 	// Use this for initialization
 	void Start () {
 
@@ -47,19 +51,20 @@ public class FoxAI : MonoBehaviour {
 				}
 				if(_pathSafe){
 					/* TODO MOVE */
-					transform.position += (_targetNode.transform.position - transform.position).normalized * 10 * Time.deltaTime;
+					move ();
 				}
 				else{
+					/* TODO Hantera "Oh no mr Boy, me no can walk!" */
 					_targetNode = null;
 				}
 			}
 		} else {
-			if (Input.GetButtonDown ("FoxForward")) {
+			if (Input.GetButtonDown ("FoxForward") || Input.GetAxis("FoxCall") > 0){
 				if (_currentNode._nextNode != null) {
 					_targetNode = _currentNode._nextNode;
 				}
 			}
-			if (Input.GetButtonDown ("FoxBackward")) {
+			if (Input.GetButtonDown ("FoxBackward") || Input.GetAxis("FoxCall") < 0) {
 				if (_currentNode != null) {
 					_targetNode = _currentNode._prevNode;
 				}
@@ -67,13 +72,27 @@ public class FoxAI : MonoBehaviour {
 		}
 	}
 
+	void FixedUpdate(){
+		if(_updateTick == 0){
+
+			/* TODO other points of interest in ShadowDet-Script */
+			if(_shadowDetect.isObjectInLight()){
+				Debug.Log("DIEDIEDIEDIE POOR FOXIE! >='[");
+			}
+		}
+
+		_updateTick++;
+		_updateTick %= _sleep_updates_shadowDet;
+	}
+
 	bool reachedTarget(){
-		return (transform.position - _targetNode.transform.position).sqrMagnitude < 0.1f;
+		/* Magi */
+		return (new Vector2(transform.position.x, transform.position.z) - new Vector2(_targetNode.transform.position.x, _targetNode.transform.position.z)).sqrMagnitude < 0.1f;
 	}
 
 	void checkPathForShadows(){
 		Vector3 originalPos = transform.position;
-		Vector3 lastCheckPos = transform.position - new Vector3(100, 100,100);
+		Vector3 lastCheckPos = transform.position - new Vector3(100, 100, 100);
 
 		int count = 0;
 		while(!reachedTarget()){
@@ -90,6 +109,35 @@ public class FoxAI : MonoBehaviour {
 		}
 		_pathSafe = true;
 		transform.position = originalPos;
-		Debug.Log(count + ": lightchecks!"); 
+		//Debug.Log(count + ": lightchecks!"); 
+	}
+
+	void move(){
+		transform.forward = (_targetNode.transform.position - transform.position).normalized;
+
+		Vector3 tempPos = transform.position;
+		transform.position += transform.forward * 10 * Time.deltaTime;
+
+		RaycastHit rayInfo;
+
+		if(Physics.Raycast(transform.position, Vector3.down, out rayInfo, 5.0f)){
+
+			float angle = Vector3.Angle(Vector3.up, rayInfo.normal);
+
+			if(Vector3.Angle(transform.forward, rayInfo.normal) < 90){
+
+				transform.rotation = Quaternion.Euler(transform.rotation.x, -angle, transform.rotation.z);
+				Debug.Log("Downhill");
+			}
+			else if(Vector3.Angle(transform.forward, rayInfo.normal) > 90){
+
+				transform.rotation = Quaternion.Euler(transform.rotation.x, angle, transform.rotation.z);
+				Debug.Log("Uphill");
+			}
+			else{
+				transform.rotation = Quaternion.Euler(transform.rotation.x, 0, transform.rotation.z);
+				Debug.Log("Straight ground");
+			}
+		}
 	}
 }
