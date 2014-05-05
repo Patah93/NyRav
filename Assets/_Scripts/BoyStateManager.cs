@@ -18,6 +18,7 @@ public class BoyStateManager : MonoBehaviour {
 	Animator _ani;
 	bool _leavePush = false;
 	bool _enterPush = false;
+	Transform _obj;
 
 	// Use this for initialization
 	void Start () {
@@ -37,7 +38,7 @@ public class BoyStateManager : MonoBehaviour {
 		ray2 = transform.position - transform.right * _rayXOffset;
 		ray2 = new Vector3(ray2.x,transform.position.y + _rayYOffset,ray2.z);
 
-		if(_walk.getActivate()){
+		if(_walk.getActivate() && _leavePush == false){
 			if(Physics.Raycast(ray1, transform.forward,out _rayHit,_raylength) || Physics.Raycast(ray2, transform.forward,out _rayHit, _raylength)){
 			//	print ( "YOU COLLIDED WITH SOMETHING");
 				Debug.DrawRay(ray1,transform.forward,Color.red,_raylength,true);
@@ -46,7 +47,9 @@ public class BoyStateManager : MonoBehaviour {
 					//print ("YOU CAN INTERRACT WITH THIS");
 					_drawInteract = true;
 					if(Input.GetButtonDown("Interact")){		//INTERACT-KNAPPEN HÄR
-						Physics.IgnoreCollision(transform.collider,_rayHit.collider,true);
+						_obj = _rayHit.collider.transform;
+						Physics.IgnoreCollision(transform.collider,_obj.collider,true);
+						_enterPush = true;
 						_ani.SetBool("Pushing",true);
 						_push.enabled = true;
 						_push.Activate(true, _rayHit.collider.transform,_rayHit.normal);
@@ -62,24 +65,31 @@ public class BoyStateManager : MonoBehaviour {
 			else{
 				_drawInteract = false;
 			}
+			Debug.Log (_leavePush); 
 		}
 
-		else if(_push.getActivate()){
-			if(Input.GetButtonDown("Interact")){		//TILLFÄLLIG KNAPP, SKA ÄNDRAS SEN
+		else if(_push.getActivate() && _enterPush == false){
+			if(Input.GetButtonDown("Interact")){		
 				_ani.SetBool("Pushing",false);
 				_push.Activate(false, null,Vector3.zero);
 				_walk.enabled = true;
 				_walk.Activate(true);
 				print ("YOU ARE IN WALK MODE! :D");
 				_jump.disableJump(false);
-				transform.collider.enabled = true;
+				//transform.collider.enabled = true;
 				_leavePush = true;
 			}
 		}
 
+		if(_ani.GetCurrentAnimatorStateInfo(0).IsName("Push/Pull Idle") && _enterPush){
+			_enterPush = false;
+		}
+
 		if(_ani.GetCurrentAnimatorStateInfo(0).IsName("Idle") && _leavePush){
-			Physics.IgnoreCollision(transform.collider,_rayHit.collider,false);
+			Physics.IgnoreCollision(transform.collider,_obj.collider,false);
 			_leavePush = false;
+			_obj = null;
+			Debug.Log ("EY DET FUNKAR");
 		}
 	}
 
@@ -98,8 +108,8 @@ public class BoyStateManager : MonoBehaviour {
 		_walk.Activate(true);
 		//print ("YOU ARE IN WALK MODE! :D");
 		_jump.disableJump(false);
-		transform.collider.enabled = true;
-		Physics.IgnoreCollision(transform.collider,_rayHit.collider,false);
+		//transform.collider.enabled = true;
+	//	Physics.IgnoreCollision(transform.collider,_rayHit.collider,false);
 		_leavePush = true;
 		//Physics.IgnoreCollision(transform.collider,_rayHit.collider,false);
 	}

@@ -116,8 +116,8 @@ public class PushAndPull : MonoBehaviour {
 
 			if(!_obj.rigidbody.SweepTest(Vector3.down,out _derp,0.55f)){
 				_boystate.ActivateWalk();
-				_obj.rigidbody.constraints = ~RigidbodyConstraints.FreezePositionY;
-				Debug.Log ("collided");
+				//_obj.rigidbody.constraints = ~RigidbodyConstraints.FreezePositionY;
+				//Debug.Log ("collided");
 			}
 
 			_obj.rigidbody.MovePosition(new Vector3(transform.position.x,_objposy,transform.position.z) + _distance*_direction*-1);
