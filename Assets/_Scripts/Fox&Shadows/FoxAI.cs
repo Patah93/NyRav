@@ -113,31 +113,36 @@ public class FoxAI : MonoBehaviour {
 	}
 
 	void move(){
-		transform.forward = (_targetNode.transform.position - transform.position).normalized;
-
-		Vector3 tempPos = transform.position;
-		transform.position += transform.forward * 10 * Time.deltaTime;
+		transform.forward = new Vector3((_targetNode.transform.position - transform.position).x, 0, (_targetNode.transform.position - transform.position).z);
+		transform.forward.Normalize();
 
 		RaycastHit rayInfo;
+		
 
 		if(Physics.Raycast(transform.position, Vector3.down, out rayInfo, 5.0f)){
+
+			Debug.DrawLine(transform.position, transform.position + Vector3.down * 5.0f, Color.red);
+			Debug.DrawRay(rayInfo.point, rayInfo.normal, Color.blue);
 
 			float angle = Vector3.Angle(Vector3.up, rayInfo.normal);
 
 			if(Vector3.Angle(transform.forward, rayInfo.normal) < 90){
 
-				transform.rotation = Quaternion.Euler(transform.rotation.x, -angle, transform.rotation.z);
+				transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y-angle, transform.rotation.z);
 				Debug.Log("Downhill");
 			}
 			else if(Vector3.Angle(transform.forward, rayInfo.normal) > 90){
 
-				transform.rotation = Quaternion.Euler(transform.rotation.x, angle, transform.rotation.z);
+				transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y+angle, transform.rotation.z);
 				Debug.Log("Uphill");
 			}
 			else{
 				transform.rotation = Quaternion.Euler(transform.rotation.x, 0, transform.rotation.z);
 				Debug.Log("Straight ground");
 			}
-		}
+
+			Vector3 tempPos = transform.position;
+			transform.position += transform.forward * 10 * Time.deltaTime;
+		}		
 	}
 }
