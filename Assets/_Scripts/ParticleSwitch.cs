@@ -23,12 +23,17 @@ public class ParticleSwitch : TriggerAction {
 
 	public override void onActive(){
 		if (gameObject.name.Equals ("ParticleTo")) { 
+
 			gameObject.particleSystem.Play ();
+
+		}
+
+		if(gameObject.name.Equals ("ParticleFrom")) {
+
 			gameObject.particleSystem.loop = false;
-		} else if(gameObject.name.Equals ("ParticleFrom")) {
-			gameObject.particleSystem.loop = false;
-			GetComponent<Trigger>().enabled = false;
 			GetComponent<BoxCollider>().enabled = false;
+			GetComponent<Trigger>().enabled = false;
+
 		}
 	}
 
