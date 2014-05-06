@@ -4,16 +4,20 @@ using System.Collections;
 public class ParticleSwitch : TriggerAction {
 	
 	public float _countDown;
+	private bool _counterStart;
+	private bool _triggered;
 
 	// Use this for initialization
 	void Start () {
 		//_countDown = 20;
+		_counterStart = false;
+		_triggered = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	
-		if(particleSystem.loop == false){
+		if(_counterStart == true){
 			_countDown -= Time.deltaTime;
 			if(_countDown <= 0){
 				Destroy(gameObject);
@@ -22,27 +26,17 @@ public class ParticleSwitch : TriggerAction {
 	}
 
 	public override void onActive(){
-<<<<<<< HEAD
-		if (gameObject.name.Equals ("ParticleTo")) { 
-
-=======
-		if (gameObject.name == "ParticleTo") { 
->>>>>>> d3cfab251ecc2834a2c8b6366d0b777c059708a4
+		if (gameObject.name.Equals ("ParticleTo") && _triggered == false) { 
+			_triggered = true;
 			gameObject.particleSystem.Play ();
+			_counterStart = true;
 
 		}
 
-		if(gameObject.name.Equals ("ParticleFrom")) {
-
+		if(gameObject.name.Equals ("ParticleFrom") && _triggered == false) {
+			_triggered = true;
 			gameObject.particleSystem.loop = false;
-<<<<<<< HEAD
-=======
-		} else if(gameObject.name == "ParticleFrom") {
-			gameObject.particleSystem.loop = false;
-			GetComponent<Trigger>().enabled = false;
->>>>>>> d3cfab251ecc2834a2c8b6366d0b777c059708a4
-			GetComponent<BoxCollider>().enabled = false;
-			GetComponent<Trigger>().enabled = false;
+			_counterStart = true;
 
 		}
 	}
