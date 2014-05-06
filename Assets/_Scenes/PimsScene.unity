@@ -1036,7 +1036,7 @@ ParticleSystem:
   InitialModule:
     enabled: 1
     startLifetime:
-      scalar: 5
+      scalar: 2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -1193,7 +1193,7 @@ ParticleSystem:
         rgba: 4294967295
       maxColor:
         serializedVersion: 2
-        rgba: 4294967295
+        rgba: 4278190318
       minMaxState: 0
     startSize:
       scalar: 2
@@ -2078,7 +2078,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 67390727}
   m_LocalRotation: {x: .707106829, y: 0, z: 0, w: -.707106829}
-  m_LocalPosition: {x: 50, y: 1, z: 1}
+  m_LocalPosition: {x: 51.6755753, y: 1, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2093,7 +2093,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da9096d200441f5448938194978216bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _countDown: 20
+  _countDown: 5
 --- !u!1 &69876941
 GameObject:
   m_ObjectHideFlags: 0
@@ -5337,10 +5337,13 @@ Prefab:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 16ff15f88030c6d4db2438119f118611, type: 2}
+<<<<<<< HEAD
+=======
     - target: {fileID: 11400002, guid: 4910035722803d84fa41415b347c15e4, type: 2}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+>>>>>>> d3cfab251ecc2834a2c8b6366d0b777c059708a4
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4910035722803d84fa41415b347c15e4, type: 2}
   m_RootGameObject: {fileID: 1744776513}
@@ -8970,7 +8973,6 @@ GameObject:
   - 198: {fileID: 572330801}
   - 199: {fileID: 572330800}
   - 114: {fileID: 572330799}
-  - 114: {fileID: 572330803}
   - 54: {fileID: 572330805}
   - 65: {fileID: 572330804}
   - 114: {fileID: 572330806}
@@ -9039,13 +9041,13 @@ ParticleSystem:
   speed: 1
   randomSeed: 0
   looping: 1
-  prewarm: 0
+  prewarm: 1
   playOnAwake: 1
   moveWithTransform: 1
   InitialModule:
     enabled: 1
     startLifetime:
-      scalar: 5
+      scalar: 2
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -9202,7 +9204,7 @@ ParticleSystem:
         rgba: 4294967295
       maxColor:
         serializedVersion: 2
-        rgba: 4294967295
+        rgba: 4280058624
       minMaxState: 0
     startSize:
       scalar: 2
@@ -10091,23 +10093,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
---- !u!114 &572330803
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 572330798}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46167d980d66f3a479ace0cc754846dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _actionObj:
-  - {fileID: 67390727}
-  - {fileID: 572330798}
-  _triggerableObjects:
-  - {fileID: 1744776513}
-  _activatedByInteractables: 0
 --- !u!65 &572330804
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10146,7 +10131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da9096d200441f5448938194978216bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _countDown: 20
+  _countDown: 5
 --- !u!1 &573791690
 GameObject:
   m_ObjectHideFlags: 0
@@ -14844,6 +14829,7 @@ GameObject:
   - 33: {fileID: 909868671}
   - 65: {fileID: 909868670}
   - 23: {fileID: 909868669}
+  - 114: {fileID: 909868673}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Destructable
@@ -14879,7 +14865,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 909868668}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -14898,10 +14884,27 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 909868668}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 50.44207, y: 2.27590466, z: 3.09264088}
+  m_LocalPosition: {x: 49.6650848, y: .322525978, z: -5.55305004}
   m_LocalScale: {x: .5, y: .5, z: .5}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!114 &909868673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 909868668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46167d980d66f3a479ace0cc754846dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _actionObj:
+  - {fileID: 67390727}
+  - {fileID: 572330798}
+  _triggerableObjects:
+  - {fileID: 1744776513}
+  _activatedByInteractables: 0
 --- !u!1001 &910027655
 Prefab:
   m_ObjectHideFlags: 0
