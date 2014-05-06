@@ -146,6 +146,24 @@ Transition:
   m_Atomic: 1
   m_Solo: 0
   m_Mute: 0
+--- !u!1101 &110124480
+Transition:
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_SrcState: {fileID: 110249780}
+  m_DstState: {fileID: 110221986}
+  m_TransitionDuration: .197368398
+  m_TransitionOffset: 0
+  m_Conditions:
+  - m_ConditionMode: 2
+    m_ConditionEvent: Jump
+    m_EventTreshold: 0
+    m_ExitTime: .802631617
+  m_Atomic: 1
+  m_Solo: 0
+  m_Mute: 0
 --- !u!1101 &110125114
 Transition:
   m_ObjectHideFlags: 3
@@ -236,24 +254,6 @@ Transition:
   m_Atomic: 1
   m_Solo: 0
   m_Mute: 0
---- !u!1101 &110141478
-Transition:
-  m_ObjectHideFlags: 3
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: 
-  m_SrcState: {fileID: 110249780}
-  m_DstState: {fileID: 110205401}
-  m_TransitionDuration: .127118647
-  m_TransitionOffset: 0
-  m_Conditions:
-  - m_ConditionMode: 2
-    m_ConditionEvent: Jump
-    m_EventTreshold: 0
-    m_ExitTime: .872881353
-  m_Atomic: 1
-  m_Solo: 0
-  m_Mute: 0
 --- !u!1101 &110142017
 Transition:
   m_ObjectHideFlags: 3
@@ -335,12 +335,38 @@ Transition:
   m_SrcState: {fileID: 110292213}
   m_DstState: {fileID: 110249780}
   m_TransitionDuration: .182926819
+<<<<<<< HEAD
+  m_TransitionOffset: 0
+=======
+  m_TransitionOffset: .151466325
+>>>>>>> Lurz
+  m_Conditions:
+  - m_ConditionMode: 5
+    m_ConditionEvent: Falling
+    m_EventTreshold: 0
+    m_ExitTime: .779999971
+  m_Atomic: 1
+  m_Solo: 0
+  m_Mute: 0
+--- !u!1101 &110159789
+Transition:
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: 
+  m_SrcState: {fileID: 110221986}
+  m_DstState: {fileID: 110205401}
+  m_TransitionDuration: .267857134
   m_TransitionOffset: 0
   m_Conditions:
   - m_ConditionMode: 5
-    m_ConditionEvent: ThrowMode
+    m_ConditionEvent: 
     m_EventTreshold: 0
+<<<<<<< HEAD
     m_ExitTime: .839551985
+=======
+    m_ExitTime: .732142866
+>>>>>>> Lurz
   m_Atomic: 1
   m_Solo: 0
   m_Mute: 0
@@ -536,6 +562,21 @@ State:
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
+--- !u!1102 &110221986
+State:
+  m_ObjectHideFlags: 3
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Land_02
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Motions:
+  - {fileID: 7400000, guid: 075a8437e6a20f147ad855814e0fae20, type: 3}
+  m_ParentStateMachine: {fileID: 110700000}
+  m_Position: {x: -120, y: -144, z: 0}
+  m_IKOnFeet: 0
+  m_Mirror: 0
+  m_Tag: 
 --- !u!1102 &110225531
 State:
   m_ObjectHideFlags: 3
@@ -560,9 +601,9 @@ State:
   m_Speed: 1
   m_CycleOffset: 0
   m_Motions:
-  - {fileID: 7400000, guid: 3e15a6286a60f874abbfdc166a24c382, type: 3}
+  - {fileID: 7400000, guid: c665e19eaa6c7d544b33fd6632e58d55, type: 3}
   m_ParentStateMachine: {fileID: 110700000}
-  m_Position: {x: -120, y: -168, z: 0}
+  m_Position: {x: -120, y: -204, z: 0}
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
@@ -680,9 +721,9 @@ State:
   m_Speed: 1
   m_CycleOffset: 0
   m_Motions:
-  - {fileID: 7400000, guid: ec5dcb6365d33d9419d96055aafb3698, type: 3}
+  - {fileID: 7400000, guid: 89af67434ce022f428d31b75d775eff9, type: 3}
   m_ParentStateMachine: {fileID: 110700000}
-  m_Position: {x: -348, y: -168, z: 0}
+  m_Position: {x: -348, y: -204, z: 0}
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
@@ -723,6 +764,7 @@ StateMachine:
   - {fileID: 110268223}
   - {fileID: 110280411}
   - {fileID: 110257825}
+  - {fileID: 110221986}
   m_ChildStateMachine: []
   m_ChildStateMachinePosition: []
   m_OrderedTransitions:
@@ -749,7 +791,7 @@ StateMachine:
     data:
       first: {fileID: 110249780}
       second:
-      - {fileID: 110141478}
+      - {fileID: 110124480}
     data:
       first: {fileID: 110297857}
       second:
@@ -790,6 +832,10 @@ StateMachine:
       first: {fileID: 110257825}
       second:
       - {fileID: 110196319}
+    data:
+      first: {fileID: 110221986}
+      second:
+      - {fileID: 110159789}
   m_MotionSetCount: 1
   m_AnyStatePosition: {x: -360, y: 12, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
