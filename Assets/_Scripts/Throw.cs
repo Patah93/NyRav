@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class Throw : MonoBehaviour {
@@ -15,8 +15,18 @@ public class Throw : MonoBehaviour {
 	Vector3 force;
 	float forceStick = 0;
 
-	public float maxForce = 100.0f;
+	public Vector3 highestPos;
+	public Vector3 lastPos;
 
+	GameObject target;
+
+	Rigidbody throbject;
+
+	private float clock;
+
+	[Range (1f,50f)]
+	public float maxForce = 10.0f;
+	
 	private bool throwing = false;
 	private float throwClock;
 
@@ -40,8 +50,19 @@ public class Throw : MonoBehaviour {
 						Debug.Log ("arcLine");
 
 		_anim = GameObject.FindWithTag ("Player").GetComponent<Animator>();
+		target = GameObject.CreatePrimitive (PrimitiveType.Sphere);
+		target.transform.localScale.Set (10f, 10f, 10f);
+		target.renderer.enabled = false;
+		target.layer = 2;
+		target.renderer.material.shader = Shader.Find("Transparent/Diffuse");
+		Color c = target.renderer.material.color;
+		c.a = 0.25f;
+		target.renderer.material.color = c;
+		target.collider.enabled = false;
+	 	//Shader testSphere = target.renderer.material.shader;
+		//testSphere.
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		float rightY = Input.GetAxis("RightStickVertical");
@@ -60,30 +81,46 @@ public class Throw : MonoBehaviour {
 		force = ((PlayerXForm.forward + PlayerXForm.up) * 5);
 		force = force + ((PlayerXForm.forward + PlayerXForm.up) * forceStick);
 		//if (camera.camState == ThirdPersonCamera.CamStates.FirstPerston) {
-		if(_anim.GetBool("ThrowMode")){
-			//if (Input.GetKeyDown (KeyCode.H))
-			UpdatePredictionLine ();
-			if (Input.GetButtonDown("Fire1") && !throwing && _anim.GetCurrentAnimatorStateInfo(0).IsName("Throw Idle")){
-				throwing = true;
-				throwClock = Time.time + throwOffset;
-				_anim.SetBool("Throw", true);
-			}
-			if(Time.time > throwClock && throwing){
-				ThrowObject ();
-				throwing = false;
-				_anim.SetBool("Throw", false);
-			}
-		} else
-			arcLine.SetVertexCount (0);
+		if (_anim.GetBool ("ThrowMode")) {
+						if(throbject == null && Time.time > clock){
+							throbject = Instantiate(throwObj, GameObject.Find("L_wrist_ctrl").transform.position/*PlayerXForm.position + (PlayerXForm.forward * 1) + new Vector3(0f,1f,0f)*/,Quaternion.identity) as Rigidbody;
+							throbject.transform.parent = GameObject.Find("L_wrist_ctrl").transform;
+							throbject.rigidbody.useGravity = false;
+
+						}	
+						//if (Input.GetKeyDown (KeyCode.H))
+						target.renderer.enabled = true;
+						UpdatePredictionLine ();
+						if (Input.GetButtonDown ("Fire1") && !throwing && _anim.GetCurrentAnimatorStateInfo (0).IsName ("Throw Idle")) {
+								throwClock = Time.time + throwOffset;
+								changeThrowStatus();
+						}
+						if (Time.time > throwClock && throwing) {
+								ThrowObject ();
+								changeThrowStatus();
+						}
+				} else {
+						arcLine.SetVertexCount (0); 
+						GameObject.Find("L_wrist_ctrl").transform.DetachChildren();
+						throbject.rigidbody.useGravity = true;
+						target.renderer.enabled = false;
+						changeThrowStatus();						
+				}
 
 	}
 
 	void ThrowObject() {
-		Rigidbody clone;
+		//Rigidbody clone;
 
-		clone = Instantiate(throwObj,PlayerXForm.position + (PlayerXForm.forward * 1) + new Vector3(0f,1f,0f),Quaternion.identity) as Rigidbody;
+		//clone = Instantiate(throwObj, GameObject.Find("L_wrist_ctrl").transform.position/*PlayerXForm.position + (PlayerXForm.forward * 1) + new Vector3(0f,1f,0f)*/,Quaternion.identity) as Rigidbody;
 
-		clone.AddForce(force, ForceMode.Impulse);
+
+		throbject.rigidbody.useGravity = true;
+		GameObject.Find("L_wrist_ctrl").transform.DetachChildren();
+
+		throbject.AddForce(force, ForceMode.Impulse);
+		throbject = null;
+		clock = Time.time + 1f;
 	}
 	/*
 	void UpdatePredictionLine() {
@@ -100,6 +137,7 @@ public class Throw : MonoBehaviour {
 	{
 		arcLine.SetVertexCount(180);
 		Vector3 previousPosition = PlayerXForm.position + (PlayerXForm.forward * 1) + new Vector3(0f,1f,0f);
+		highestPos = previousPosition;
 		for(int i = 0; i < 180; i++)
 		{
 			Vector3 posN = GetTrajectoryPoint(PlayerXForm.position + (PlayerXForm.forward * 1) + new Vector3(0f,1f,0f), force, i, Physics.gravity);
@@ -111,16 +149,23 @@ public class Throw : MonoBehaviour {
 			RaycastHit hitInfo = new RaycastHit();
 			if(Physics.Raycast(previousPosition, direction, out hitInfo, distance))
 			{
+				if(highestPos.y < hitInfo.point.y)
+					highestPos = hitInfo.point;
 				if(hitInfo.transform.tag != "Throw") {
 				arcLine.SetPosition(i,hitInfo.point);
 				arcLine.SetVertexCount(i);
+					lastPos = hitInfo.point;
 				break;
 				}
 			}
-			
+
+			if(highestPos.y < posN.y)
+				highestPos = posN;
+
 			previousPosition = posN;
 			arcLine.SetPosition(i,posN);
 		}
+		target.transform.position = lastPos;
 	}
 
 	Vector3 GetTrajectoryPoint(Vector3 startingPosition, Vector3 initialVelocity, float timestep, Vector3 gravity)
@@ -133,4 +178,9 @@ public class Throw : MonoBehaviour {
 		
 		return startingPosition + (timestep * stepVelocity) + ((( timestep * timestep + timestep) * stepGravity ) / 2.0f);
 	}
+
+	void changeThrowStatus(){
+		throwing = !throwing;
+		_anim.SetBool ("Throw", !_anim.GetBool ("Throw"));
+		}
 }

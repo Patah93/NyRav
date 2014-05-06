@@ -10,9 +10,7 @@ public class AnimationMan : MonoBehaviour {
 	Vector2 _characterRotation;
 	public float _length;
 	float _angle;
-	bool _jump;
 	float _clock;
-	float _maxTime = 200f;
 	bool _active = true;
 
 	public Animator Animator {get{return this._animator;} }
@@ -23,12 +21,11 @@ public class AnimationMan : MonoBehaviour {
 	int m_LocomotionId = 0;
 
 	public float _lerpTime = 5f;
+	public float _lerpThrowTime = 2f;
 
 
 	// Use this for initialization
 	void Start () {
-		_jump = false;
-
 		_animator = GetComponent<Animator>();
 		m_LocomotionId = Animator.StringToHash ("Base Layer.Run");
 		camera = Camera.main.GetComponent<ThirdPersonCamera> ();
@@ -48,20 +45,22 @@ public class AnimationMan : MonoBehaviour {
 			updateCameraRotation();
 			joystickConvert ();
 			updateCharacterRotation();
-
+			float lerpit = _lerpTime;
 			if(Input.GetButtonDown("Fire3"))
 				_animator.SetBool("ThrowMode", !_animator.GetBool("ThrowMode"));
 
-			if(!_animator.GetBool("ThrowMode"))
-				_length = Mathf.Sqrt(Mathf.Pow (Mathf.Abs(Input.GetAxis("Horizontal")),2) + Mathf.Pow (Mathf.Abs(Input.GetAxis("Vertical")),2));
-			
+			if(!_animator.GetBool("ThrowMode")){
+				_length = Mathf.Sqrt(Mathf.Pow (Mathf.Abs(Input.GetAxis("Horizontal")),2) + Mathf.Pow (Mathf.Abs(Input.GetAxis("Vertical")),2));	
+			} else
+				lerpit = _lerpThrowTime;
+
 			if (camera.camState != ThirdPersonCamera.CamStates.FirstPerston) {
 
 				if(Mathf.Abs(Input.GetAxis("Horizontal")) > 0 || Mathf.Abs(Input.GetAxis("Vertical")) > 0 && !_animator.GetBool("ThrowMode")){
 
 					_angle = Vector2.Angle (_cameraRotationForward, _targetRotation) * Mathf.Sign(Input.GetAxis ("Horizontal"));
 
-					Quaternion targetRotation = Quaternion.Slerp (transform.rotation, Camera.main.transform.rotation * Quaternion.Euler(0, _angle, 0), Time.deltaTime * _lerpTime);
+					Quaternion targetRotation = Quaternion.Slerp (transform.rotation, Camera.main.transform.rotation * Quaternion.Euler(0, _angle, 0), Time.deltaTime * lerpit);
 					transform.rotation = new Quaternion(transform.rotation.x, targetRotation.y, transform.rotation.z, targetRotation.w);
 
 				}
@@ -94,8 +93,10 @@ public class AnimationMan : MonoBehaviour {
 	}
 
 	private void joystickConvert(){
-
-		_targetRotation = (Input.GetAxis("Vertical") * _cameraRotationForward) + (Input.GetAxis("Horizontal") * _cameraRotationRight);
+		if(_animator.GetBool("ThrowMode"))
+			_targetRotation = (Mathf.Clamp(Input.GetAxis("Vertical"),0,1) * _cameraRotationForward) + (Input.GetAxis("Horizontal") * _cameraRotationRight);
+		else
+			_targetRotation = (Input.GetAxis("Vertical") * _cameraRotationForward) + (Input.GetAxis("Horizontal") * _cameraRotationRight);
 	}
 
 	private void updateCharacterRotation(){
