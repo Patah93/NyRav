@@ -11,8 +11,8 @@ public class FoxNode : MonoBehaviour {
 		if (_nextNode != null) {
 			_nextNode.setPrevNode (this);
 		}
-
-		GetComponent<Renderer>().enabled = false;
+		if(GetComponent<Renderer>() != null)
+			GetComponent<Renderer>().enabled = false;
 	}
 	
 	// Update is called once per frame

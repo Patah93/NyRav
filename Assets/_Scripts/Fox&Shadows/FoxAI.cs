@@ -20,6 +20,8 @@ public class FoxAI : MonoBehaviour {
 
 	Vector3 _direction;
 
+	Quaternion _desiredRotation;
+
 	// Use this for initialization
 	void Start () {
 
@@ -35,11 +37,15 @@ public class FoxAI : MonoBehaviour {
 		_pathSafe = false;
 
 		_shadowDetect = GetComponent<ShadowDetection>();
+
+		_desiredRotation = transform.rotation;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		/* TODO Lägga i LateUpdate() ? int döda räv under checken... */
+
+		Debug.DrawLine(transform.position - new Vector3(0, GetComponent<BoxCollider>().size.y/4.0f * 0.12f, 0) + transform.forward*0.8f, transform.position - new Vector3(0, GetComponent<BoxCollider>().size.y/2.0f, 0) + transform.forward*0.8f + Vector3.down * 5.0f, Color.red);
+
 		if (_targetNode != null) {
 			if (reachedTarget()) {
 				//transform.position = new Vector3(_targetNode.transform.position.x, transform.position.y, _targetNode.transform.position.z);
@@ -75,9 +81,14 @@ public class FoxAI : MonoBehaviour {
 	}
 
 	void FixedUpdate(){
-		if(_updateTick == 0){
 
-			/* TODO other points of interest in ShadowDet-Script */
+		/* TODO STÄMMER DETTA? inte döda räven under testet, mn annars avlid */
+		if(_updateTick == 0 && (_pathSafe || _targetNode == null)){
+
+			/* TODO other points of interest in ShadowDet-Script
+			 * 	kolla olika punkter varje updateTick, basera på %
+			 *	istället för _updateTick == 0 bajset... 
+			 */
 			if(_shadowDetect.isObjectInLight()){
 				Debug.Log("DIEDIEDIEDIE POOR FOXIE! >='[");
 			}
@@ -96,8 +107,9 @@ public class FoxAI : MonoBehaviour {
 		Vector3 originalPos = transform.position;
 		Quaternion originalRotation = transform.rotation;
 		Vector3 lastCheckPos = transform.position - new Vector3(100, 100, 100);
+		Vector3 prevPos = originalPos;
 
-		int count = 0;
+		//int count = 0;
 		while(!reachedTarget()){
 			move ();
 			if((transform.position - lastCheckPos).sqrMagnitude > CHECK_LIGHT_INTERVAL){
@@ -105,20 +117,26 @@ public class FoxAI : MonoBehaviour {
 					_pathSafe = false;
 					transform.position = originalPos;
 					transform.rotation = originalRotation;
+					_desiredRotation = originalRotation;
 					return;
 				}
 				lastCheckPos = transform.position;
-				count++;
+				//count++;
 			}
-			else if((transform.position - lastCheckPos).sqrMagnitude < 0.00001f){
+			else if((transform.position - prevPos).sqrMagnitude < float.Epsilon){ /* BILLIGARE ÄN == 0 ?? */
 				_pathSafe = false;
 				transform.position = originalPos;
 				transform.rotation = originalRotation;
+				_desiredRotation = originalRotation;
 				return;
 			}
+			prevPos = transform.position;
 		}
+
 		_pathSafe = true;
 		transform.position = originalPos;
+		transform.rotation = originalRotation;
+		_desiredRotation = originalRotation;
 		//Debug.Log(count + ": lightchecks!"); 
 	}
 
@@ -129,9 +147,9 @@ public class FoxAI : MonoBehaviour {
 		_direction = new Vector3((_targetNode.transform.position - transform.position).x, 0, (_targetNode.transform.position - transform.position).z);
 		_direction.Normalize();
 
-		if(Physics.Raycast(transform.position + transform.up * 0.5f, Vector3.down, out rayInfo, 1.5f)){
+		if(Physics.Raycast(transform.position + transform.up + transform.forward*0.8f, Vector3.down, out rayInfo, 5.0f)){
 
-			//Debug.DrawLine(transform.position, transform.position + Vector3.down * 5.0f, Color.red);
+			//Debug.DrawLine(transform.position + transform.up + transform.forward*0.8f, transform.position + transform.up + transform.forward*0.8f + Vector3.down * 5.0f, Color.red);
 			//Debug.DrawRay(rayInfo.point, rayInfo.normal, Color.blue);
 			//Debug.DrawLine(transform.position, transform.position + _direction * 10, Color.green);
 
@@ -142,25 +160,35 @@ public class FoxAI : MonoBehaviour {
 			if(Vector3.Angle(_direction, rayInfo.normal) < 89){
 
 				//transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y-angle, transform.rotation.z);
-				transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x+angle, transform.localEulerAngles.y, transform.localEulerAngles.z);
+				_desiredRotation = Quaternion.Euler(transform.localEulerAngles.x+angle, transform.localEulerAngles.y, transform.localEulerAngles.z);
 				//Debug.Log("Downhill");
 			}
 			else if(Vector3.Angle(_direction, rayInfo.normal) > 91){
 
 				//transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y+angle, transform.rotation.z);
-				transform.localRotation = Quaternion.Euler(transform.localEulerAngles.x-angle, transform.localEulerAngles.y, transform.localEulerAngles.z);
+				_desiredRotation = Quaternion.Euler(transform.localEulerAngles.x-angle, transform.localEulerAngles.y, transform.localEulerAngles.z);
 				//Debug.Log("Uphill");
 			}
 			else{
 				//transform.rotation = Quaternion.Euler(transform.rotation.x, 0, transform.rotation.z);
 				//transform.rotation = Quaternion.LookRotation(_direction);
+				_desiredRotation = transform.rotation;
 				//Debug.Log("Straight ground");
+			}
+
+			if(_desiredRotation != transform.rotation){
+			//	transform.rotation = _desiredRotation;
+				transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRotation, 1.0f);
 			}
 
 			//Vector3 tempPos = transform.position;
 
 			//Debug.DrawRay(transform.position, transform.forward, Color.yellow);
-			transform.position += transform.forward * 10 * Time.deltaTime;
+			transform.position += transform.forward * 4 * Time.deltaTime;
+		}
+		else{
+			/* TODO FALL DOWN FFS */
+			//transform.position += Vector3.down * 10 * Time.deltaTime;
 		}
 		
 	}
