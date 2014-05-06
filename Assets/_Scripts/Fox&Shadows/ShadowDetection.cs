@@ -44,12 +44,12 @@ public class ShadowDetection : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+		/*
 		updatePointsOfInterest ();
 
-		/* TODO If fox (fox-ghost) moved OR shadows have changed */
+		/* TODO If fox (fox-ghost) moved OR shadows have changed *
 			if (isObjectInLight ()) {
-				/* Handle ... */
+				/* Handle ... *
 					// - Stop the actual fox
 					// - Kill the fox
 					// - etc... (Whatever we decide to do...)
@@ -61,14 +61,14 @@ public class ShadowDetection : MonoBehaviour {
 			}
 
 		else{
-		/* END */
+		/* END *
 
 		if(temp_isLighted){
 			Debug.Log("Mmm vad SKÖÖN SKUGGA MUMS");
 			temp_isLighted = false;
 		}
 		}
-
+		*/
 		//gameObject.collider.bounds.IntersectRay(new Ray(gameObject.collider.bounds., _sunDirection
 	}
 
@@ -285,6 +285,13 @@ public class ShadowDetection : MonoBehaviour {
 				_numberLightedVertices++;
 			}
 
+			/* SpotLights */
+			else if(isPointInSpotLight(/*getLamps()*/ spotLights, _pointsOfInterest[i], ref shadowCasters)){
+				//return true;
+				return_value = true;
+				_numberLightedVertices++;
+			}
+
 			/* Lampor */
 			else if(isPointInLampLight(/*getLamps()*/ lamps, _pointsOfInterest[i], ref shadowCasters)){
 				//return true;
@@ -292,12 +299,6 @@ public class ShadowDetection : MonoBehaviour {
 				_numberLightedVertices++;
 			}
 
-			/* SpotLights */
-			else if(isPointInSpotLight(/*getLamps()*/ spotLights, _pointsOfInterest[i], ref shadowCasters)){
-				//return true;
-				return_value = true;
-				_numberLightedVertices++;
-			}
 		}
 
 		//return false;
@@ -328,15 +329,19 @@ public class ShadowDetection : MonoBehaviour {
 
 		for(int i = 0; i < lamps.Length; i++){
 
-			if((point - lamps[i].transform.position).sqrMagnitude <= lamps[i].light.range *lamps[i].light.range){
+			if(lamps[i].light.enabled && (point - lamps[i].transform.position).sqrMagnitude <= lamps[i].light.range *lamps[i].light.range){
 				theRay.origin = point;
 				theRay.direction = (lamps[i].transform.position - point).normalized; 
 
 				return_value = true;
 
 				for(int j = 0; j < shadowCasters.Length; j++){
-					if(shadowCasters[j].collider.bounds.IntersectRay(theRay)){
-						return_value = false;
+					float length;
+					if(shadowCasters[j].collider.bounds.IntersectRay(theRay, out length)){
+						if(length * length  <= (point - lamps[i].transform.position).sqrMagnitude){
+							//Debug.Log (shadowCasters[j].name + ": är ivägen! D:");
+							return_value = false;
+						}
 					}
 				}
 
@@ -355,22 +360,27 @@ public class ShadowDetection : MonoBehaviour {
 		if(spotLights.Length <= 0){
 			return false;
 		}
-		
+
 		bool return_value;
 		
 		for(int i = 0; i < spotLights.Length; i++){
 			
-			if((point - spotLights[i].transform.position).sqrMagnitude <= spotLights[i].light.range * spotLights[i].light.range){
+			if(spotLights[i].light.enabled && (point - spotLights[i].transform.position).sqrMagnitude <= spotLights[i].light.range * spotLights[i].light.range){
+				//Debug.Log ("In range...");
 				theRay.origin = point;
-				theRay.direction = (spotLights[i].transform.position - point).normalized; 
+				theRay.direction = (spotLights[i].transform.position - point).normalized;
 
 				if(Vector3.Angle(spotLights[i].transform.forward, (theRay.direction*-1)) <= spotLights[i].light.spotAngle/2.0f){
-				
+					//Debug.Log ("In cone...");
 					return_value = true;
 					
 					for(int j = 0; j < shadowCasters.Length; j++){
-						if(shadowCasters[j].collider.bounds.IntersectRay(theRay)){
-							return_value = false;
+						float length;
+						if(shadowCasters[j].collider.bounds.IntersectRay(theRay, out length)){
+							if(length * length  <= (point - spotLights[i].transform.position).sqrMagnitude){
+								//Debug.Log (shadowCasters[j].name + ": är ivägen! D:");
+								return_value = false;
+							}
 						}
 					}
 					

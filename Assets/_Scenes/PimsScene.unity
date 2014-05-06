@@ -5337,6 +5337,13 @@ Prefab:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 16ff15f88030c6d4db2438119f118611, type: 2}
+<<<<<<< HEAD
+=======
+    - target: {fileID: 11400002, guid: 4910035722803d84fa41415b347c15e4, type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+>>>>>>> d3cfab251ecc2834a2c8b6366d0b777c059708a4
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4910035722803d84fa41415b347c15e4, type: 2}
   m_RootGameObject: {fileID: 1744776513}
@@ -26532,7 +26539,7 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 327442116}
   m_GameObject: {fileID: 1744776513}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fcd0c985580f07e45a207d0d6f3670e2, type: 3}
   m_Name: 
@@ -26540,6 +26547,7 @@ MonoBehaviour:
   throwObj: {fileID: 5400000, guid: c9e0d601c036ae848878965bed03581d, type: 2}
   offSet: {x: 0, y: 0, z: 0}
   maxForce: 100
+  throwOffset: .600000024
   arcLine: {fileID: 1744776515}
 --- !u!114 &1744776517
 MonoBehaviour:

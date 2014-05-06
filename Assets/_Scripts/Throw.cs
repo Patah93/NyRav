@@ -11,11 +11,18 @@ public class Throw : MonoBehaviour {
 	//reference to the camera so we can get camState!
 	private ThirdPersonCamera camera;
 
+	private Animator _anim;
 	Vector3 force;
 	float forceStick = 0;
 
 	public float maxForce = 100.0f;
 
+	public Vector3 higestPosit;
+
+	private bool throwing = false;
+	private float throwClock;
+
+	public float throwOffset = 0.6f;
 	public LineRenderer arcLine;
 	//player transform
 	private Transform PlayerXForm;
@@ -33,11 +40,13 @@ public class Throw : MonoBehaviour {
 
 		if (arcLine == null)
 						Debug.Log ("arcLine");
+
+		_anim = GameObject.FindWithTag ("Player").GetComponent<Animator>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		float rightY = Input.GetAxis("RightStickVertical");
+		float rightY = -Input.GetAxis("Vertical");
 
 
 
@@ -52,13 +61,22 @@ public class Throw : MonoBehaviour {
 
 		force = ((PlayerXForm.forward + PlayerXForm.up) * 5);
 		force = force + ((PlayerXForm.forward + PlayerXForm.up) * forceStick);
-		if (camera.camState == ThirdPersonCamera.CamStates.FirstPerston) {
-						//if (Input.GetKeyDown (KeyCode.H))
-						UpdatePredictionLine ();
-						if (Input.GetButtonDown("Fire1"))
-								ThrowObject ();
-				} else
-						arcLine.SetVertexCount (0);
+		//if (camera.camState == ThirdPersonCamera.CamStates.FirstPerston) {
+		if(_anim.GetBool("ThrowMode") || _anim.GetBool("Throw")){
+			//if (Input.GetKeyDown (KeyCode.H))
+			UpdatePredictionLine ();
+			if (Input.GetButtonDown("Fire1") && !throwing && _anim.GetCurrentAnimatorStateInfo(0).IsName("Throw Idle")){
+				throwing = true;
+				throwClock = Time.time + throwOffset;
+				_anim.SetBool("Throw", true);
+			}
+			if(Time.time > throwClock && throwing){
+				ThrowObject ();
+				throwing = false;
+				_anim.SetBool("Throw", false);
+			}
+		} else
+			arcLine.SetVertexCount (0);
 
 	}
 
@@ -84,6 +102,7 @@ public class Throw : MonoBehaviour {
 	{
 		arcLine.SetVertexCount(180);
 		Vector3 previousPosition = PlayerXForm.position + (PlayerXForm.forward * 1) + new Vector3(0f,1f,0f);
+		higestPosit = previousPosition;
 		for(int i = 0; i < 180; i++)
 		{
 			Vector3 posN = GetTrajectoryPoint(PlayerXForm.position + (PlayerXForm.forward * 1) + new Vector3(0f,1f,0f), force, i, Physics.gravity);
@@ -96,12 +115,18 @@ public class Throw : MonoBehaviour {
 			if(Physics.Raycast(previousPosition, direction, out hitInfo, distance))
 			{
 				if(hitInfo.transform.tag != "Throw") {
-				arcLine.SetPosition(i,hitInfo.point);
-				arcLine.SetVertexCount(i);
-				break;
+
+					if(higestPosit.y < hitInfo.point.y)
+						higestPosit = hitInfo.point;
+					arcLine.SetPosition(i,hitInfo.point);
+					arcLine.SetVertexCount(i);
+					break;
 				}
 			}
-			
+
+			if(higestPosit.y < posN.y)
+				higestPosit = posN;
+
 			previousPosition = posN;
 			arcLine.SetPosition(i,posN);
 		}

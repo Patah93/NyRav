@@ -25,10 +25,10 @@ public class Trigger : MonoBehaviour {
 			TriggerAction[] _tAction = _actionObj[i].GetComponents<TriggerAction>();
 			if(_tAction.Length > 1){
 				if(_tAction[0].GetType() != typeof(triggerGroup)){
-					_action[i] = _tAction[0];
+					_action[i] = _tAction[1];
 				}
 				else{
-					_action[i] = _tAction[1];
+					_action[i] = _tAction[0];
 				}
 			}else{
 				_action[i] = _tAction[0];
@@ -47,7 +47,7 @@ public class Trigger : MonoBehaviour {
 				for(int i = 0; i < _action.Length; i++){
 					_action[i].onActive();
 				}
-				gameObject.renderer.material.color = Color.red;
+				//gameObject.renderer.material.color = Color.red;
 			}
 			_numberOfThings++;
 			return;
@@ -59,7 +59,7 @@ public class Trigger : MonoBehaviour {
 					for(int j = 0; j < _action.Length; j++){
 						_action[j].onActive();
 					}
-					gameObject.renderer.material.color = Color.red;
+					//gameObject.renderer.material.color = Color.red;
 				}
 				_numberOfThings++;
 				return;
@@ -74,7 +74,7 @@ public class Trigger : MonoBehaviour {
 				for(int i = 0; i < _action.Length; i++){
 					_action[i].onInactive();
 				}
-				gameObject.renderer.material.color = Color.green;
+				//gameObject.renderer.material.color = Color.green;
 				return;
 			}
 		}
@@ -86,7 +86,7 @@ public class Trigger : MonoBehaviour {
 					for(int j = 0; j < _action.Length; j++){
 						_action[j].onInactive();
 					}
-					gameObject.renderer.material.color = Color.green;
+					//gameObject.renderer.material.color = Color.green;
 					return;
 				}
 			}
