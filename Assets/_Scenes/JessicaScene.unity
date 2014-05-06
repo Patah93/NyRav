@@ -6610,10 +6610,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 038ec601cdb42104494da8442be67278, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _position: {x: 0, y: 0, z: 0}
+  _deltapos: {x: 0, y: 0, z: 0}
+  _deltaobjpos: {x: 0, y: 0, z: 0}
+  _objpos: {x: 0, y: 0, z: 0}
+  _obj: {fileID: 0}
+  _objposy: 0
+  _boyposx: 0
+  _pushing: 0
   _deadZone: .200000003
   _maxSpeed: .100000001
   _lerpTime: .0599999987
   _offset: 1
+  _speed: 0
+  _ani: {fileID: 0}
+  _boystate: {fileID: 0}
+  _charContr: {fileID: 0}
+  _blockedBackwards: 0
+  _blockedForward: 0
+  _distance: 0
+  _direction: {x: 0, y: 0, z: 0}
+  _collidedf: 0
+  _collidedb: 0
+  sideZ: 0
+  _test: 0
 --- !u!114 &496455553
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6626,10 +6646,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a046f5a64c9e3704884702327047e404, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animator: {fileID: 0}
   _jumpForce: 300
   _offsetX: 0
   _offsetY: 0
   _offsetZ: 0
+  _clock: 0
+  _maxTime: .5
+  _jump: 0
+  _disJump: 0
 --- !u!114 &496455554
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6642,7 +6667,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f06845d67705280489f13655be381e39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _animator: {fileID: 0}
+  _cameraRotationForward: {x: 0, y: 0}
+  _cameraRotationRight: {x: 0, y: 0}
+  _targetRotation: {x: 0, y: 0}
+  _characterRotation: {x: 0, y: 0}
   _length: 0
+  _angle: 0
+  _jump: 0
+  _clock: 0
+  _maxTime: 200
+  _active: 1
+  camera: {fileID: 0}
+  m_LocomotionId: 0
   _lerpTime: 5
   _lerpThrowTime: 1.5
 --- !u!114 &496455555
@@ -6661,11 +6698,21 @@ MonoBehaviour:
   _rayYOffset: .600000024
   _raylength: 2
   _pos:
-    serializedVersion: 2
     x: 0
     y: 0
     width: 0
     height: 0
+  ray1: {x: 0, y: 0, z: 0}
+  ray2: {x: 0, y: 0, z: 0}
+  _push: {fileID: 0}
+  _walk: {fileID: 0}
+  _jump: {fileID: 0}
+  _drawInteract: 0
+  _text: 5072657373204520746f2070757368
+  _ani: {fileID: 0}
+  _leavePush: 0
+  _enterPush: 0
+  _obj: {fileID: 0}
 --- !u!143 &496455556
 CharacterController:
   m_ObjectHideFlags: 0

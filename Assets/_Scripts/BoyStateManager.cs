@@ -2,11 +2,13 @@ using UnityEngine;
 using System.Collections;
 
 public class BoyStateManager : MonoBehaviour {
-
-	public float _rayXOffset = 1;
-	public float _rayYOffset = 4;
+	
+	public float _rayXOffset = 0.25f;
+	public float _rayYOffset = 0.6f;
 	public float _raylength = 2;
+	public float _pushOffset = 1;
 	public Rect _pos;
+
 	RaycastHit _rayHit;
 	Vector3 ray1;
 	Vector3 ray2;
@@ -19,10 +21,16 @@ public class BoyStateManager : MonoBehaviour {
 	bool _leavePush = false;
 	bool _enterPush = false;
 	Transform _obj;
-
+	bool _sideZ;
+	float _distance;
+	Vector3 _direction;
+	Vector3 _dudepos;
+	bool _cooldown = false;
+	
+	
 	// Use this for initialization
 	void Start () {
-
+		
 		_ani = gameObject.GetComponent<Animator> ();
 		_push = gameObject.GetComponent<PushAndPull>();
 		_walk = gameObject.GetComponent<AnimationMan>();
@@ -31,86 +39,102 @@ public class BoyStateManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
 		ray1 = transform.position + transform.right * _rayXOffset;
 		ray1 = new Vector3(ray1.x,transform.position.y + _rayYOffset,ray1.z);
 		
 		ray2 = transform.position - transform.right * _rayXOffset;
 		ray2 = new Vector3(ray2.x,transform.position.y + _rayYOffset,ray2.z);
-
-		if(_walk.getActivate() && _leavePush == false){
-			if(Physics.Raycast(ray1, transform.forward,out _rayHit,_raylength) || Physics.Raycast(ray2, transform.forward,out _rayHit, _raylength)){
-			//	print ( "YOU COLLIDED WITH SOMETHING");
-				Debug.DrawRay(ray1,transform.forward,Color.red,_raylength,true);
-				Debug.DrawRay(ray2,transform.forward,Color.red,_raylength,true);
-				if(_rayHit.collider.transform.tag == "Interactive"&& !_jump.isJumping()){
-					//print ("YOU CAN INTERRACT WITH THIS");
+		
+		if(_walk.enabled && _leavePush == false){ // If we currently are in walkmode
+			if(Physics.Raycast(ray1, transform.forward,out _rayHit,_raylength) || Physics.Raycast(ray2, transform.forward,out _rayHit, _raylength)){ //If we collided with something
+				//Debug.DrawRay(ray1,transform.forward,Color.red,_raylength,true);
+				//Debug.DrawRay(ray2,transform.forward,Color.red,_raylength,true);
+				if(_rayHit.collider.transform.tag == "Interactive"&& !_jump.isJumping()){ //If that object is Interactive
 					_drawInteract = true;
-					if(Input.GetButtonDown("Interact")){		//INTERACT-KNAPPEN HÄR
-						_obj = _rayHit.collider.transform;
-						Physics.IgnoreCollision(transform.collider,_obj.collider,true);
-						_enterPush = true;
-						_ani.SetBool("Pushing",true);
-						_push.enabled = true;
-						_push.Activate(true, _rayHit.collider.transform,_rayHit.normal);
-						_walk.Activate(false);
-						_walk.enabled = false;
-						//_walk.Activate = false;
-						//print ("YOU ARE IN PUSH MODE! :D");
-						_drawInteract = false;
-						_jump.disableJump(true);
+					if(Input.GetButtonDown("Interact")){	//Enter pushmode	
+						enterPushMode();												
 					}
 				}
 			}
 			else{
 				_drawInteract = false;
 			}
-			Debug.Log (_leavePush); 
 		}
-
-		else if(_push.getActivate() && _enterPush == false){
-			if(Input.GetButtonDown("Interact")){		
-				_ani.SetBool("Pushing",false);
-				_push.Activate(false, null,Vector3.zero);
-				_walk.enabled = true;
-				_walk.Activate(true);
-				print ("YOU ARE IN WALK MODE! :D");
-				_jump.disableJump(false);
-				//transform.collider.enabled = true;
-				_leavePush = true;
+		else if(_push.enabled && _enterPush == false){ 	//If we currently are in push mode
+			if(Input.GetButtonDown("Interact")){		//Enter walk mode	
+				enterWalkMode();
 			}
 		}
-
-		if(_ani.GetCurrentAnimatorStateInfo(0).IsName("Push/Pull Idle") && _enterPush){
+		
+		if(_ani.GetCurrentAnimatorStateInfo(0).IsName("Push/Pull Idle") && _enterPush){	//Makes sure enterpush animation finishes before activating push
+			_cooldown = false;
 			_enterPush = false;
+			float temp = Mathf.Abs((transform.position - _dudepos).magnitude); 
+			_distance = _distance - temp;
+			if(_sideZ){
+				transform.position = new Vector3(_dudepos.x,transform.position.y,transform.position.z);
+			}
+			if(!_sideZ){
+				transform.position = new Vector3(transform.position.x,transform.position.y,_dudepos.z);
+			}
+			_push.enabled = true;
+			_push.Activate(true, _obj,_direction*-1,_sideZ,_distance);
 		}
 
-		if(_ani.GetCurrentAnimatorStateInfo(0).IsName("Idle") && _leavePush){
+		else if(!_ani.GetCurrentAnimatorStateInfo(0).IsName("Push/Pull Prepare") && _cooldown){ //Prevents player from gliding through box with animation
+			transform.position = _dudepos;
+		}
+		
+		if(_ani.GetCurrentAnimatorStateInfo(0).IsName("Idle") && _leavePush){	//Makes sure leavepush animation finishes before activating walk
 			Physics.IgnoreCollision(transform.collider,_obj.collider,false);
+			_walk.enabled = true;
 			_leavePush = false;
 			_obj = null;
-			Debug.Log ("EY DET FUNKAR");
 		}
 	}
-
+	
 	void OnGUI(){
 		if(_drawInteract){
-			GUI.Label(_pos,_text,GUIStyle.none);
-			//Debug.Log("wrote stuff");
+			GUI.Label(_pos,_text,GUIStyle.none);  //Types out interact message on screen
 		}
 	}
 
-	public void ActivateWalk(){
+	void enterPushMode(){
+		_drawInteract = false;		//Disable all other modes
+		_walk.enabled = false;		//
+		_ani.SetFloat("Speed",0);	//
+		_jump.enabled = false;		//
+		
+		_obj = _rayHit.collider.transform;				
+		Physics.IgnoreCollision(transform.collider,_obj.collider,true);
+		_direction = _rayHit.normal*-1;										//Calculates rotation for snap
+		transform.forward = _direction;										//
+		Vector3 _objdir = _obj.TransformDirection(_direction);				//
+		float _objside;														//
+		Vector3 temppos = _obj.position;									//
+		
+		if(Mathf.Abs(_objdir.x) > Mathf.Abs(_objdir.z)){
+			_objside = (_obj.collider as BoxCollider).size.x;
+			_sideZ = false;
+		}
+		else{
+			_objside = (_obj.collider as BoxCollider).size.z;
+			_sideZ = true;
+		}
+		
+		_distance = ((_objside/2) + _pushOffset);													//Calculates position for snap
+		_dudepos = new Vector3(temppos.x,transform.position.y,temppos.z) + _distance*_direction*-1;	//
+		transform.position = _dudepos;																
+		_ani.SetBool("Pushing",true);																
+		_enterPush = true;																			
+		_cooldown = true;	
+	}
+	
+	public void enterWalkMode(){
 		_ani.SetBool ("Pushing", false);
-		_push.Activate(false, null,Vector3.zero);
+		_push.Activate(false, null,Vector3.zero,false,_distance);
 		_push.enabled = false;
-		_walk.enabled = true;
-		_walk.Activate(true);
-		//print ("YOU ARE IN WALK MODE! :D");
-		_jump.disableJump(false);
-		//transform.collider.enabled = true;
-	//	Physics.IgnoreCollision(transform.collider,_rayHit.collider,false);
+		_jump.enabled = true;
 		_leavePush = true;
-		//Physics.IgnoreCollision(transform.collider,_rayHit.collider,false);
 	}
 }
