@@ -13,7 +13,6 @@ public class AnimationMan : MonoBehaviour {
 	bool _jump;
 	float _clock;
 	float _maxTime = 200f;
-	bool _active = true;
 
 	public Animator Animator {get{return this._animator;} }
 	private AnimatorStateInfo stateInfo;
@@ -43,8 +42,6 @@ public class AnimationMan : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
-		if(_active){
 			stateInfo = _animator.GetCurrentAnimatorStateInfo (0);
 			updateCameraRotation();
 			joystickConvert ();
@@ -73,7 +70,6 @@ public class AnimationMan : MonoBehaviour {
 
 			
 			_animator.SetFloat("Speed", _length);
-		}
 
 		//if (Input.GetButtonDown ("Jump") && !_jump && !_animator.GetBool("Jump")){
 		//
@@ -114,17 +110,6 @@ public class AnimationMan : MonoBehaviour {
 				else
 						return _lerpTime;
 
-	}
-
-	public void Activate(bool isActive){
-		_active = isActive;
-		if(!_active){
-			_animator.SetFloat("Speed", 0);
-		}
-	}
-	
-	public bool getActivate(){
-		return _active;	
 	}
 	
 	public bool IsInLocomotion() {

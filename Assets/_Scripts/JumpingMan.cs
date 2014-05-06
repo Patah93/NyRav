@@ -12,7 +12,6 @@ public class JumpingMan : MonoBehaviour {
 	float _maxTime = 0.5f;
 	//float _startPosition;
 	bool _jump = false;
-	bool _disJump;
 	RaycastHit _rayHit;
 	
 
@@ -29,7 +28,7 @@ public class JumpingMan : MonoBehaviour {
 
 		if(Input.GetButtonDown("Jump")){	//Aktiverar hoppet
 			Debug.Log("you pressed jump)");
-			if(!_jump && !_disJump){
+			if(!_jump){
 				//transform.rigidbody.constraints = RigidbodyConstraints.FreezeRotationX|RigidbodyConstraints.FreezeRotationZ; //hindrar den från att snörra cp
 
 				/* TODO Plz ta bort desa två superdåliga rader kod, my bad */
@@ -89,9 +88,5 @@ public class JumpingMan : MonoBehaviour {
 
 	public bool isJumping(){
 		return _jump;
-	}
-
-	public void disableJump(bool setJump){
-		_disJump = setJump;
 	}
 }
