@@ -123,6 +123,7 @@ public class FoxAI : MonoBehaviour {
 
 			Debug.DrawLine(transform.position, transform.position + Vector3.down * 5.0f, Color.red);
 			Debug.DrawRay(rayInfo.point, rayInfo.normal, Color.blue);
+			Debug.DrawLine(transform.position, transform.position + transform.forward * 10, Color.green);
 
 			float angle = Vector3.Angle(Vector3.up, rayInfo.normal);
 

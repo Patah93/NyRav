@@ -12908,7 +12908,7 @@ BoxCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 953344596}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 8dc6317bf11d6714d8b1f3dcb0d80915, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -15226,6 +15226,7 @@ MonoBehaviour:
   throwObj: {fileID: 5400000, guid: c9e0d601c036ae848878965bed03581d, type: 2}
   offSet: {x: 0, y: 0, z: 0}
   maxForce: 100
+  higestPosit: {x: 0, y: 0, z: 0}
   throwOffset: .600000024
   arcLine: {fileID: 1120225149}
 --- !u!114 &1120225151
@@ -15274,6 +15275,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _length: 0
   _lerpTime: 5
+  _lerpThrowTime: .25
 --- !u!114 &1120225154
 MonoBehaviour:
   m_ObjectHideFlags: 0
