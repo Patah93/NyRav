@@ -10,15 +10,15 @@ PlayerSettings:
   targetGlesGraphics: 1
   targetResolution: 0
   accelerometerFrequency: 60
-  companyName: Feta GAMES
-  productName: "R\xE4v"
+  companyName: DefaultCompany
+  productName: NyRav
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   defaultScreenWidth: 1024
   defaultScreenHeight: 768
   defaultScreenWidthWeb: 960
   defaultScreenHeightWeb: 600
-  m_RenderingPath: 2
+  m_RenderingPath: 1
   m_MobileRenderingPath: 1
   m_ActiveColorSpace: 0
   m_MTRendering: 1
@@ -72,11 +72,11 @@ PlayerSettings:
     5:4: 1
     16:10: 1
     16:9: 1
-    Others: 0
+    Others: 1
   iPhoneBundleIdentifier: com.Company.ProductName
   metroEnableIndependentInputSource: 0
   metroEnableLowLatencyPresentationAPI: 0
-  productGUID: 574f985c517d9f540800d2d178c8dff5
+  productGUID: 1ccd39de92ed1c64896110f957f76689
   iPhoneBundleVersion: 1.0
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 9
@@ -109,18 +109,8 @@ PlayerSettings:
   AndroidKeystoreName: 
   AndroidKeyaliasName: 
   resolutionDialogBanner: {fileID: 0}
-  m_BuildTargetIcons:
-  - m_BuildTarget: 
-    m_Icons:
-    - m_Icon: {fileID: 0}
-      m_Size: 128
-  m_BuildTargetBatching:
-  - m_BuildTarget: Standalone
-    m_StaticBatching: 1
-    m_DynamicBatching: 1
-  - m_BuildTarget: Windows Store Apps
-    m_StaticBatching: 1
-    m_DynamicBatching: 1
+  m_BuildTargetIcons: []
+  m_BuildTargetBatching: []
   webPlayerTemplate: APPLICATION:Default
   m_TemplateCustomTags: {}
   wiiRegion: 1
@@ -158,35 +148,20 @@ PlayerSettings:
   ps3TrialMode: 0
   flashStrippingLevel: 2
   spritePackerPolicy: 
-  scriptingDefineSymbols:
-    1: CROSS_PLATFORM_INPUT
-    2: CROSS_PLATFORM_INPUT
-    4: CROSS_PLATFORM_INPUT;MOBILE_INPUT
-    7: CROSS_PLATFORM_INPUT;MOBILE_INPUT
-    15: CROSS_PLATFORM_INPUT;MOBILE_INPUT
-    16: CROSS_PLATFORM_INPUT;MOBILE_INPUT
-<<<<<<< HEAD
-  metroPackageName: DefaultPackageName
-  metroPackageLogo: C:/Users/Admin/Documents/XBone/50.jpg
-=======
-  metroPackageName: shoppingplaza
+  scriptingDefineSymbols: {}
+  metroPackageName: NyRav
   metroPackageLogo: 
->>>>>>> Patrik
-  metroPackageVersion: 1.0.0.0
+  metroPackageVersion: 
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
   metroCertificateIssuer: 
   metroCertificateNotAfter: 0000000000000000
-  metroApplicationDescription: shopping plaza
+  metroApplicationDescription: NyRav
   metroTileLogo: 
   metroTileWideLogo: 
   metroTileSmallLogo: 
-<<<<<<< HEAD
-  metroTileShortName: "R\xE4v"
-=======
-  metroTileShortName: shopping plaz
->>>>>>> Patrik
+  metroTileShortName: 
   metroCommandLineArgsFile: 
   metroTileShowName: 1
   metroTileForegroundText: 1
@@ -194,20 +169,7 @@ PlayerSettings:
   metroSplashScreenImage: 
   metroSplashScreenBackgroundColor: {r: 0, g: 0, b: 0, a: 1}
   metroSplashScreenUseBackgroundColor: 0
-  metroCapabilities:
-    EnterpriseAuthentication: 0
-    InternetClient: 0
-    InternetClientServer: 0
-    Location: 0
-    Microphone: 0
-    MusicLibrary: 0
-    PicturesLibrary: 0
-    PrivateNetworkClientServer: 0
-    Proximity: 0
-    RemovableStorage: 0
-    SharedUserCertificates: 0
-    VideosLibrary: 0
-    WebCam: 0
+  metroCapabilities: {}
   metroUnprocessedPlugins: []
   metroCompilationOverrides: 1
   blackberryDeviceAddress: 

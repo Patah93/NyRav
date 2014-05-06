@@ -23,6 +23,7 @@ UnityGenerated/
 Library/
 *_Data/
 *.exe
+*.meta
 Assets/Editor/
 Assets/Sample Assets/
 Assets/Standard Assets/
