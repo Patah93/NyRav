@@ -104,7 +104,8 @@ public class Throw : MonoBehaviour {
 		} else {
 						arcLine.SetVertexCount (0); 
 						GameObject.Find("L_wrist_ctrl").transform.DetachChildren();
-						throbject.rigidbody.useGravity = true;
+			if(throbject != null)			
+				throbject.rigidbody.useGravity = true;
 						target.renderer.enabled = false;
 
 			if(_anim.GetBool("Throw"))
