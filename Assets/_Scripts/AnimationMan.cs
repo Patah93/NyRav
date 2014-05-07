@@ -21,8 +21,9 @@ public class AnimationMan : MonoBehaviour {
 
 	//Animation hashes
 	int m_LocomotionId = 0;
-
+	[Range (1f,5f)]
 	public float _lerpTime = 5f;
+	[Range (1f,2f)]
 	public float _lerpThrowTime = 2f;
 
 	// Use this for initialization
@@ -44,7 +45,9 @@ public class AnimationMan : MonoBehaviour {
 			updateCameraRotation();
 			joystickConvert ();
 			updateCharacterRotation();
-
+			
+		//Debug.Log (gameObject.GetComponent<CharacterController>().velocity);
+			
 			float lerpit = _lerpTime;
 			if(Input.GetButtonDown("Fire3"))
 				_animator.SetBool("ThrowMode", !_animator.GetBool("ThrowMode"));

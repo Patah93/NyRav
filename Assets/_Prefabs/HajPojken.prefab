@@ -1036,6 +1036,7 @@ GameObject:
   - 114: {fileID: 11400004}
   - 114: {fileID: 11400002}
   - 120: {fileID: 12000000}
+  - 114: {fileID: 11400010}
   m_Layer: 2
   m_Name: HajPojken
   m_TagString: Player
@@ -1897,7 +1898,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100014}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 7.1054272e-17, z: 0}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400144}
@@ -2628,7 +2629,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100136}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 49.0108795, y: .0775500536, z: -1.63866031}
+  m_LocalPosition: {x: 49.0108795, y: 2.04054308, z: -1.63866031}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400128}
@@ -3270,7 +3271,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 100136}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f06845d67705280489f13655be381e39, type: 3}
+  m_Script: {fileID: 11500000, guid: 8151882f5e4af3948a7d8bc9c294a861, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _length: 0
@@ -3282,14 +3283,16 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100136}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fcd0c985580f07e45a207d0d6f3670e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   throwObj: {fileID: 5400000, guid: c9e0d601c036ae848878965bed03581d, type: 2}
   offSet: {x: 0, y: 0, z: 0}
-  maxForce: 100
+  highestPos: {x: 0, y: 0, z: 0}
+  lastPos: {x: 0, y: 0, z: 0}
+  maxForce: 8
   throwOffset: .600000024
   arcLine: {fileID: 12000000}
 --- !u!114 &11400004
@@ -3300,13 +3303,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 100136}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 038ec601cdb42104494da8442be67278, type: 3}
+  m_Script: {fileID: 11500000, guid: d6c7e6ef26dd3964e889dae45a51e5fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _deadZone: .200000003
-  _maxSpeed: .100000001
-  _lerpTime: .0599999987
-  _offset: 1
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3315,7 +3315,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 100136}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a046f5a64c9e3704884702327047e404, type: 3}
+  m_Script: {fileID: 11500000, guid: 2943f55fb4289084380420c7e22e3568, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _jumpForce: 300
@@ -3330,18 +3330,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 100136}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51a81b3c04420ab4daad531e7ddb3167, type: 3}
+  m_Script: {fileID: 11500000, guid: b150451dc44babe47bdc33dfb2890116, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _rayXOffset: .25
   _rayYOffset: .600000024
   _raylength: 2
+  _pushOffset: 1
   _pos:
     serializedVersion: 2
     x: 0
     y: 0
     width: 0
     height: 0
+--- !u!114 &11400010
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100136}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 307af1e9528ad1e4fba019becbb9292b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _length: .00999999978
 --- !u!120 &12000000
 LineRenderer:
   m_ObjectHideFlags: 1
@@ -3487,7 +3500,7 @@ CharacterController:
   m_GameObject: {fileID: 100136}
   serializedVersion: 2
   m_Height: 1.5
-  m_Radius: .5
+  m_Radius: .300000012
   m_SlopeLimit: 45
   m_StepOffset: .300000012
   m_SkinWidth: .0799999982
