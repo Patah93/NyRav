@@ -12,6 +12,12 @@ public class FoxAI : MonoBehaviour {
 
 	bool _pathSafe;
 
+	bool _testing = false;
+
+	bool _fleeing = false;
+
+	public bool _refuseMoveIfLight = false;
+
 	public float CHECK_LIGHT_INTERVAL = 0.625f;
 
 	int _updateTick = 0;
@@ -21,6 +27,12 @@ public class FoxAI : MonoBehaviour {
 	Vector3 _direction;
 
 	Quaternion _desiredRotation;
+
+	BoxCollider _box;
+
+	public float _fallAcc = 0.01f;
+
+	private Vector3 _fallVec;
 
 	// Use this for initialization
 	void Start () {
@@ -39,16 +51,21 @@ public class FoxAI : MonoBehaviour {
 		_shadowDetect = GetComponent<ShadowDetection>();
 
 		_desiredRotation = transform.rotation;
+
+		_box = GetComponent<BoxCollider>();
+
+		_fallVec = Vector3.down * _fallAcc;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		Debug.DrawLine(transform.position - transform.up * -1 * GetComponent<BoxCollider>().bounds.min.y + transform.forward * 0.8f, transform.position - transform.up * -1 * GetComponent<BoxCollider>().bounds.min.y + transform.forward * 0.8f + Vector3.down * 5.0f, Color.red);
-
+		//Debug.DrawLine(transform.position + transform.forward * 0.28f + Vector3.up * 0.5f, transform.position + transform.forward * 0.28f + Vector3.up * 0.5f + Vector3.down * 1, Color.red);
+		//Debug.DrawLine(transform.position - transform.forward * 0.28f + Vector3.up * 0.5f, transform.position - transform.forward * 0.28f + Vector3.up * 0.5f + Vector3.down * 1, Color.red);
 		if (_targetNode != null) {
 			if (reachedTarget()) {
-				//transform.position = new Vector3(_targetNode.transform.position.x, transform.position.y, _targetNode.transform.position.z);
+				transform.position = new Vector3(_targetNode.transform.position.x, transform.position.y, _targetNode.transform.position.z);
+				_fleeing = false;
 				_currentNode = _targetNode;
 				_targetNode = null;
 				_pathSafe = false;
@@ -56,7 +73,7 @@ public class FoxAI : MonoBehaviour {
 				if(!_pathSafe){
 					checkPathForShadows();
 				}
-				if(_pathSafe){
+				if(_pathSafe || !_refuseMoveIfLight){
 					move ();
 				}
 				else{
@@ -75,20 +92,54 @@ public class FoxAI : MonoBehaviour {
 					_targetNode = _currentNode._prevNode;
 				}
 			}
+
+
+			/* Fall-kod */
+			/*
+			RaycastHit rayInfoFront, rayInfoBack;
+
+			Vector3 frontFeetRayPoint = transform.position + transform.forward * 0.28f + Vector3.up * 0.5f;
+			Vector3 backFeetRayPoint = transform.position - transform.forward * 0.28f + Vector3.up * 0.5f;
+			
+			bool frontCast = Physics.Raycast(frontFeetRayPoint, Vector3.down, out rayInfoFront, 1.0f);
+			bool backCast = Physics.Raycast(backFeetRayPoint, Vector3.down, out rayInfoBack, 1.0f);
+			
+			if(!(frontCast || backCast)){
+				/* TODO HANDLE BOTH FEET IN DAT AIR! *
+				//Debug.Log("I'M FLYYING :D");
+				_fallVec += Vector3.down * _fallAcc;
+				transform.position += _fallVec * Time.deltaTime;
+			}else{
+				_fallVec = Vector3.down * _fallAcc;
+			}
+
+			Physics.Raycast(transform.position + transform.forward * 0.28f + Vector3.up * 0.5f, Vector3.down, out rayInfoFront, 1.0f);
+			Vector3 yOffset = new Vector3(0, -(rayInfoFront.distance - 0.5f), 0);
+			transform.position += yOffset;
+			*/
 		}
 	}
 
 	void FixedUpdate(){
 
-		/* TODO STÄMMER DETTA? inte döda räven under testet, mn annars avlid */
-		if(_updateTick == 0 && (_pathSafe || _targetNode == null)){
-
-			/* TODO other points of interest in ShadowDet-Script
+		/* TODO other points of interest in ShadowDet-Script
 			 * 	kolla olika punkter varje updateTick, basera på %
 			 *	istället för _updateTick == 0 bajset... 
 			 */
+		if(_updateTick == 0 && !_testing){
+
 			if(_shadowDetect.isObjectInLight()){
 				Debug.Log("DIEDIEDIEDIE POOR FOXIE! >='[");
+
+				if(!_fleeing){
+					if(_targetNode == null){
+						_targetNode = _currentNode._prevNode;
+						_pathSafe = true;
+					}else{
+						_targetNode = _currentNode;
+					}
+					_fleeing = true;
+				}
 			}
 		}
 
@@ -98,10 +149,12 @@ public class FoxAI : MonoBehaviour {
 
 	bool reachedTarget(){
 		/* Magi */
-		return (new Vector2(transform.position.x, transform.position.z) - new Vector2(_targetNode.transform.position.x, _targetNode.transform.position.z)).sqrMagnitude < 0.1f;
+		return (new Vector2(transform.position.x, transform.position.z) - new Vector2(_targetNode.transform.position.x, _targetNode.transform.position.z)).sqrMagnitude < 0.01f;
 	}
 
 	void checkPathForShadows(){
+		_testing = true;
+
 		Vector3 originalPos = transform.position;
 		Quaternion originalRotation = transform.rotation;
 		Vector3 lastCheckPos = transform.position - new Vector3(100, 100, 100);
@@ -116,6 +169,7 @@ public class FoxAI : MonoBehaviour {
 					transform.position = originalPos;
 					transform.rotation = originalRotation;
 					_desiredRotation = originalRotation;
+					_testing = false;
 					return;
 				}
 				lastCheckPos = transform.position;
@@ -126,43 +180,79 @@ public class FoxAI : MonoBehaviour {
 				transform.position = originalPos;
 				transform.rotation = originalRotation;
 				_desiredRotation = originalRotation;
+				_testing = false;
 				return;
 			}
 			prevPos = transform.position;
 		}
-
-		_pathSafe = true;
+		
 		transform.position = originalPos;
 		transform.rotation = originalRotation;
 		_desiredRotation = originalRotation;
 		//Debug.Log(count + ": lightchecks!"); 
+
+		_pathSafe = true;
+		_testing = false;
 	}
 
 	void move(){
+
+		//Debug.Log("HERP");
 
 		RaycastHit rayInfoFront, rayInfoBack;
 
 		_direction = new Vector3((_targetNode.transform.position - transform.position).x, 0, (_targetNode.transform.position - transform.position).z);
 		_direction.Normalize();
 
-		if(!Physics.Raycast(transform.position + transform.up + transform.forward*0.8f, Vector3.down, out rayInfoFront, 5.0f)
-		   && !Physics.Raycast(transform.position + transform.up + transform.forward*-0.8f, Vector3.down, out rayInfoBack, 5.0f)){
+		transform.rotation = Quaternion.LookRotation(_direction);
+
+		Vector3 frontFeetRayPoint = transform.position + transform.forward * 0.28f + Vector3.up * 0.5f;
+		Vector3 backFeetRayPoint = transform.position - transform.forward * 0.28f + Vector3.up * 0.5f;
+
+		bool frontCast = Physics.Raycast(frontFeetRayPoint, Vector3.down, out rayInfoFront, 1.0f);
+		bool backCast = Physics.Raycast(backFeetRayPoint, Vector3.down, out rayInfoBack, 1.0f);
+
+		if(!(frontCast || backCast)){
 				/* TODO HANDLE BOTH FEET IN DAT AIR! */
+				//Debug.Log("I'M FLYYING :D");
+			/*
+			_fallVec += Vector3.down * _fallAcc;
+			transform.position += _fallVec * Time.deltaTime;
+			*/
 		}
 		else{
 
+			_fallVec = Vector3.down * _fallAcc;
+
+			//Debug.Log("I'M GROUNDED D:");
+
 			float angle = Vector3.Angle(_direction, (rayInfoFront.point - rayInfoBack.point).normalized);
 
-			transform.rotation = Quaternion.LookRotation(_direction);
-
-			if(rayInfoFront.point.y > rayInfoBack.point.y){
+			if(rayInfoFront.distance > rayInfoBack.distance){
+				transform.rotation = Quaternion.Euler(transform.localEulerAngles.x + angle, transform.localEulerAngles.y, transform.localEulerAngles.z);
+				//Debug.Log("LUTNING! =D");
+			}
+			else if(rayInfoFront.distance < rayInfoBack.distance){
+				transform.rotation = Quaternion.Euler(transform.localEulerAngles.x - angle, transform.localEulerAngles.y, transform.localEulerAngles.z);
+				//Debug.Log("LUTNING! =D");
+			}else{
 				transform.rotation = Quaternion.Euler(transform.localEulerAngles.x + angle, transform.localEulerAngles.y, transform.localEulerAngles.z);
 			}
-			else if(rayInfoFront.point.y < rayInfoBack.point.y){
-				transform.rotation = Quaternion.Euler(transform.localEulerAngles.x - angle, transform.localEulerAngles.y, transform.localEulerAngles.z);
-			}
+			/*
+			Physics.Raycast(frontFeetRayPoint, Vector3.down, out rayInfoFront, 1.0f);
+
+			Vector3 yOffset = new Vector3(0, -(rayInfoFront.distance - 0.5f), 0);
+
+			transform.position += yOffset + transform.forward * 4 * Time.deltaTime;
+			*/
 
 			transform.position += transform.forward * 4 * Time.deltaTime;
 		}	
+
+		Physics.Raycast(transform.position + transform.forward * 0.28f + Vector3.up * 0.5f, Vector3.down, out rayInfoFront, 1.0f);
+		
+		Vector3 yOffset = new Vector3(0, -(rayInfoFront.distance - 0.5f), 0);
+		
+		transform.position += yOffset;
 	}
 }
