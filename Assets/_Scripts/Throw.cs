@@ -18,10 +18,7 @@ public class Throw : MonoBehaviour {
 	public Vector3 highestPos;
 	public Vector3 lastPos;
 
-<<<<<<< HEAD
-	public Vector3 higestPosit;
 
-=======
 	GameObject target;
 
 	Rigidbody throbject;
@@ -31,7 +28,7 @@ public class Throw : MonoBehaviour {
 	[Range (1f,50f)]
 	public float maxForce = 10.0f;
 	
->>>>>>> Lurz
+
 	private bool throwing = false;
 	private float throwClock;
 
@@ -86,23 +83,6 @@ public class Throw : MonoBehaviour {
 		force = ((PlayerXForm.forward + PlayerXForm.up) * 5);
 		force = force + ((PlayerXForm.forward + PlayerXForm.up) * forceStick);
 		//if (camera.camState == ThirdPersonCamera.CamStates.FirstPerston) {
-<<<<<<< HEAD
-		if(_anim.GetBool("ThrowMode") || _anim.GetBool("Throw")){
-			//if (Input.GetKeyDown (KeyCode.H))
-			UpdatePredictionLine ();
-			if (Input.GetButtonDown("Fire1") && !throwing && _anim.GetCurrentAnimatorStateInfo(0).IsName("Throw Idle")){
-				throwing = true;
-				throwClock = Time.time + throwOffset;
-				_anim.SetBool("Throw", true);
-			}
-			if(Time.time > throwClock && throwing){
-				ThrowObject ();
-				throwing = false;
-				_anim.SetBool("Throw", false);
-			}
-		} else
-			arcLine.SetVertexCount (0);
-=======
 		if (_anim.GetBool ("ThrowMode")) {
 						if(throbject == null && Time.time > clock){
 							throbject = Instantiate(throwObj, GameObject.Find("L_wrist_ctrl").transform.position/*PlayerXForm.position + (PlayerXForm.forward * 1) + new Vector3(0f,1f,0f)*/,Quaternion.identity) as Rigidbody;
@@ -121,14 +101,16 @@ public class Throw : MonoBehaviour {
 								ThrowObject ();
 								changeThrowStatus();
 						}
-				} else {
+		} else {
 						arcLine.SetVertexCount (0); 
 						GameObject.Find("L_wrist_ctrl").transform.DetachChildren();
-						throbject.rigidbody.useGravity = true;
+			if(throbject != null)			
+				throbject.rigidbody.useGravity = true;
 						target.renderer.enabled = false;
+
+			if(_anim.GetBool("Throw"))
 						changeThrowStatus();						
-				}
->>>>>>> Lurz
+		}
 
 	}
 
@@ -160,11 +142,9 @@ public class Throw : MonoBehaviour {
 	{
 		arcLine.SetVertexCount(180);
 		Vector3 previousPosition = PlayerXForm.position + (PlayerXForm.forward * 1) + new Vector3(0f,1f,0f);
-<<<<<<< HEAD
-		higestPosit = previousPosition;
-=======
+
 		highestPos = previousPosition;
->>>>>>> Lurz
+		
 		for(int i = 0; i < 180; i++)
 		{
 			Vector3 posN = GetTrajectoryPoint(PlayerXForm.position + (PlayerXForm.forward * 1) + new Vector3(0f,1f,0f), force, i, Physics.gravity);
@@ -179,19 +159,7 @@ public class Throw : MonoBehaviour {
 				if(highestPos.y < hitInfo.point.y)
 					highestPos = hitInfo.point;
 				if(hitInfo.transform.tag != "Throw") {
-<<<<<<< HEAD
 
-					if(higestPosit.y < hitInfo.point.y)
-						higestPosit = hitInfo.point;
-					arcLine.SetPosition(i,hitInfo.point);
-					arcLine.SetVertexCount(i);
-					break;
-				}
-			}
-
-			if(higestPosit.y < posN.y)
-				higestPosit = posN;
-=======
 				arcLine.SetPosition(i,hitInfo.point);
 				arcLine.SetVertexCount(i);
 					lastPos = hitInfo.point;
@@ -201,7 +169,6 @@ public class Throw : MonoBehaviour {
 
 			if(highestPos.y < posN.y)
 				highestPos = posN;
->>>>>>> Lurz
 
 			previousPosition = posN;
 			arcLine.SetPosition(i,posN);

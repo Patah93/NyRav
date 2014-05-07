@@ -18,29 +18,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 	//Camera posistion and look at variables
 	public Vector3 Offset = Vector3.zero;
 	public Transform LookAt;
-<<<<<<< HEAD
-	public float CameraUp = 1.0f;
-	public float CameraAway = 3.0f;
-/*<<<<<<< HEAD
-    public float ThorowCameraUp = 1.0f;
-    public float ThrowCameraAway = 1.0f;
-    public float ThrowCameraShoulderOffset = 1.0f;
-	
-	//Camera Smoothing variables
-	public float camSmoothDampTime = 0.1f;
-	
-	//Controller Deadzone for rotating the camera. We only want to rotate camera when we move the stick far enough.
-	//values from 0 to 1
-	public float deadZoneX = 0.3f;
-=======*/
-	public float ThorowCameraUp = 1.0f;
-	public float ThrowCameraAway = 1.0f;
-	public float ThrowCameraShoulderOffset = 1.0f;
 
-	//Camera max movement delta (Low value to create a moothing effect)
-	[Range (0.0f,0.2f)]
-	public float camMoveMaxDelta = 0.1f;
-=======
 	[Range (0.0f,5.0f)]
 	public float CameraUp = 1.0f;
 	[Range (0.0f,5.0f)]
@@ -55,38 +33,24 @@ public class ThirdPersonCamera : MonoBehaviour {
 	//Camera max movement delta (Low value to create a moothing effect)
 	[Range (0.0f,0.5f)]
 	public float camSmoothDampTme = 0.1f;
->>>>>>> Lurz
 	
 	//Controller Deadzone for rotating the camera. We only want to rotate camera when we move the stick far enough.
 	//values from 0 to 1
 	[Range (0.0f,1.0f)]
 	public float deadZoneX = 0.3f;
 	[Range (0.0f,1.0f)]
-<<<<<<< HEAD
-//>>>>>>> Patrik
-=======
->>>>>>> Lurz
 	public float deadZoneY = 0.3f;
 	
 	
 	//Controller variables for rotation speed etc
-<<<<<<< HEAD
-/*<<<<<<< HEAD
-	public float RotationSpeedX = 5.0f;
-=======*/
-	[Range (1.0f,2.5f)]
-	public float RotationSpeedX = 2.0f;
-	[Range (1.0f,2.5f)]
-//>>>>>>> Patrik
-	public float RotationSpeedY = 2.0f;
-=======
+
 	[Range (1.0f,5.0f)]
 	public float RotationSpeedX = 2.0f;
 	[Range (1.0f,5.0f)]
 	public float RotationSpeedY = 2.0f;
 	public bool InvertedX = true;
 	public bool InvertedY = false;
->>>>>>> Lurz
+
 	
 	//Clamping values for Y axis so we can't go to far up or down.
 	public Vector2 cameraClampingY = new Vector2(-40.0f, 60.0f);
@@ -95,46 +59,16 @@ public class ThirdPersonCamera : MonoBehaviour {
 	public CamStates camState = CamStates.Behind;
 	
 	//Starting moving behind after set time.
-<<<<<<< HEAD
-/*<<<<<<< HEAD
-	public float moveBehind = 0.5f;
-	//What smoothing time do you want for that movement.
-=======*/
-=======
->>>>>>> Lurz
 	[Range (0.0f,2.0f)]
 	public float moveBehind = 0.5f;
 	//What smoothing time do you want for that movement.
 	[Range (0.0f,2.0f)]
-<<<<<<< HEAD
-//>>>>>>> Patrik
-	public float autoMoveSmooth = 1.0f;
-	
-	//Camera offsets for the different default camera positions
-	//We want this to be close to the eyes for example
-	//made private for now
-	private Vector3 FirstPersonCameraOffset = new Vector3(0.0f, 1.6f, 0.0f);
-	
-	//We want this to be a bit up from the character and a bit back for example
-	//made private for now
-	private Vector3 BehindPersonCameraOffset = new Vector3(0.0f, 1.0f, -1.0f);
-	
-/*<<<<<<< HEAD
-    //Reference to the throw scripts to get the higest point in the aiming arc
-    private Throw referenceToThrow;
 
-=======*/
-	//Reference to the throw scripts to get the higest point in the aiming arc
-	private Throw referenceToThrow;
-	
-//>>>>>>> Patrik
-=======
 	public float autoMoveSmooth = 1.0f;
 	
 	//Reference to the throw scripts to get the higest point in the aiming arc
 	private Throw referenceToThrow;
 	
->>>>>>> Lurz
 	#endregion
 	
 	#region Private variables
@@ -169,19 +103,8 @@ public class ThirdPersonCamera : MonoBehaviour {
 	private float rightX = 0.0f;
 	private float rightY = 0.0f;
 	private float leftX  = 0.0f;
-<<<<<<< HEAD
-/*<<<<<<< HEAD
-	private float leftY  = 0.0f;
-	
-	//private containers holding the velocity for the camera smoothing
-	private Vector3 velocityCamSmooth = Vector3.zero;
-	
-=======*/
 	private float leftY  = 0.0f;	
-//>>>>>>> Patrik
-=======
-	private float leftY  = 0.0f;	
->>>>>>> Lurz
+
 	
 	//private containers holding the amount of rotation around the character that have been applied from the controller input
 	private float rotationAmountY = 0.0f;
@@ -190,13 +113,10 @@ public class ThirdPersonCamera : MonoBehaviour {
 	private float deltaLastInput = 0.0f;
 	//do we need to start moving?
 	private bool startMoving = false;
-<<<<<<< HEAD
-=======
-
 
 	Vector3 followerVelocity;
 	Vector3 pastFollowerPosition, pastTargetPosition;
->>>>>>> Lurz
+
 	#endregion
 	
 	#region Structs
@@ -219,26 +139,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 			xForm.localPosition = Vector3.zero;
 			xForm.localPosition = posistion;
 		}
-<<<<<<< HEAD
-	}
-	#endregion
-	
-	#region Enums
-	public enum CamStates
-	{
-		Behind,
-		FirstPerston,
-		Target,
-		Free,
-/*<<<<<<< HEAD
-        Throw
-=======*/
-		Throw
-//>>>>>>> Patrik
-	}
-	#endregion
-	
-=======
+
 	}
 	#endregion
 	
@@ -253,7 +154,6 @@ public class ThirdPersonCamera : MonoBehaviour {
 	}
 	#endregion
 	
->>>>>>> Lurz
 	#region Inits
 	//Called even if script component is not enabled
 	//best used for references between scripts and Inits
@@ -268,30 +168,9 @@ public class ThirdPersonCamera : MonoBehaviour {
 		//Grabbing the reference to our character controller.
 		referenceToController = GameObject.FindWithTag("Player").GetComponent<AnimationMan>();
 		
-<<<<<<< HEAD
-		//Setting up our Camera Posistion so we can reference to them later
-		//First Person Camera
-		FirstPersonCameraPosistion = new CameraPosistion();
-		FirstPersonCameraPosistion.Init(
-			"First Person Camera",
-			FirstPersonCameraOffset,
-			new GameObject().transform,
-			PlayerXform);
-		
-		//Behind Camera
-		BehindPersonCameraPosistion.Init(
-			"Behind Person Camera",
-			new Vector3(0.0f, CameraUp, -CameraAway),
-			new GameObject().transform,
-			PlayerXform);
-
 		//grabbing the reference to the throw component.
 		referenceToThrow = GameObject.FindWithTag("Player").GetComponent<Throw>();
 
-=======
-		//grabbing the reference to the throw component.
-		referenceToThrow = GameObject.FindWithTag("Player").GetComponent<Throw>();
->>>>>>> Lurz
 	}
 	
 	//Called if script component is enabled
@@ -301,25 +180,11 @@ public class ThirdPersonCamera : MonoBehaviour {
 	#endregion
 	
 	#region Update funtions
-<<<<<<< HEAD
-	//every frame (1)
-	void Update () {
-/*<<<<<<< HEAD
-        if (Input.GetButtonDown("ThrowMode"))
-            camState = (camState != CamStates.Throw) ? CamStates.Throw : CamStates.Behind;
-
-=======*/
-		if (Input.GetButtonDown("enterFPV"))
-			camState = (camState != CamStates.Throw) ? CamStates.Throw : CamStates.Behind;
-		
-//>>>>>>> Patrik
-=======
 	void Update () {
 
 		if (Input.GetButtonDown("Fire3"))
 			camState = (camState != CamStates.Throw) ? CamStates.Throw : CamStates.Behind;
 		
->>>>>>> Lurz
 		//We need to update the players transform so we always have the correct values.
 		PlayerXform = GameObject.FindWithTag("Player").transform;
 		
@@ -342,161 +207,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 			startMoving = true;
 		else
 			startMoving = false;
-<<<<<<< HEAD
-		
-	}
-	
-	//after Update every frame (2)
-	void LateUpdate() {
-		//Here we check what camera  state we are actually in.
-		switch (camState) {
-			//If we are in the default camera state
-		case CamStates.Behind:
-			
-			//adding rotation
-			if(Mathf.Abs(rightX) > deadZoneX)
-				currentLookDirection = Vector3.RotateTowards(currentLookDirection, this.transform.right, rightX * Time.deltaTime * RotationSpeedX, 0.0f);
-			
-			//now if we are not directly in front of the character we want to slowly move behind the character.
-			//if the conditon for start moving is met.
 
-			if (!(Vector3.Dot(PlayerXform.forward, this.transform.forward) <= -0.8f))
-			{
-				//Debug.Log("We are not infront of the player");
-				if (Vector3.Dot(PlayerXform.forward, this.transform.forward) >= 0.90f)
-					startMoving = false;
-				
-				if(startMoving) {
-					currentLookDirection = Vector3.RotateTowards(
-						currentLookDirection,
-						//we need to check where the camera is posistoned in relation to the character so we know what way the rotation need to be.
-						Vector3.Angle(-PlayerXform.right, this.transform.forward) > 90 ? -this.transform.right : this.transform.right,
-						Time.deltaTime * autoMoveSmooth, 0.0f
-						);
-					Debug.Log("Moving!");
-				}
-/*<<<<<<< HEAD
-			}       
-			
-			
-			
-			//angle between current posistion and look at.
-			float angle = Vector3.Angle(
-				Vector3.Normalize(
-				LookAt.position - this.transform.position),
-				Vector3.Normalize(
-				new Vector3(LookAt.position.x - this.transform.position.x, LookAt.position.y, LookAt.position.z - this.transform.position.z)));
-=======*/
-			}  
-//>>>>>>> Patrik
-			
-			//we need to clamp this value so we don't go over the character.
-			if (Mathf.Abs(rightY) >= deadZoneY){
-				rotationAmountY += Mathf.Rad2Deg * rightY * Time.deltaTime * RotationSpeedY;
-				if (rotationAmountY < cameraClampingY.x){
-					rotationAmountY = cameraClampingY.x;
-				}else if (rotationAmountY > cameraClampingY.y) {
-					rotationAmountY = cameraClampingY.y;
-				}
-				
-
-				if (rotationAmountY > cameraClampingY.x && rotationAmountY < cameraClampingY.y)
-					currentLookDirection = Vector3.RotateTowards(currentLookDirection, this.transform.up, rightY * Time.deltaTime * RotationSpeedY, 0.0f);
-			}
-			
-			targetPosistion =
-				//moving target pos up according to CameraUp variable 
-				(LookAt.position + (Vector3.Normalize(PlayerXform.up) * CameraUp)) -
-					//move the target a bit back according to the CameraAway variable
-					(Vector3.Normalize(currentLookDirection) * CameraAway);                
-			
-			//Debug.Log("RightX: " + rightX + " " + "RightY: " + rightY + " " + "Distance: " + Vector3.Distance(this.transform.position, LookAt.position));
-/*<<<<<<< HEAD
-            		
-		
-		    CompenstaForWalls(LookAt.position, ref targetPosistion);
-		    smoothPosistion(this.transform.position, targetPosistion);
-		    //this.transform.position = targetPosistion;
-		    transform.LookAt(LookAt);
-			break;
-            case CamStates.Throw:
-            //find the lookAt posistion
-            float pitch = 0.0f;
-            //find the top point in throw arc and save location
-
-            Vector3 higestpos = referenceToThrow.higestPosit;
-                    //LookAt.position + PlayerXform.forward * 10.0f + PlayerXform.up * 100.0f;
-            Debug.Log(higestpos);
-
-            //angle between the camera to the target
-            pitch = Vector3.Dot(Vector3.Normalize(higestpos - this.transform.position), PlayerXform.transform.forward);
-            pitch = Mathf.Acos(pitch) * Mathf.Rad2Deg;
-            Debug.Log(pitch);
-
-            //set camerea to right pos
-            targetPosistion =
-            //set it to be at the appropiate pos for over the shoulder.
-            LookAt.position + PlayerXform.up * ThorowCameraUp -
-            PlayerXform.forward * ThrowCameraAway - PlayerXform.right * ThrowCameraShoulderOffset;
-            
-            //compensate for ze walls
-            CompenstaForWalls(LookAt.position, ref targetPosistion);
-            //set the target to be smoothed
-            smoothPosistion(this.transform.position, targetPosistion);
-            //set the new lookAt
-            transform.LookAt(higestpos);
-            break;
-		} 
-
-=======*/
-			
-			
-			CompenstaForWalls(LookAt.position, ref targetPosistion);
-
-			smoothPosistion(this.transform.position, targetPosistion);
-			//this.transform.position = targetPosistion;
-			transform.LookAt(LookAt);
-
-			break;
-		case CamStates.Throw:
-			//find the lookAt posistion
-			float pitch = 0.0f;
-			//find the top point in throw arc and save location
-			
-			//Vector3 higestpos = referenceToThrow.higestPosit;
-			Vector3 higestpos = Vector3.zero;
-			//LookAt.position + PlayerXform.forward * 10.0f + PlayerXform.up * 100.0f;
-			Debug.Log(higestpos);
-			
-			//angle between the camera to the target
-			pitch = Vector3.Dot(Vector3.Normalize(higestpos - this.transform.position), PlayerXform.transform.forward);
-			pitch = Mathf.Acos(pitch) * Mathf.Rad2Deg;
-			Debug.Log(pitch);
-			
-			//set camerea to right pos
-			targetPosistion =
-				//set it to be at the appropiate pos for over the shoulder.
-				LookAt.position + PlayerXform.up * ThorowCameraUp -
-					PlayerXform.forward * ThrowCameraAway - PlayerXform.right * ThrowCameraShoulderOffset;
-			
-			//compensate for ze walls
-			CompenstaForWalls(LookAt.position, ref targetPosistion);
-			//set the target to be smoothed
-			smoothPosistion(this.transform.position, targetPosistion);
-			//this.transform.position = targetPosistion;
-			//set the new lookAt
-			transform.LookAt(LookAt.position+ PlayerXform.forward * 10);
-			break;
-		} 
-		
-//>>>>>>> Patrik
-		
-	}
-	//physics updates (3) does not happen every frame
-	void FixedUpdate() {
-		
-	}
-=======
 }
 void LateUpdate () {
 		//Here we check what camera  state we are actually in.
@@ -591,20 +302,11 @@ void LateUpdate () {
 		
 	}
 
->>>>>>> Lurz
 	#endregion
 	
 	#region Private functions
 	private void smoothPosistion(Vector3 fromPos, Vector3 toPos) {
-<<<<<<< HEAD
-/*<<<<<<< HEAD
-		this.transform.position = Vector3.SmoothDamp (fromPos, toPos, ref velocityCamSmooth, camSmoothDampTime);
-=======*/
-		this.transform.position = Vector3.MoveTowards(fromPos, toPos,camMoveMaxDelta);
-//>>>>>>> Patrik
-	}
-	
-=======
+
 		this.transform.position = Vector3.SmoothDamp (fromPos, toPos, ref followerVelocity, camSmoothDampTme);
 	}
 	
@@ -612,7 +314,7 @@ void LateUpdate () {
 		Vector3 f = pastPosition - pastTargetPosition + (targetPosition - pastTargetPosition) / (speed * time);
 		return targetPosition - (targetPosition - pastTargetPosition) / (speed*time) + f * Mathf.Exp(-speed*time);
 	}
->>>>>>> Lurz
+	
 	private void CompenstaForWalls(Vector3 fromObject, ref Vector3 toTarget) {
 		RaycastHit wallHit = new RaycastHit();
 		
