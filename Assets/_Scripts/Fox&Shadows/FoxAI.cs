@@ -44,7 +44,7 @@ public class FoxAI : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		Debug.DrawLine(transform.position - new Vector3(0, GetComponent<BoxCollider>().size.y/4.0f * 0.12f, 0) + transform.forward*0.8f, transform.position - new Vector3(0, GetComponent<BoxCollider>().size.y/2.0f, 0) + transform.forward*0.8f + Vector3.down * 5.0f, Color.red);
+		Debug.DrawLine(transform.position - transform.up * -1 * GetComponent<BoxCollider>().bounds.min.y + transform.forward * 0.8f, transform.position - transform.up * -1 * GetComponent<BoxCollider>().bounds.min.y + transform.forward * 0.8f + Vector3.down * 5.0f, Color.red);
 
 		if (_targetNode != null) {
 			if (reachedTarget()) {
@@ -54,11 +54,9 @@ public class FoxAI : MonoBehaviour {
 				_pathSafe = false;
 			} else {
 				if(!_pathSafe){
-					/* TODO imitate move when calc path */
 					checkPathForShadows();
 				}
 				if(_pathSafe){
-					/* TODO MOVE */
 					move ();
 				}
 				else{
@@ -142,54 +140,29 @@ public class FoxAI : MonoBehaviour {
 
 	void move(){
 
-		RaycastHit rayInfo;
+		RaycastHit rayInfoFront, rayInfoBack;
 
 		_direction = new Vector3((_targetNode.transform.position - transform.position).x, 0, (_targetNode.transform.position - transform.position).z);
 		_direction.Normalize();
 
-		if(Physics.Raycast(transform.position + transform.up + transform.forward*0.8f, Vector3.down, out rayInfo, 5.0f)){
+		if(!Physics.Raycast(transform.position + transform.up + transform.forward*0.8f, Vector3.down, out rayInfoFront, 5.0f)
+		   && !Physics.Raycast(transform.position + transform.up + transform.forward*-0.8f, Vector3.down, out rayInfoBack, 5.0f)){
+				/* TODO HANDLE BOTH FEET IN DAT AIR! */
+		}
+		else{
 
-			//Debug.DrawLine(transform.position + transform.up + transform.forward*0.8f, transform.position + transform.up + transform.forward*0.8f + Vector3.down * 5.0f, Color.red);
-			//Debug.DrawRay(rayInfo.point, rayInfo.normal, Color.blue);
-			//Debug.DrawLine(transform.position, transform.position + _direction * 10, Color.green);
-
-			float angle = Vector3.Angle(Vector3.up, rayInfo.normal);
+			float angle = Vector3.Angle(_direction, (rayInfoFront.point - rayInfoBack.point).normalized);
 
 			transform.rotation = Quaternion.LookRotation(_direction);
 
-			if(Vector3.Angle(_direction, rayInfo.normal) < 89){
-
-				//transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y-angle, transform.rotation.z);
-				_desiredRotation = Quaternion.Euler(transform.localEulerAngles.x+angle, transform.localEulerAngles.y, transform.localEulerAngles.z);
-				//Debug.Log("Downhill");
+			if(rayInfoFront.point.y > rayInfoBack.point.y){
+				transform.rotation = Quaternion.Euler(transform.localEulerAngles.x + angle, transform.localEulerAngles.y, transform.localEulerAngles.z);
 			}
-			else if(Vector3.Angle(_direction, rayInfo.normal) > 91){
-
-				//transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y+angle, transform.rotation.z);
-				_desiredRotation = Quaternion.Euler(transform.localEulerAngles.x-angle, transform.localEulerAngles.y, transform.localEulerAngles.z);
-				//Debug.Log("Uphill");
-			}
-			else{
-				//transform.rotation = Quaternion.Euler(transform.rotation.x, 0, transform.rotation.z);
-				//transform.rotation = Quaternion.LookRotation(_direction);
-				_desiredRotation = transform.rotation;
-				//Debug.Log("Straight ground");
+			else if(rayInfoFront.point.y < rayInfoBack.point.y){
+				transform.rotation = Quaternion.Euler(transform.localEulerAngles.x - angle, transform.localEulerAngles.y, transform.localEulerAngles.z);
 			}
 
-			if(_desiredRotation != transform.rotation){
-			//	transform.rotation = _desiredRotation;
-				transform.rotation = Quaternion.Lerp(transform.rotation, _desiredRotation, 1.0f);
-			}
-
-			//Vector3 tempPos = transform.position;
-
-			//Debug.DrawRay(transform.position, transform.forward, Color.yellow);
 			transform.position += transform.forward * 4 * Time.deltaTime;
-		}
-		else{
-			/* TODO FALL DOWN FFS */
-			//transform.position += Vector3.down * 10 * Time.deltaTime;
-		}
-		
+		}	
 	}
 }
