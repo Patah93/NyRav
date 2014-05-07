@@ -11,11 +11,9 @@ public class AnimationMan : MonoBehaviour {
 	public float _length;
 	float _angle;
 	float _clock;
-<<<<<<< HEAD
-	float _maxTime = 200f;
-=======
+
 	bool _active = true;
->>>>>>> Lurz
+
 
 	public Animator Animator {get{return this._animator;} }
 	private AnimatorStateInfo stateInfo;
@@ -23,16 +21,9 @@ public class AnimationMan : MonoBehaviour {
 
 	//Animation hashes
 	int m_LocomotionId = 0;
-<<<<<<< HEAD
-	
-	public float _lerpTime = 5.0f;
-	public float _lerpThrowTime = 0.25f;
-=======
 
 	public float _lerpTime = 5f;
 	public float _lerpThrowTime = 2f;
->>>>>>> Lurz
-
 
 	// Use this for initialization
 	void Start () {
@@ -53,18 +44,7 @@ public class AnimationMan : MonoBehaviour {
 			updateCameraRotation();
 			joystickConvert ();
 			updateCharacterRotation();
-<<<<<<< HEAD
 
-			if(Input.GetButtonDown("ThrowMode")){
-				_animator.SetBool("ThrowMode", !_animator.GetBool("ThrowMode"));
-				//GetComponent<Throw>().enabled = !GetComponent<Throw>().enabled;
-			}
-				
-			
-			if (leftStickMoved()){
-				if(!_animator.GetBool("ThrowMode")){
-					_length = Mathf.Sqrt(Mathf.Pow (Mathf.Abs(Input.GetAxis("Horizontal")),2) + Mathf.Pow (Mathf.Abs(Input.GetAxis("Vertical")),2));
-=======
 			float lerpit = _lerpTime;
 			if(Input.GetButtonDown("Fire3"))
 				_animator.SetBool("ThrowMode", !_animator.GetBool("ThrowMode"));
@@ -80,19 +60,16 @@ public class AnimationMan : MonoBehaviour {
 
 					_angle = Vector2.Angle (_cameraRotationForward, _targetRotation) * Mathf.Sign(Input.GetAxis ("Horizontal"));
 
-					Quaternion targetRotation = Quaternion.Slerp (transform.rotation, Camera.main.transform.rotation * Quaternion.Euler(0, _angle, 0), Time.deltaTime * lerpit);
-					transform.rotation = new Quaternion(transform.rotation.x, targetRotation.y, transform.rotation.z, targetRotation.w);
+					Quaternion targetRot = Quaternion.Slerp (transform.rotation, Camera.main.transform.rotation * Quaternion.Euler(0, _angle, 0), Time.deltaTime * lerpit);
+					transform.rotation = new Quaternion(transform.rotation.x, targetRot.y, transform.rotation.z, targetRot.w);
 
 				}
 				else
 				{
 					_length = Mathf.Lerp(_length, 0, _lerpTime);
->>>>>>> Lurz
+
 				}
 				_angle = Vector2.Angle (_cameraRotationForward, _targetRotation) * Mathf.Sign(Input.GetAxis ("Horizontal"));
-
-				Quaternion targetRotation = Quaternion.Slerp (transform.rotation, Camera.main.transform.rotation * Quaternion.Euler(0, _angle, 0), Time.deltaTime * getLerpSpeed());
-				transform.rotation = new Quaternion(transform.rotation.x, targetRotation.y, transform.rotation.z, targetRotation.w);
 
 			}
 			else
@@ -102,14 +79,6 @@ public class AnimationMan : MonoBehaviour {
 
 			
 			_animator.SetFloat("Speed", _length);
-
-		//if (Input.GetButtonDown ("Jump") && !_jump && !_animator.GetBool("Jump")){
-		//
-		//	_animator.SetBool ("Jump", true);
-		//	_jump = true;
-		//	Debug.Log("JUMPING!!");
-		//
-		//}
 
 	}
 
@@ -123,15 +92,12 @@ public class AnimationMan : MonoBehaviour {
 	}
 
 	private void joystickConvert(){
-<<<<<<< HEAD
-		Vector2 right = (_animator.GetBool("ThrowMode")) ? (-Input.GetAxis("Horizontal") * _cameraRotationRight) : (Input.GetAxis("Horizontal") * _cameraRotationRight);
-		_targetRotation = (Input.GetAxis("Vertical") * _cameraRotationForward) + right;
-=======
+
 		if(_animator.GetBool("ThrowMode"))
 			_targetRotation = (Mathf.Clamp(Input.GetAxis("Vertical"),0,1) * _cameraRotationForward) + (Input.GetAxis("Horizontal") * _cameraRotationRight);
 		else
 			_targetRotation = (Input.GetAxis("Vertical") * _cameraRotationForward) + (Input.GetAxis("Horizontal") * _cameraRotationRight);
->>>>>>> Lurz
+
 	}
 
 	private void updateCharacterRotation(){
@@ -142,15 +108,6 @@ public class AnimationMan : MonoBehaviour {
 		return Mathf.Abs (Input.GetAxis ("Horizontal")) > 0 || Mathf.Abs (Input.GetAxis ("Vertical")) > 0;
 	}
 
-	private float getLerpSpeed(){
-
-		if (_animator.GetBool ("ThrowMode"))
-						return _lerpThrowTime;
-				else
-						return _lerpTime;
-
-	}
-	
 	public bool IsInLocomotion() {
 		return stateInfo.GetHashCode() == m_LocomotionId;
 	}
