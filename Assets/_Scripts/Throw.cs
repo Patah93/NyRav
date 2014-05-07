@@ -25,7 +25,7 @@ public class Throw : MonoBehaviour {
 
 	private float clock;
 
-	[Range (1f,50f)]
+	[Range (1f,25f)]
 	public float maxForce = 10.0f;
 	
 
@@ -63,6 +63,7 @@ public class Throw : MonoBehaviour {
 		target.collider.enabled = false;
 	 	//Shader testSphere = target.renderer.material.shader;
 		//testSphere.
+		clock = Time.time;
 	}
 
 	// Update is called once per frame
@@ -84,11 +85,10 @@ public class Throw : MonoBehaviour {
 		force = force + ((PlayerXForm.forward + PlayerXForm.up) * forceStick);
 		//if (camera.camState == ThirdPersonCamera.CamStates.FirstPerston) {
 		if (_anim.GetBool ("ThrowMode")) {
-						if(throbject == null && Time.time > clock){
-							throbject = Instantiate(throwObj, GameObject.Find("L_wrist_ctrl").transform.position/*PlayerXForm.position + (PlayerXForm.forward * 1) + new Vector3(0f,1f,0f)*/,Quaternion.identity) as Rigidbody;
+						if(throbject == null && _anim.GetCurrentAnimatorStateInfo(0).IsName("Throw Prepare") && withinTimeLimit()){
+							throbject = Instantiate(throwObj, GameObject.Find("L_wrist_ctrl").transform.position,Quaternion.identity) as Rigidbody;
 							throbject.transform.parent = GameObject.Find("L_wrist_ctrl").transform;
 							throbject.rigidbody.useGravity = false;
-
 						}	
 						//if (Input.GetKeyDown (KeyCode.H))
 						target.renderer.enabled = true;
@@ -125,7 +125,6 @@ public class Throw : MonoBehaviour {
 
 		throbject.AddForce(force, ForceMode.Impulse);
 		throbject = null;
-		clock = Time.time + 1f;
 	}
 	/*
 	void UpdatePredictionLine() {
@@ -190,5 +189,9 @@ public class Throw : MonoBehaviour {
 	void changeThrowStatus(){
 		throwing = !throwing;
 		_anim.SetBool ("Throw", !_anim.GetBool ("Throw"));
-		}
+	}
+
+	bool withinTimeLimit(){
+		return _anim.GetCurrentAnimatorStateInfo (0).normalizedTime > 0.5 && _anim.GetCurrentAnimatorStateInfo (0).normalizedTime < 0.75;
+	}
 }

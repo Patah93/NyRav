@@ -72,7 +72,10 @@ public class ThirdPersonCamera : MonoBehaviour {
 	#endregion
 	
 	#region Private variables
-	
+
+	Vector3 deltaPos;
+	Vector3 previousPos;
+
 	//corners of the camera.
 	ArrayList cameraCornersInWorldpsace;
 	
@@ -114,7 +117,7 @@ public class ThirdPersonCamera : MonoBehaviour {
 	//do we need to start moving?
 	private bool startMoving = false;
 
-	Vector3 followerVelocity;
+	public Vector3 followerVelocity;
 	Vector3 pastFollowerPosition, pastTargetPosition;
 
 	#endregion
@@ -223,8 +226,8 @@ void LateUpdate () {
 			//if the conditon for start moving is met.
 			if (!(Vector3.Dot(PlayerXform.forward, this.transform.forward) <= -0.8f))
 			{
-				//Debug.Log("We are not infront of the player");
-				if (Vector3.Dot(PlayerXform.forward, this.transform.forward) >= 0.90f)
+				//We are not 
+				if (Vector3.Dot(PlayerXform.forward, this.transform.forward) >= 0.90f )
 					startMoving = false;
 				
 				if(startMoving) {
@@ -308,6 +311,9 @@ void LateUpdate () {
 	private void smoothPosistion(Vector3 fromPos, Vector3 toPos) {
 
 		this.transform.position = Vector3.SmoothDamp (fromPos, toPos, ref followerVelocity, camSmoothDampTme);
+		deltaPos = fromPos - previousPos;
+		previousPos = fromPos;
+		Debug.Log (deltaPos);
 	}
 	
 	Vector3 SuperSmoothLerp( Vector3 pastPosition, Vector3 pastTargetPosition, Vector3 targetPosition, float time, float speed ) {
@@ -319,10 +325,25 @@ void LateUpdate () {
 		RaycastHit wallHit = new RaycastHit();
 		
 		if (Physics.Linecast(fromObject, toTarget, out wallHit)) {
-			Vector3 forward = Vector3.Normalize(toTarget - fromObject);
-			Debug.DrawLine(new Vector3(wallHit.point.x, wallHit.point.y, wallHit.point.z), LookAt.position);
-			toTarget = new Vector3(wallHit.point.x, wallHit.point.y, wallHit.point.z) + -forward * .3f;
+			
+			if(Vector3.Magnitude(fromObject - wallHit.point) > 0.5f) {
+				if(Physics.Linecast(fromObject + Vector3.up * 1.0f,toTarget,out wallHit)) {
+					toTarget = new Vector3(wallHit.point.x, wallHit.point.y, wallHit.point.z) + Vector3.Normalize(fromObject - wallHit.point) *
+						(Vector3.Magnitude (Camera.main.ViewportToWorldPoint (
+							new Vector3 (0.5f, 0.0f, Camera.main.nearClipPlane)
+							) - Camera.main.ViewportToWorldPoint (
+							new Vector3 (0.5f, 1.0f, Camera.main.nearClipPlane))) * 1.0f);;
+				}
+			}else
+				toTarget = new Vector3(wallHit.point.x, wallHit.point.y, wallHit.point.z) + Vector3.Normalize(fromObject - wallHit.point) *
+					(Vector3.Magnitude (Camera.main.ViewportToWorldPoint (
+						new Vector3 (0.5f, 0.0f, Camera.main.nearClipPlane)
+						) - Camera.main.ViewportToWorldPoint (
+						new Vector3 (0.5f, 1.0f, Camera.main.nearClipPlane))) * 1.5f);
 		}
+		
+		
+		
 	}
 	#endregion
 	
