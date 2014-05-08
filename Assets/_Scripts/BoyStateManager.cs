@@ -28,6 +28,7 @@ public class BoyStateManager : MonoBehaviour {
 	Vector3 _dudepos;
 	bool _cooldown = false;
 	bool _pathfinding = false;
+	Throw _throw;
 	
 	
 	// Use this for initialization
@@ -38,6 +39,7 @@ public class BoyStateManager : MonoBehaviour {
 		_walk = gameObject.GetComponent<AnimationMan>();
 		_jump = gameObject.GetComponent<JumpingMan> ();
 		_wtpp = gameObject.GetComponent<WalkToPushPos>();
+		_throw = gameObject.GetComponent<Throw>();
 	}
 	
 	// Update is called once per frame
@@ -54,6 +56,14 @@ public class BoyStateManager : MonoBehaviour {
 				_enterPush = true;
 			}
 		}
+		else if(_walk.enabled && Input.GetButtonDown("Aim")){
+			if(_throw.enabled){
+				_throw.deActivateThrow();
+			}
+			_throw.enabled = !_throw.enabled;
+			_ani.SetBool("ThrowMode", !_ani.GetBool("ThrowMode"));
+			
+		}
 		else{
 			ray1 = transform.position + transform.right * _rayXOffset;
 			ray1 = new Vector3(ray1.x,transform.position.y + _rayYOffset,ray1.z);
@@ -61,7 +71,7 @@ public class BoyStateManager : MonoBehaviour {
 			ray2 = transform.position - transform.right * _rayXOffset;
 			ray2 = new Vector3(ray2.x,transform.position.y + _rayYOffset,ray2.z);
 			
-			if(_walk.enabled && _leavePush == false){ // If we currently are in walkmode
+			if(_walk.enabled && _leavePush == false && !_ani.GetBool("ThrowMode")){ // If we currently are in walkmode
 				if(Physics.Raycast(ray1, transform.forward,out _rayHit,_raylength) || Physics.Raycast(ray2, transform.forward,out _rayHit, _raylength)){ //If we collided with something
 					//Debug.DrawRay(ray1,transform.forward,Color.red,_raylength,true);
 					//Debug.DrawRay(ray2,transform.forward,Color.red,_raylength,true);
@@ -73,14 +83,15 @@ public class BoyStateManager : MonoBehaviour {
 						}
 					}
 				}
-				else{
-					_drawInteract = false;
-				}
+
 			}
 			else if(_push.enabled && _enterPush == false){ 	//If we currently are in push mode
 				if(Input.GetButtonDown("Interact")){		//Enter walk mode	
 					enterWalkMode();
 				}
+			}
+			else{
+				_drawInteract = false;
 			}
 			
 			if(_ani.GetCurrentAnimatorStateInfo(0).IsName("Push/Pull Idle") && _enterPush){	//Makes sure enterpush animation finishes before activating push

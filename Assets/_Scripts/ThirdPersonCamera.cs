@@ -185,7 +185,8 @@ public class ThirdPersonCamera : MonoBehaviour {
 	#region Update funtions
 	void Update () {
 
-		if (Input.GetButtonDown("Fire3"))
+
+		if (Input.GetButtonDown("Aim"))
 			camState = (camState != CamStates.Throw) ? CamStates.Throw : CamStates.Behind;
 		
 		//We need to update the players transform so we always have the correct values.

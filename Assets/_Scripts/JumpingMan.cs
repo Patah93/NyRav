@@ -9,7 +9,7 @@ public class JumpingMan : MonoBehaviour {
 	public float _offsetY = 0;
 	public float _offsetZ = 0;
 	float _clock;
-	float _maxTime = 0.5f;
+	float _maxTime = 1f;
 	//float _startPosition;
 	bool _jump = false;
 	RaycastHit _rayHit;
@@ -56,7 +56,13 @@ public class JumpingMan : MonoBehaviour {
 			//Debug.Log("cooldown");
 			_cooldown = true;
 		}
+		
 */
+		if(Physics.SphereCast(transform.position + new Vector3(0,1,0), 0.3f ,Vector3.down,out _rayHit,1.1f)){
+			_animator.SetBool("Falling", false);
+		} else
+			_animator.SetBool("Falling", true);
+
 		if(_jump){
 			Vector3 temp = new Vector3(_offsetX,_offsetY,_offsetZ);
 			if(Time.time - _clock > _maxTime){

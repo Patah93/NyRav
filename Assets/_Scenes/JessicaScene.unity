@@ -3828,6 +3828,7 @@ GameObject:
   - 4: {fileID: 310915312}
   - 33: {fileID: 310915311}
   - 23: {fileID: 310915309}
+  - 114: {fileID: 310915314}
   - 54: {fileID: 310915313}
   - 65: {fileID: 310915310}
   m_Layer: 0
@@ -3905,6 +3906,20 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 2
+--- !u!114 &310915314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400000, guid: 86a508ec722dc924ca82b5415ff57f93,
+    type: 2}
+  m_PrefabInternal: {fileID: 937503452}
+  m_GameObject: {fileID: 310915308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1da531b1c0f65504c9f81193cb94941a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playername: HajPojken
+  _lastPos: {x: 0, y: 0, z: 0}
 --- !u!1 &313235002
 GameObject:
   m_ObjectHideFlags: 0
@@ -6594,8 +6609,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   throwObj: {fileID: 5400000, guid: c9e0d601c036ae848878965bed03581d, type: 2}
   offSet: {x: 0, y: 0, z: 0}
+  highestPos: {x: 0, y: 0, z: 0}
+  lastPos: {x: 0, y: 0, z: 0}
   maxForce: 100
-  higestPosit: {x: 0, y: 0, z: 0}
   throwOffset: .600000024
   arcLine: {fileID: 496455550}
 --- !u!114 &496455552
@@ -10097,18 +10113,21 @@ MonoBehaviour:
   LookAt: {fileID: 306505757}
   CameraUp: 1
   CameraAway: 3
-  ThorowCameraUp: 1
-  ThrowCameraAway: 1
+  ThorowCameraUp: 0
+  ThrowCameraAway: 1.5
   ThrowCameraShoulderOffset: 1
-  camSmoothDampTime: 1.12
+  camSmoothDampTme: .100000001
   deadZoneX: .300000012
   deadZoneY: .300000012
   RotationSpeedX: 5
   RotationSpeedY: 2
+  InvertedX: 1
+  InvertedY: 0
   cameraClampingY: {x: -40, y: 20}
   camState: 0
   moveBehind: .5
-  autoMoveSmooth: 30.3400002
+  autoMoveSmooth: 1.5
+  followerVelocity: {x: 0, y: 0, z: 0}
 --- !u!81 &763470710
 AudioListener:
   m_ObjectHideFlags: 0
@@ -12979,6 +12998,7 @@ Prefab:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6500000, guid: 86a508ec722dc924ca82b5415ff57f93, type: 2}
+    - {fileID: 5400000, guid: 86a508ec722dc924ca82b5415ff57f93, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 86a508ec722dc924ca82b5415ff57f93, type: 2}
   m_RootGameObject: {fileID: 310915308}
   m_IsPrefabParent: 0
