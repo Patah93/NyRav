@@ -131,16 +131,28 @@ public class BoyStateManager : MonoBehaviour {
 		Vector3 _objdir = _obj.TransformDirection(_direction);				//
 		float _objside;														//
 		Vector3 temppos = _obj.position;									//
-		
-		if(Mathf.Abs(_objdir.x) > Mathf.Abs(_objdir.z)){
-			_objside = (_obj.collider as BoxCollider).bounds.size.x;
-			_sideZ = false;
+
+		if(_obj.eulerAngles.y < 45 || _obj.eulerAngles.y > 315 || _obj.eulerAngles.y > 135 && _obj.eulerAngles.y < 225){ 
+			if(Mathf.Abs(_objdir.x) > Mathf.Abs(_objdir.z)){
+					_objside = (_obj.collider as BoxCollider).bounds.size.x;
+					_sideZ = false;
+			}
+			else{
+				_objside = (_obj.collider as BoxCollider).bounds.size.z;
+				_sideZ = true;
+			}
 		}
 		else{
-			_objside = (_obj.collider as BoxCollider).bounds.size.z;
-			_sideZ = true;
+			if(Mathf.Abs(_objdir.x) > Mathf.Abs(_objdir.z)){
+				_objside = (_obj.collider as BoxCollider).bounds.size.z;
+				_sideZ = true;
+			}
+			else{
+				_objside = (_obj.collider as BoxCollider).bounds.size.x;
+				_sideZ = false;
+			}
 		}
-		
+			
 		_distance = ((_objside/2) + _pushOffset);													//Calculates position for snap
 		_dudepos = new Vector3(temppos.x,transform.position.y,temppos.z) + _distance*_direction*-1;	//
 		//transform.position = _dudepos;	
